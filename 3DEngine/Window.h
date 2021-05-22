@@ -1,8 +1,23 @@
 #pragma once
+#include "EngineException.h"
 #include "ModifiedWindows.h"
 
 class Window 
 {
+public:
+	// A Window Exception is any kind of exception that occurs with a window
+	class Exception : public EngineException
+	{
+	public:
+		Exception(int line, const char* file, HRESULT result) noexcept;
+		const char* what() const noexcept override;
+		virtual const char* GetType() const noexcept;
+		static std::string TranslateErrorCode(HRESULT result);
+		HRESULT GetErrorCode() const noexcept;
+		std::string GetErrorDescription() const noexcept;
+	private:
+		HRESULT result;
+	};
 private:
 	class WindowClass
 	{
@@ -19,7 +34,7 @@ private:
 		HINSTANCE hInstance;
 	};
 public:
-	Window(int width, int height, LPCWSTR name) noexcept;
+	Window(int width, int height, LPCWSTR name);
 	~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
@@ -32,3 +47,6 @@ private:
 	int height;
 	HWND window;
 };
+
+// Exception location macro
+#define CHWND_EXCEPT(result) Winow::Exception(__LINE__, __FILE__, result)

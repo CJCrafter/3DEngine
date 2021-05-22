@@ -1,4 +1,5 @@
 #include "Window.h"
+#include <sstream>
 
 Window::WindowClass Window::WindowClass::singleton;
 
@@ -7,7 +8,7 @@ Window::WindowClass::WindowClass() noexcept
 	hInstance(GetModuleHandle(nullptr))
 {
 	// Register window class: https://docs.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-wndclassexa
-	WNDCLASSEX clazz = { 0 };
+	WNDCLASSEX clazz = {};
 	clazz.cbSize = sizeof(clazz);
 	clazz.style = CS_OWNDC;
 	clazz.lpfnWndProc = HandleMsgSetup;
@@ -38,7 +39,10 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 	return singleton.hInstance;
 }
 
-Window::Window(int width, int height, LPCWSTR name) noexcept
+Window::Window(int width, int height, LPCWSTR name)
+	:
+	width(width),
+	height(height)
 {
 	// Client window size and position
 	RECT rectangle;
@@ -48,6 +52,8 @@ Window::Window(int width, int height, LPCWSTR name) noexcept
 	rectangle.bottom = rectangle.top + height;
 	AdjustWindowRect(&rectangle, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, false);
 
+	throw std::runtime_error("Sucks to be you");
+	
 	// Create the window
 	window = CreateWindow(
 		WindowClass::GetName(), name,
@@ -91,8 +97,63 @@ LRESULT Window::HandleMsg(HWND window, UINT msg, WPARAM w, LPARAM l)
 	{
 	case WM_CLOSE:
 		PostQuitMessage(0);
+
+		// We don't need to let window handle an exit, the window
+		// destructor will do that for us.
 		return 0;
 	}
 
 	return DefWindowProc(window, msg, w, l);
+}
+
+// Window Exceptions
+Window::Exception::Exception(int line, const char* file, HRESULT result) noexcept
+	:
+	EngineException(line, file),
+	result(result)
+{}
+
+const char* Window::Exception::what() const noexcept
+{
+	std::ostringstream stream;
+	stream << GetType() << std::endl
+		<< "[Error Code] " << GetErrorCode() << std::endl
+		<< "[Description] " << GetErrorDescription() << std::endl
+		<< GetOriginString();
+
+	whatBuffer = stream.str();
+	return whatBuffer.c_str();
+}
+
+const char* Window::Exception::GetType() const noexcept
+{
+	return "Window Exception";
+}
+
+std::string Window::Exception::TranslateErrorCode(HRESULT result)
+{
+	char* buffer = nullptr;
+	DWORD msg = FormatMessageA(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM |
+		FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, result,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), reinterpret_cast<LPSTR>(&buffer),
+		0, nullptr
+	);
+	if (msg == 0)
+	{
+		return "Unexpected error code";
+	}
+	std::string error = buffer;
+	LocalFree(buffer);
+	return error;
+}
+
+HRESULT Window::Exception::GetErrorCode() const noexcept
+{
+	return result;
+}
+
+std::string Window::Exception::GetErrorDescription() const noexcept
+{
+	return Exception::TranslateErrorCode(result);
 }
