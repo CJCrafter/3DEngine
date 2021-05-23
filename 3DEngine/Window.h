@@ -1,6 +1,7 @@
 #pragma once
 #include "EngineException.h"
 #include "ModifiedWindows.h"
+#include "Keyboard.h"
 
 class Window 
 {
@@ -42,11 +43,13 @@ private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND window, UINT msg, WPARAM w, LPARAM l);
 	static LRESULT CALLBACK HandleMsgThunk(HWND window, UINT msg, WPARAM w, LPARAM l);
 	LRESULT HandleMsg(HWND window, UINT msg, WPARAM w, LPARAM l);
-private:
+
 	int width;
 	int height;
 	HWND window;
+public:
+	Keyboard key;
 };
 
 // Exception location macro
-#define CHWND_EXCEPT(result) Winow::Exception(__LINE__, __FILE__, result)
+#define CHWND_EXCEPT(result) Window::Exception(__LINE__, __FILE__, result)

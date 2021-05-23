@@ -13,6 +13,11 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
+
+			if (window.key.KeyIsPressed(VK_UP))
+			{
+				MessageBoxA(nullptr, "Hello!", "UP", MB_OK);
+			}
 		}
 
 		return result < 0 ? -1 : msg.wParam;

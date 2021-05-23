@@ -51,8 +51,6 @@ Window::Window(int width, int height, LPCWSTR name)
 	rectangle.top = 100;
 	rectangle.bottom = rectangle.top + height;
 	AdjustWindowRect(&rectangle, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, false);
-
-	throw std::runtime_error("Sucks to be you");
 	
 	// Create the window
 	window = CreateWindow(
@@ -101,6 +99,23 @@ LRESULT Window::HandleMsg(HWND window, UINT msg, WPARAM w, LPARAM l)
 		// We don't need to let window handle an exit, the window
 		// destructor will do that for us.
 		return 0;
+	case WM_KEYDOWN:
+	case WM_SYSKEYDOWN:
+		if (!(l & 0x40000000) || key.IsAutorepeat())
+		{
+			key.OnKeyPressed(static_cast<unsigned char>(w));
+		}
+		break;
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
+		key.OnKeyReleased(static_cast<unsigned char>(w));
+		break;
+	case WM_CHAR:
+		key.OnChar(static_cast<unsigned char>(w));
+		break;
+	case WM_KILLFOCUS:
+		key.ClearState();
+		break;
 	}
 
 	return DefWindowProc(window, msg, w, l);
