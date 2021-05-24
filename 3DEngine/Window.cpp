@@ -72,6 +72,27 @@ Window::~Window()
 	DestroyWindow(window);
 }
 
+void Window::SetTitle(std::string title)
+{
+	SetWindowTextA(window, title.c_str());
+}
+
+std::optional<int> Window::ProcessMessages()
+{
+	MSG msg;
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+	{
+		if (msg.message == WM_QUIT)
+		{
+			return msg.wParam;
+		}
+
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+	return { };
+}
+
 LRESULT WINAPI Window::HandleMsgSetup(HWND window, UINT msg, WPARAM w, LPARAM l)
 {
 	if (msg == WM_NCCREATE)

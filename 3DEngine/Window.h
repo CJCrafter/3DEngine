@@ -3,6 +3,8 @@
 #include "ModifiedWindows.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include <sstream>
+#include <optional>
 
 class Window 
 {
@@ -40,6 +42,10 @@ public:
 	~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
+
+	void SetTitle(std::string title);
+	static std::optional<int> ProcessMessages();
+
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND window, UINT msg, WPARAM w, LPARAM l);
 	static LRESULT CALLBACK HandleMsgThunk(HWND window, UINT msg, WPARAM w, LPARAM l);
@@ -48,6 +54,7 @@ private:
 	int width;
 	int height;
 	HWND window;
+
 public:
 	Keyboard key;
 	Mouse mouse;

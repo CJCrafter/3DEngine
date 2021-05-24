@@ -2,28 +2,21 @@
 
 Application::Application()
 	:
-	window(800, 800, L"Testing testing 123")
+	window(800, 800, L"Testing testing 123"),
+	timer(0.05f)
 {}
 
 int Application::Start()
 {
-	// Message pump. We want to handle messages until an error occurs, or the application is quit
-	MSG msg;
-	BOOL result;
-	while ((result = GetMessage(&msg, nullptr, 0, 0)) > 0)
+	while (true)
 	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-
+		if (const auto code = Window::ProcessMessages())
+		{
+			return *code;
+		}
 		Update();
 		Render();
 	}
-
-	if (result == -1)
-	{
-		throw LAST_EXCEPTION();
-	}
-	return msg.wParam;
 }
 
 void Application::Render()
@@ -32,4 +25,7 @@ void Application::Render()
 
 void Application::Update()
 {
+	std::ostringstream title;
+	title << timer.Elapsed() << "s";
+	window.SetTitle(title.str());
 }
