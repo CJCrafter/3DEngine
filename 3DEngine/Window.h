@@ -2,6 +2,7 @@
 #include "EngineException.h"
 #include "ModifiedWindows.h"
 #include "Keyboard.h"
+#include "Mouse.h"
 
 class Window 
 {
@@ -49,7 +50,9 @@ private:
 	HWND window;
 public:
 	Keyboard key;
+	Mouse mouse;
 };
 
 // Exception location macro
-#define CHWND_EXCEPT(result) Window::Exception(__LINE__, __FILE__, result)
+#define EXCEPTION(result) Window::Exception(__LINE__, __FILE__, result)
+#define LAST_EXCEPTION() Window::Exception(__LINE__, __FILE__, GetLastError())

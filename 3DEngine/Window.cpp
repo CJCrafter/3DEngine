@@ -50,7 +50,10 @@ Window::Window(int width, int height, LPCWSTR name)
 	rectangle.right = rectangle.left + width;
 	rectangle.top = 100;
 	rectangle.bottom = rectangle.top + height;
-	AdjustWindowRect(&rectangle, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, false);
+	if (AdjustWindowRect(&rectangle, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, false) == 0)
+	{
+		throw LAST_EXCEPTION();
+	}
 	
 	// Create the window
 	window = CreateWindow(
@@ -93,12 +96,15 @@ LRESULT Window::HandleMsg(HWND window, UINT msg, WPARAM w, LPARAM l)
 {
 	switch (msg)
 	{
+	// The close button was pushed
 	case WM_CLOSE:
 		PostQuitMessage(0);
 
 		// We don't need to let window handle an exit, the window
 		// destructor will do that for us.
 		return 0;
+
+	// Handle Keyboard buttons
 	case WM_KEYDOWN:
 	case WM_SYSKEYDOWN:
 		if (!(l & 0x40000000) || key.IsAutorepeat())
@@ -115,6 +121,33 @@ LRESULT Window::HandleMsg(HWND window, UINT msg, WPARAM w, LPARAM l)
 		break;
 	case WM_KILLFOCUS:
 		key.ClearState();
+		break;
+
+	// Handle Mouse clicks/movement
+	case WM_MOUSEMOVE:
+		const POINTS point0 = MAKEPOINTS(l);
+		mouse.OnMouseMove(point0.x, point0.y);
+		break;
+	case WM_LBUTTONDOWN:
+		const POINTS point1 = MAKEPOINTS(l);
+		mouse.OnLeftPressed(point1.x, point1.y);
+		break;
+	case WM_RBUTTONDOWN:
+		const POINTS point2 = MAKEPOINTS(l);
+		mouse.OnRightPressed(point2.x, point2.y);
+		break;
+	case WM_LBUTTONUP:
+		const POINTS point3 = MAKEPOINTS(l);
+		mouse.OnLeftReleased(point3.x, point3.y);
+		break;
+	case WM_RBUTTONUP:
+		const POINTS point4 = MAKEPOINTS(l);
+		mouse.OnRightReleased(point4.x, point4.y);
+		break;
+	case WM_MOUSEWHEEL:
+		const POINTS point5 = MAKEPOINTS(l);
+		const int delta = GET_WHEEL_DELTA_WPARAM(w);
+		mouse.OnWheelDelta(point5.x, point5.y, delta);
 		break;
 	}
 
