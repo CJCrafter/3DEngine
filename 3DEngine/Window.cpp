@@ -2,6 +2,8 @@
 #include <sstream>
 #include <memory>
 
+#include "IllegalStateException.h"
+
 Window::WindowClass Window::WindowClass::singleton;
 
 Window::WindowClass::WindowClass() noexcept
@@ -98,6 +100,10 @@ std::optional<int> Window::ProcessMessages()
 
 Graphics& Window::GFX()
 {
+	if (graphics == nullptr)
+	{
+		throw IllegalStateException(__LINE__, __FILE__, "Graphics have not been initialized");
+	}
 	return *graphics;
 }
 

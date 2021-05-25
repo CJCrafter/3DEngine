@@ -1,9 +1,7 @@
 #include "Graphics.h"
 #include <sstream>
-#include <d3dcompiler.h>
 
 #pragma comment(lib, "d3d11.lib")
-#pragma comment(lib, "D3DCompiler.lib")
 
 #define CHECK_FAIL(hrcall) if (FAILED(hr = (hrcall))) throw Graphics::HResultException(__LINE__, __FILE__, hr)
 #define DEVICE_REMOVED(hr) throw Graphics::DeviceRemovedException(__LINE__, __FILE__, (hr))
@@ -105,15 +103,7 @@ void Graphics::DrawTriangle()
 	const UINT offset = 0u;
 	context->IASetVertexBuffers(0u, 1u, &vertexBuffer, &stride, &offset);
 
-	// Vertex shader
-	ComPtr<ID3D11VertexShader> vertexShader;
-	ComPtr<ID3DBlob> blob;
-	D3DReadFileToBlob(L"VertexShader.cso", &blob);
-	device->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, &vertexShader);
-
-	context->VSSetShader(vertexShader.Get(), nullptr, 0u);
-	
-	context->Draw(static_cast<UINT>(std::size(vertices)), 0u);
+	context->Draw(3u, 0u);
 }
 
 void Graphics::Present()

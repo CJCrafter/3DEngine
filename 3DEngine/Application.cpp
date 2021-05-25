@@ -21,8 +21,9 @@ int Application::Start()
 
 void Application::Render()
 {
-	const float c = sin(timer.Elapsed()) / 2.0f + 0.5f;
+	const float c = sin(timer.Elapsed()) / 2.0 + 0.5;
 	window.GFX().Clear(c, c, 1.0f);
+	window.GFX().DrawTriangle();
 	window.GFX().Present();
 }
 
