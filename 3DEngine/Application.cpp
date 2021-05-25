@@ -21,11 +21,15 @@ int Application::Start()
 
 void Application::Render()
 {
+	const float c = sin(timer.Elapsed()) / 2.0f + 0.5f;
+	window.GFX().Clear(c, c, 1.0f);
+	window.GFX().Present();
 }
 
 void Application::Update()
 {
 	std::ostringstream title;
 	title << timer.Elapsed() << "s";
-	window.SetTitle(title.str());
+	std::string str = title.str();
+	window.SetTitle(str);
 }

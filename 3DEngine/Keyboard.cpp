@@ -22,7 +22,7 @@ bool Keyboard::Event::IsRelease() const noexcept
 	return type == Type::RELEASE;
 }
 
-bool Keyboard::Event::isValid() const noexcept
+bool Keyboard::Event::IsValid() const noexcept
 {
 	return type != Type::INVALID;
 }

@@ -22,7 +22,7 @@ public:
 
 		bool IsPress() const noexcept;
 		bool IsRelease() const noexcept;
-		bool isValid() const noexcept;
+		bool IsValid() const noexcept;
 		unsigned char GetCode() const noexcept;
 	};
 

@@ -6,6 +6,8 @@
 #include <sstream>
 #include <optional>
 
+#include "Graphics.h"
+
 class Window 
 {
 public:
@@ -43,8 +45,9 @@ public:
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
 
-	void SetTitle(std::string title);
+	void SetTitle(std::string& title);
 	static std::optional<int> ProcessMessages();
+	Graphics& GFX();
 
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND window, UINT msg, WPARAM w, LPARAM l);
@@ -54,10 +57,12 @@ private:
 	int width;
 	int height;
 	HWND window;
+	std::unique_ptr<Graphics> graphics;
 
 public:
 	Keyboard key;
 	Mouse mouse;
+	
 };
 
 // Exception location macro

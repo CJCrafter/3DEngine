@@ -1,5 +1,6 @@
 #include "Window.h"
 #include <sstream>
+#include <memory>
 
 Window::WindowClass Window::WindowClass::singleton;
 
@@ -65,6 +66,8 @@ Window::Window(int width, int height, LPCWSTR name)
 
 	// Display the window
 	ShowWindow(window, SW_SHOWDEFAULT);
+
+	graphics = std::make_unique<Graphics>(window);
 }
 
 Window::~Window()
@@ -72,7 +75,7 @@ Window::~Window()
 	DestroyWindow(window);
 }
 
-void Window::SetTitle(std::string title)
+void Window::SetTitle(std::string& title)
 {
 	SetWindowTextA(window, title.c_str());
 }
@@ -91,6 +94,11 @@ std::optional<int> Window::ProcessMessages()
 		DispatchMessage(&msg);
 	}
 	return { };
+}
+
+Graphics& Window::GFX()
+{
+	return *graphics;
 }
 
 LRESULT WINAPI Window::HandleMsgSetup(HWND window, UINT msg, WPARAM w, LPARAM l)
