@@ -2,6 +2,8 @@
 #include <sstream>
 #include <d3dcompiler.h>
 
+#include "Window.h"
+
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "D3DCompiler.lib")
 
@@ -56,11 +58,7 @@ Graphics::Graphics(HWND window)
 
 Graphics::~Graphics()
 {
-	// It is very important to free up the system resources
-	if (context != nullptr) context->Release();
-	if (swap != nullptr) swap->Release();
-	if (device != nullptr) device->Release();
-	if (target != nullptr) target->Release();
+	// No need to free COM objects since we use ComPtr
 }
 
 void Graphics::Clear(float r, float g, float b) noexcept
@@ -103,17 +101,47 @@ void Graphics::DrawTriangle()
 	// Bind the vertex buffer data to the pipeline
 	const UINT stride = sizeof(Vertex);
 	const UINT offset = 0u;
-	context->IASetVertexBuffers(0u, 1u, &vertexBuffer, &stride, &offset);
+	context->IASetVertexBuffers(0u, 1u, vertexBuffer.GetAddressOf(), &stride, &offset);
 
+	// Pixel shader
+	ComPtr<ID3D11PixelShader> pixelShader;
+	ComPtr<ID3DBlob> blob;
+	D3DReadFileToBlob(L"PixelShader.hlsl", &blob);
+	device->CreatePixelShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, &pixelShader);
+	
 	// Vertex shader
 	ComPtr<ID3D11VertexShader> vertexShader;
-	ComPtr<ID3DBlob> blob;
-	D3DReadFileToBlob(L"VertexShader.cso", &blob);
+	D3DReadFileToBlob(L"VertexShader.hlsl", &blob);
 	device->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, &vertexShader);
-
 	context->VSSetShader(vertexShader.Get(), nullptr, 0u);
+
+	// Tell Direct3D how to use the Vertex structure to read points
+	ComPtr<ID3D11InputLayout> inputLayout;
+	const D3D11_INPUT_ELEMENT_DESC ied[] =
+	{
+		{"POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
+	};
+	device->CreateInputLayout(ied, std::size(ied), blob->GetBufferPointer(), blob->GetBufferSize(), &inputLayout);
+	context->IASetInputLayout(inputLayout.Get());
+	context->PSSetShader(pixelShader.Get(), nullptr, 0u);
 	
-	context->Draw(static_cast<UINT>(std::size(vertices)), 0u);
+	// Bind render target
+	context->OMSetRenderTargets(1u, target.GetAddressOf(), nullptr);
+
+	// Set primitive context (What kind of shape to draw)
+	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	
+	// Viewports map points from the [-1, 1] coordinates to the [0, screenSize] coordinates
+	D3D11_VIEWPORT vp;
+	vp.Width = 800;
+	vp.Height = 600;
+	vp.MinDepth = 0;
+	vp.MaxDepth = 1;
+	vp.TopLeftX = 0;
+	vp.TopLeftY = 0;
+	context->RSSetViewports(1u, &vp);
+	
+	context->Draw(std::size(vertices), 0u);
 }
 
 void Graphics::Present()
@@ -125,6 +153,7 @@ void Graphics::Present()
 	{
 		if (hr == DXGI_ERROR_DEVICE_REMOVED)
 		{
+			hr = device->GetDeviceRemovedReason();
 			DEVICE_REMOVED(device->GetDeviceRemovedReason());
 		}
 		CHECK_FAIL(hr);
@@ -147,7 +176,8 @@ const char* Graphics::HResultException::what() const noexcept
 		<< "[Description] " << GetErrorDescription() << std::endl
 		<< GetOriginString();
 
-	return stream.str().c_str();
+	std::string buffer = stream.str();
+	return buffer.c_str();
 }
 
 const char* Graphics::HResultException::GetType() const noexcept
@@ -185,5 +215,5 @@ std::string Graphics::HResultException::GetErrorDescription() const noexcept
 
 const char* Graphics::DeviceRemovedException::GetType() const noexcept
 {
-	return "Device Removed";
+	return "Device Removed Exception";
 }

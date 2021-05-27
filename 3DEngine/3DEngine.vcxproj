@@ -160,8 +160,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="dxerr.cpp" />
     <ClCompile Include="EngineException.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="HRException.cpp" />
     <ClCompile Include="IllegalStateException.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Mouse.cpp" />
@@ -171,8 +173,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="dxerr.h" />
     <ClInclude Include="EngineException.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="HRException.h" />
     <ClInclude Include="IllegalStateException.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="ModifiedWindows.h" />
@@ -193,6 +197,11 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Downloads\DXGetErrorDescription.inl" />
+    <None Include="..\..\..\..\Downloads\DXGetErrorString.inl" />
+    <None Include="..\..\..\..\Downloads\DXTrace.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

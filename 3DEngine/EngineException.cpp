@@ -1,23 +1,22 @@
 #include "EngineException.h"
 #include <sstream>
 
-EngineException::EngineException(int line, const char* file) noexcept
+EngineException::EngineException(int line, const char* file, const char* type, const char* msg) noexcept
 	:
 	line(line),
-	file(file)
+	file(file),
+	type(type),
+	message(msg)
 {}
 
 const char* EngineException::what() const noexcept
 {
 	std::ostringstream stream;
-	stream << GetType() << std::endl << GetOriginString();
+	stream << GetType() << std::endl
+		<< GetOriginString();
+	
 	whatBuffer = stream.str();
 	return whatBuffer.c_str();
-}
-
-const char* EngineException::GetType() const noexcept
-{
-	return "Engine Exception";
 }
 
 int EngineException::GetLine() const noexcept
@@ -28,6 +27,16 @@ int EngineException::GetLine() const noexcept
 const std::string& EngineException::GetFile() const noexcept
 {
 	return file;
+}
+
+const char* EngineException::GetType() const noexcept
+{
+	return type;
+}
+
+const char* EngineException::GetMessage() const noexcept
+{
+	return message;
 }
 
 std::string EngineException::GetOriginString() const noexcept

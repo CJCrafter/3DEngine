@@ -63,6 +63,12 @@
     <ClCompile Include="IllegalStateException.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="HRException.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="dxerr.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModifiedWindows.h">
@@ -92,6 +98,12 @@
     <ClInclude Include="IllegalStateException.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="HRException.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="dxerr.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
@@ -100,5 +112,16 @@
     <FxCompile Include="VertexShader.hlsl">
       <Filter>Header Files\Graphics\Shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Downloads\DXTrace.inl">
+      <Filter>Header Files\Utilities</Filter>
+    </None>
+    <None Include="..\..\..\..\Downloads\DXGetErrorString.inl">
+      <Filter>Header Files\Utilities</Filter>
+    </None>
+    <None Include="..\..\..\..\Downloads\DXGetErrorDescription.inl">
+      <Filter>Header Files\Utilities</Filter>
+    </None>
   </ItemGroup>
 </Project>
