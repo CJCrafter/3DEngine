@@ -31,7 +31,7 @@ const std::string& EngineException::GetFile() const noexcept
 
 const char* EngineException::GetType() const noexcept
 {
-	return type;
+	return typeid(this).name();
 }
 
 const char* EngineException::GetMessage() const noexcept

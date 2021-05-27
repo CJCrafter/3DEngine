@@ -161,10 +161,12 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="dxerr.cpp" />
+    <ClCompile Include="DXGIInfoManager.cpp" />
     <ClCompile Include="EngineException.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="HRException.cpp" />
     <ClCompile Include="IllegalStateException.cpp" />
+    <ClCompile Include="InfoException.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -174,10 +176,12 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="dxerr.h" />
+    <ClInclude Include="DXGIInfoManager.h" />
     <ClInclude Include="EngineException.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="HRException.h" />
     <ClInclude Include="IllegalStateException.h" />
+    <ClInclude Include="InfoException.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="ModifiedWindows.h" />
     <ClInclude Include="Mouse.h" />

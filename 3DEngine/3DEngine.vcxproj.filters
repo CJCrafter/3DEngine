@@ -69,6 +69,12 @@
     <ClCompile Include="dxerr.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="DXGIInfoManager.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="InfoException.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModifiedWindows.h">
@@ -102,6 +108,12 @@
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="dxerr.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="DXGIInfoManager.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="InfoException.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>

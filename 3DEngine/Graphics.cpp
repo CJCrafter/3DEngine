@@ -7,8 +7,21 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "D3DCompiler.lib")
 
-#define CHECK_FAIL(hrcall) if (FAILED(hr = (hrcall))) throw HRException(__LINE__, __FILE__, hr)
-#define DEVICE_REMOVED(hr) throw Graphics::DeviceRemovedException(__LINE__, __FILE__, (hr))
+// graphics exception checking/throwing macros (some with dxgi infos)
+#define GFX_EXCEPT_NOINFO(hr) HRException( __LINE__,__FILE__,(hr) )
+#define GFX_THROW_NOINFO(hrcall) if( FAILED( hr = (hrcall) ) ) throw HRException( __LINE__,__FILE__,hr )
+
+#ifndef NDEBUG
+#define GFX_EXCEPT(hr) HRException( __LINE__,__FILE__,(hr),infoManager.GetMessages() )
+#define GFX_THROW_INFO(hrcall) infoManager.Set(); if( FAILED( hr = (hrcall) ) ) throw GFX_EXCEPT(hr)
+#define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException( __LINE__,__FILE__,(hr),infoManager.GetMessages() )
+#define GFX_THROW_INFO_ONLY(call) infoManager.Set(); (call); {auto v = infoManager.GetMessages(); if(!v.empty()) {throw InfoException( __LINE__,__FILE__,v);}}
+#else
+#define GFX_EXCEPT(hr) Graphics::HrException( __LINE__,__FILE__,(hr) )
+#define GFX_THROW_INFO(hrcall) GFX_THROW_NOINFO(hrcall)
+#define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException( __LINE__,__FILE__,(hr) )
+#define GFX_THROW_INFO_ONLY(call) (call)
+#endif
 
 Graphics::Graphics(HWND window)
 {
@@ -32,7 +45,7 @@ Graphics::Graphics(HWND window)
 	// Stores error codes for the macro.
 	HRESULT hr;
 	
-	CHECK_FAIL(D3D11CreateDeviceAndSwapChain(
+	GFX_THROW_INFO(D3D11CreateDeviceAndSwapChain(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
@@ -48,8 +61,8 @@ Graphics::Graphics(HWND window)
 	));
 
 	ComPtr<ID3D11Resource> backBuffer = nullptr;
-	CHECK_FAIL(swap->GetBuffer(0, __uuidof(ID3D11Resource), &backBuffer));
-	CHECK_FAIL(device->CreateRenderTargetView(
+	GFX_THROW_INFO(swap->GetBuffer(0, __uuidof(ID3D11Resource), &backBuffer));
+	GFX_THROW_INFO(device->CreateRenderTargetView(
 		backBuffer.Get(),
 		nullptr,
 		&target
@@ -96,7 +109,7 @@ void Graphics::DrawTriangle()
 	sd.pSysMem = vertices;
 
 	// Create the vertex buffer
-	CHECK_FAIL(device->CreateBuffer(&bd, &sd, &vertexBuffer));
+	GFX_THROW_INFO(device->CreateBuffer(&bd, &sd, &vertexBuffer));
 
 	// Bind the vertex buffer data to the pipeline
 	const UINT stride = sizeof(Vertex);
@@ -106,13 +119,13 @@ void Graphics::DrawTriangle()
 	// Pixel shader
 	ComPtr<ID3D11PixelShader> pixelShader;
 	ComPtr<ID3DBlob> blob;
-	D3DReadFileToBlob(L"PixelShader.hlsl", &blob);
-	device->CreatePixelShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, &pixelShader);
+	GFX_THROW_INFO(D3DReadFileToBlob(L"PixelShader.hlsl", &blob));
+	GFX_THROW_INFO(device->CreatePixelShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, &pixelShader));
 	
 	// Vertex shader
 	ComPtr<ID3D11VertexShader> vertexShader;
-	D3DReadFileToBlob(L"VertexShader.hlsl", &blob);
-	device->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, &vertexShader);
+	GFX_THROW_INFO(D3DReadFileToBlob(L"VertexShader.hlsl", &blob));
+	GFX_THROW_INFO(device->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, &vertexShader));
 	context->VSSetShader(vertexShader.Get(), nullptr, 0u);
 
 	// Tell Direct3D how to use the Vertex structure to read points
@@ -121,7 +134,7 @@ void Graphics::DrawTriangle()
 	{
 		{"POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
-	device->CreateInputLayout(ied, std::size(ied), blob->GetBufferPointer(), blob->GetBufferSize(), &inputLayout);
+	GFX_THROW_INFO(device->CreateInputLayout(ied, std::size(ied), blob->GetBufferPointer(), blob->GetBufferSize(), &inputLayout));
 	context->IASetInputLayout(inputLayout.Get());
 	context->PSSetShader(pixelShader.Get(), nullptr, 0u);
 	
@@ -153,8 +166,8 @@ void Graphics::Present()
 	{
 		if (hr == DXGI_ERROR_DEVICE_REMOVED)
 		{
-			DEVICE_REMOVED(device->GetDeviceRemovedReason());
+			throw DeviceRemovedException(__LINE__, __FILE__, device->GetDeviceRemovedReason());
 		}
-		CHECK_FAIL(hr);
+		throw GFX_EXCEPT(hr);
 	}
 }

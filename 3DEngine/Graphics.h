@@ -4,6 +4,7 @@
 #include <wrl.h>
 
 #include "HRException.h"
+#include "DXGIInfoManager.h"
 
 using namespace Microsoft::WRL;  
 
@@ -20,7 +21,11 @@ private:
 	ComPtr<IDXGISwapChain>         swap = nullptr;
 	ComPtr<ID3D11DeviceContext>    context = nullptr;
 	ComPtr<ID3D11RenderTargetView> target = nullptr;
-	
+
+#ifndef NDEBUG
+	DxgiInfoManager infoManager;
+#endif
+
 public:
 	Graphics(HWND window);
 	Graphics(const Graphics&) = delete;

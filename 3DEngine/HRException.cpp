@@ -27,8 +27,15 @@ const char* HRException::what() const noexcept
 		<< "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode()
 		<< std::dec << " (" << (unsigned long)GetErrorCode() << ")" << std::endl
 		<< "[Error String] " << GetErrorString() << std::endl
-		<< "[Description] " << GetErrorDescription() << std::endl
-		<< GetOriginString();
+		<< "[Description] " << GetErrorDescription() << std::endl;
+
+	if (!info.empty())
+	{
+		oss << std::endl << "[Error Info]" << std::endl << info << std::endl << std::endl;
+	}
+
+	oss << GetOriginString();
+	
 	whatBuffer = oss.str();
 	return whatBuffer.c_str();
 }
