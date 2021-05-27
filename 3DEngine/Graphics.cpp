@@ -92,8 +92,8 @@ void Graphics::DrawTriangle()
 	const Vertex vertices[] =
 	{
 		{0.0f, 0.5f},
-		{0.5f, -0.5f},
-		{-0.5f, 0.5f},
+		{0.45f, -0.5f},
+		{-0.45f, -0.5f},
 	};
 
 	ComPtr<ID3D11Buffer> vertexBuffer;
@@ -119,12 +119,12 @@ void Graphics::DrawTriangle()
 	// Pixel shader
 	ComPtr<ID3D11PixelShader> pixelShader;
 	ComPtr<ID3DBlob> blob;
-	GFX_THROW_INFO(D3DReadFileToBlob(L"PixelShader.hlsl", &blob));
+	GFX_THROW_INFO(D3DReadFileToBlob(L"PixelShader.cso", &blob));
 	GFX_THROW_INFO(device->CreatePixelShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, &pixelShader));
 	
 	// Vertex shader
 	ComPtr<ID3D11VertexShader> vertexShader;
-	GFX_THROW_INFO(D3DReadFileToBlob(L"VertexShader.hlsl", &blob));
+	GFX_THROW_INFO(D3DReadFileToBlob(L"VertexShader.cso", &blob));
 	GFX_THROW_INFO(device->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, &vertexShader));
 	context->VSSetShader(vertexShader.Get(), nullptr, 0u);
 
