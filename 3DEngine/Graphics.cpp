@@ -7,7 +7,7 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "D3DCompiler.lib")
 
-#define CHECK_FAIL(hrcall) if (FAILED(hr = (hrcall))) throw Graphics::HResultException(__LINE__, __FILE__, hr)
+#define CHECK_FAIL(hrcall) if (FAILED(hr = (hrcall))) throw HRException(__LINE__, __FILE__, hr)
 #define DEVICE_REMOVED(hr) throw Graphics::DeviceRemovedException(__LINE__, __FILE__, (hr))
 
 Graphics::Graphics(HWND window)
@@ -153,67 +153,8 @@ void Graphics::Present()
 	{
 		if (hr == DXGI_ERROR_DEVICE_REMOVED)
 		{
-			hr = device->GetDeviceRemovedReason();
 			DEVICE_REMOVED(device->GetDeviceRemovedReason());
 		}
 		CHECK_FAIL(hr);
 	}
-}
-
-Graphics::HResultException::HResultException(int line, const char* file, HRESULT result) noexcept
-	:
-	Exception(line, file),
-	result(result)
-{}
-
-const char* Graphics::HResultException::what() const noexcept
-{
-	std::ostringstream stream;
-	stream << GetType() << std::endl
-		<< "[Error Code] 0x" << std::hex << std::uppercase << GetResult()
-		<< std::dec << " (" << static_cast<unsigned long>(GetResult()) << ")" << std::endl
-		<< "[Error String] " << GetErrorString() << std::endl
-		<< "[Description] " << GetErrorDescription() << std::endl
-		<< GetOriginString();
-
-	std::string buffer = stream.str();
-	return buffer.c_str();
-}
-
-const char* Graphics::HResultException::GetType() const noexcept
-{
-	return "Graphics Exception";
-}
-
-HRESULT Graphics::HResultException::GetResult() const noexcept
-{
-	return result;
-}
-
-std::string Graphics::HResultException::GetErrorString() const noexcept
-{
-	return "I am too lazy to implement this";
-}
-
-std::string Graphics::HResultException::GetErrorDescription() const noexcept
-{
-	char* buffer = nullptr;
-	DWORD msg = FormatMessageA(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM |
-		FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, result,
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), reinterpret_cast<LPSTR>(&buffer),
-		0, nullptr
-	);
-	if (msg == 0)
-	{
-		return "Unexpected error code";
-	}
-	std::string error = buffer;
-	LocalFree(buffer);
-	return error;
-}
-
-const char* Graphics::DeviceRemovedException::GetType() const noexcept
-{
-	return "Device Removed Exception";
 }

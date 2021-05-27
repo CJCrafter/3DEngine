@@ -2,7 +2,7 @@
 
 Application::Application()
 	:
-	window(800, 800, L"Testing testing 123"),
+	window(800, 800, "Testing testing 123"),
 	timer(0.05f)
 {}
 

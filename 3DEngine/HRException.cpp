@@ -49,7 +49,3 @@ std::string HRException::GetErrorDescription() const noexcept
 	DXGetErrorDescription(hr, buf, sizeof(buf));
 	return buf;
 }
-
-std::string HRException::GetErrorInfo() const noexcept
-{
-}

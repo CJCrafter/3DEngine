@@ -114,13 +114,13 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\Downloads\DXTrace.inl">
+    <None Include="DXGetErrorDescription.inl">
       <Filter>Header Files\Utilities</Filter>
     </None>
-    <None Include="..\..\..\..\Downloads\DXGetErrorString.inl">
+    <None Include="DXGetErrorString.inl">
       <Filter>Header Files\Utilities</Filter>
     </None>
-    <None Include="..\..\..\..\Downloads\DXGetErrorDescription.inl">
+    <None Include="DXTrace.inl">
       <Filter>Header Files\Utilities</Filter>
     </None>
   </ItemGroup>

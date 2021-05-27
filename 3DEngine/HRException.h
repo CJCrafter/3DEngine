@@ -13,7 +13,6 @@ public:
 	HRESULT GetErrorCode() const noexcept;
 	std::string GetErrorString() const noexcept;
 	std::string GetErrorDescription() const noexcept;
-	std::string GetErrorInfo() const noexcept;
 private:
 	HRESULT hr;
 	std::string info;
