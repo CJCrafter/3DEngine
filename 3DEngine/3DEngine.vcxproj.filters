@@ -34,6 +34,12 @@
     <Filter Include="Header Files\Graphics\Shaders">
       <UniqueIdentifier>{1ba14260-0124-475a-880e-a5135fc2207f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utilities\Exception">
+      <UniqueIdentifier>{d0a4d072-c7c2-4703-8458-47617529ef32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\Exception">
+      <UniqueIdentifier>{c8b04d9f-c503-4670-86c6-f88f54ec441e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -57,23 +63,23 @@
     <ClCompile Include="Graphics.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="EngineException.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="IllegalStateException.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="HRException.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="dxerr.cpp">
-      <Filter>Source Files\Utilities</Filter>
+      <Filter>Source Files\Utilities\Exception</Filter>
     </ClCompile>
     <ClCompile Include="DXGIInfoManager.cpp">
-      <Filter>Source Files\Utilities</Filter>
+      <Filter>Source Files\Utilities\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineException.cpp">
+      <Filter>Source Files\Utilities\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="HRException.cpp">
+      <Filter>Source Files\Utilities\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="IllegalStateException.cpp">
+      <Filter>Source Files\Utilities\Exception</Filter>
     </ClCompile>
     <ClCompile Include="InfoException.cpp">
-      <Filter>Source Files\Utilities</Filter>
+      <Filter>Source Files\Utilities\Exception</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,22 +104,25 @@
     <ClInclude Include="Graphics.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="EngineException.h">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="IllegalStateException.h">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="HRException.h">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="dxerr.h">
-      <Filter>Header Files\Utilities</Filter>
+      <Filter>Header Files\Utilities\Exception</Filter>
     </ClInclude>
     <ClInclude Include="DXGIInfoManager.h">
-      <Filter>Header Files\Utilities</Filter>
+      <Filter>Header Files\Utilities\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineException.h">
+      <Filter>Header Files\Utilities\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="HRException.h">
+      <Filter>Header Files\Utilities\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="IllegalStateException.h">
+      <Filter>Header Files\Utilities\Exception</Filter>
     </ClInclude>
     <ClInclude Include="InfoException.h">
+      <Filter>Header Files\Utilities\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
@@ -127,13 +136,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DXGetErrorDescription.inl">
-      <Filter>Header Files\Utilities</Filter>
+      <Filter>Header Files\Utilities\Exception</Filter>
     </None>
     <None Include="DXGetErrorString.inl">
-      <Filter>Header Files\Utilities</Filter>
+      <Filter>Header Files\Utilities\Exception</Filter>
     </None>
     <None Include="DXTrace.inl">
-      <Filter>Header Files\Utilities</Filter>
+      <Filter>Header Files\Utilities\Exception</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -1,3 +1,4 @@
+// ReSharper disable CppClangTidyClangDiagnosticMissingBraces
 #include "Graphics.h"
 #include <sstream>
 #include <d3dcompiler.h>
@@ -87,13 +88,21 @@ void Graphics::DrawTriangle()
 	
 	struct Vertex
 	{
-		float x, y;
+		struct { float x, y; } position;
+		struct { unsigned char r, g, b, a; } color;
 	};
 	const Vertex vertices[] =
 	{
-		{0.0f, 0.5f},
-		{0.45f, -0.5f},
-		{-0.45f, -0.5f},
+		// Center of octagon
+		{0, 0, 0, 0, 0, 0},
+
+		{0.0, 0.5, 255, 0, 0, 0},
+		{0.3, 0.25, 255, 255, 0, 0},
+		{0.3, -0.25, 0, 255, 0, 0},
+		{0.0, -0.5, 0, 255, 255, 0},
+		{-0.3, -0.25, 0, 0, 255, 0},
+		{-0.3, 0.25, 255, 0, 255, 0}
+		
 	};
 
 	ComPtr<ID3D11Buffer> vertexBuffer;
@@ -110,12 +119,38 @@ void Graphics::DrawTriangle()
 
 	// Create the vertex buffer
 	GFX_THROW_INFO(device->CreateBuffer(&bd, &sd, &vertexBuffer));
+	
 
 	// Bind the vertex buffer data to the pipeline
 	const UINT stride = sizeof(Vertex);
 	const UINT offset = 0u;
 	context->IASetVertexBuffers(0u, 1u, vertexBuffer.GetAddressOf(), &stride, &offset);
 
+	// Create the index buffer. The index buffer allows us to remove redundant vertexes.
+	const unsigned short indices[] =
+	{
+		0, 1, 2,
+		0, 2, 3,
+		4, 0, 3, 
+		5, 0, 4, 
+		5, 6, 0,
+		0, 6, 1  
+	};
+	ComPtr<ID3D11Buffer> indexBuffer;
+	D3D11_BUFFER_DESC ibd = {};
+	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	ibd.Usage = D3D11_USAGE_DEFAULT;
+	ibd.CPUAccessFlags = 0u;
+	ibd.MiscFlags = 0u;
+	ibd.ByteWidth = sizeof(indices);
+	ibd.StructureByteStride = sizeof(unsigned short);
+
+	D3D11_SUBRESOURCE_DATA isd = {};
+	isd.pSysMem = indices;
+
+	device->CreateBuffer(&ibd, &isd, &indexBuffer);
+	context->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
+	
 	// Pixel shader
 	ComPtr<ID3D11PixelShader> pixelShader;
 	ComPtr<ID3DBlob> blob;
@@ -132,7 +167,8 @@ void Graphics::DrawTriangle()
 	ComPtr<ID3D11InputLayout> inputLayout;
 	const D3D11_INPUT_ELEMENT_DESC ied[] =
 	{
-		{"POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		{"POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, 8u, D3D11_INPUT_PER_VERTEX_DATA, 0},
 	};
 	GFX_THROW_INFO(device->CreateInputLayout(ied, std::size(ied), blob->GetBufferPointer(), blob->GetBufferSize(), &inputLayout));
 	context->IASetInputLayout(inputLayout.Get());
@@ -153,8 +189,9 @@ void Graphics::DrawTriangle()
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
 	context->RSSetViewports(1u, &vp);
-	
-	context->Draw(std::size(vertices), 0u);
+
+	context->DrawIndexed(std::size(indices), 0u, 0u);
+	//context->Draw(std::size(vertices), 0u);
 }
 
 void Graphics::Present()
