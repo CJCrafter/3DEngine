@@ -81,6 +81,9 @@
     <ClCompile Include="InfoException.cpp">
       <Filter>Source Files\Utilities\Exception</Filter>
     </ClCompile>
+    <ClCompile Include="Vector.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModifiedWindows.h">
@@ -122,7 +125,7 @@
     <ClInclude Include="InfoException.h">
       <Filter>Header Files\Utilities\Exception</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2.h">
+    <ClInclude Include="Vector.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>

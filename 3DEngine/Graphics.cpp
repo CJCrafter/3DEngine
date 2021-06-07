@@ -9,18 +9,18 @@
 #pragma comment(lib, "D3DCompiler.lib")
 
 // graphics exception checking/throwing macros (some with dxgi infos)
-#define GFX_EXCEPT_NOINFO(hr) HRException( __LINE__,__FILE__,(hr) )
-#define GFX_THROW_NOINFO(hrcall) if( FAILED( hr = (hrcall) ) ) throw HRException( __LINE__,__FILE__,hr )
+#define GFX_EXCEPT_NOINFO(hr) HRException(__LINE__, __FILE__, (hr))
+#define GFX_THROW_NOINFO(hrcall) if (HRESULT hr; FAILED(hr = (hrcall))) throw HRException(__LINE__, __FILE__, hr)
 
 #ifndef NDEBUG
-#define GFX_EXCEPT(hr) HRException( __LINE__,__FILE__,(hr),infoManager.GetMessages() )
+#define GFX_EXCEPT(hr) HRException(__LINE__, __FILE__, (hr), infoManager.GetMessages())
 #define GFX_THROW_INFO(hrcall) infoManager.Set(); if( FAILED( hr = (hrcall) ) ) throw GFX_EXCEPT(hr)
 #define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException( __LINE__,__FILE__,(hr),infoManager.GetMessages() )
 #define GFX_THROW_INFO_ONLY(call) infoManager.Set(); (call); {auto v = infoManager.GetMessages(); if(!v.empty()) {throw InfoException( __LINE__,__FILE__,v);}}
 #else
-#define GFX_EXCEPT(hr) Graphics::HrException( __LINE__,__FILE__,(hr) )
+#define GFX_EXCEPT(hr) HRException(__LINE__, __FILE__, (hr))
 #define GFX_THROW_INFO(hrcall) GFX_THROW_NOINFO(hrcall)
-#define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException( __LINE__,__FILE__,(hr) )
+#define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException(__LINE__, __FILE__, (hr))
 #define GFX_THROW_INFO_ONLY(call) (call)
 #endif
 
@@ -42,9 +42,6 @@ Graphics::Graphics(HWND window)
 	sd.Windowed = true;                                                        //
 	sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;                                  //
 	sd.Flags = 0;                                                              //
-
-	// Stores error codes for the macro.
-	HRESULT hr;
 	
 	GFX_THROW_INFO(D3D11CreateDeviceAndSwapChain(
 		nullptr,
@@ -82,10 +79,7 @@ void Graphics::Clear(float r, float g, float b) noexcept
 }
 
 void Graphics::DrawTriangle()
-{
-	// hr for error macro
-	HRESULT hr;
-	
+{	
 	struct Vertex
 	{
 		struct { float x, y; } position;
@@ -94,14 +88,14 @@ void Graphics::DrawTriangle()
 	const Vertex vertices[] =
 	{
 		// Center of octagon
-		{0, 0, 0, 0, 0, 0},
+		{0, 0, 255, 255, 255, 0},
 
-		{0.0, 0.5, 255, 0, 0, 0},
-		{0.3, 0.25, 255, 255, 0, 0},
-		{0.3, -0.25, 0, 255, 0, 0},
-		{0.0, -0.5, 0, 255, 255, 0},
-		{-0.3, -0.25, 0, 0, 255, 0},
-		{-0.3, 0.25, 255, 0, 255, 0}
+		{0.0f, 0.5f, 255, 0, 0, 0},
+		{0.3f, 0.25f, 255, 255, 0, 0},
+		{0.3f, -0.25f, 0, 255, 0, 0},
+		{0.0f, -0.5f, 0, 255, 255, 0},
+		{-0.3f, -0.25f, 0, 0, 255, 0},
+		{-0.3f, 0.25f, 255, 0, 255, 0}
 		
 	};
 
@@ -183,7 +177,7 @@ void Graphics::DrawTriangle()
 	// Viewports map points from the [-1, 1] coordinates to the [0, screenSize] coordinates
 	D3D11_VIEWPORT vp;
 	vp.Width = 800;
-	vp.Height = 600;
+	vp.Height = 800;
 	vp.MinDepth = 0;
 	vp.MaxDepth = 1;
 	vp.TopLeftX = 0;
@@ -196,10 +190,7 @@ void Graphics::DrawTriangle()
 
 void Graphics::Present()
 {
-	// Stores error codes for the macro
-	HRESULT hr;
-	
-	if (FAILED(hr = swap->Present(1u, 0u)))
+	if (HRESULT hr; FAILED(hr = swap->Present(1u, 0u)))
 	{
 		if (hr == DXGI_ERROR_DEVICE_REMOVED)
 		{
