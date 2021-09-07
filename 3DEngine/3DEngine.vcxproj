@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="ArithmeticException.cpp" />
     <ClCompile Include="dxerr.cpp" />
     <ClCompile Include="DXGIInfoManager.cpp" />
     <ClCompile Include="EngineException.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="IllegalStateException.cpp" />
     <ClCompile Include="InfoException.cpp" />
     <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Vector.cpp" />
@@ -176,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="ArithmeticException.h" />
     <ClInclude Include="dxerr.h" />
     <ClInclude Include="DXGIInfoManager.h" />
     <ClInclude Include="EngineException.h" />
@@ -184,6 +187,7 @@
     <ClInclude Include="IllegalStateException.h" />
     <ClInclude Include="InfoException.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="ModifiedWindows.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Timer.h" />

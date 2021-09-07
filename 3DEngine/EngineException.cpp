@@ -13,6 +13,7 @@ const char* EngineException::what() const noexcept
 {
 	std::ostringstream stream;
 	stream << GetType() << std::endl
+		<< GetMessage() << std::endl
 		<< GetOriginString();
 	
 	whatBuffer = stream.str();

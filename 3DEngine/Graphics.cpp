@@ -2,6 +2,7 @@
 #include "Graphics.h"
 #include <sstream>
 #include <d3dcompiler.h>
+#include "Matrix.h"
 
 #include "Window.h"
 
@@ -26,6 +27,8 @@
 
 Graphics::Graphics(HWND window)
 {
+	HRESULT hr; 
+
 	DXGI_SWAP_CHAIN_DESC sd;
 	sd.BufferDesc.Width = 0;                                                   // 0 allows Direct3D to look at the window and use that size
 	sd.BufferDesc.Height = 0;                                                  // ^
@@ -78,8 +81,11 @@ void Graphics::Clear(float r, float g, float b) noexcept
 	context->ClearRenderTargetView(target.Get(), color);
 }
 
-void Graphics::DrawTriangle()
-{	
+void Graphics::DrawTriangle(float angle)
+{
+	// Gotta define this dude for error reporting
+	HRESULT hr;
+
 	struct Vertex
 	{
 		struct { float x, y; } position;
@@ -96,7 +102,7 @@ void Graphics::DrawTriangle()
 		{0.0f, -0.5f, 0, 255, 255, 0},
 		{-0.3f, -0.25f, 0, 0, 255, 0},
 		{-0.3f, 0.25f, 255, 0, 255, 0}
-		
+
 	};
 
 	ComPtr<ID3D11Buffer> vertexBuffer;
@@ -113,7 +119,6 @@ void Graphics::DrawTriangle()
 
 	// Create the vertex buffer
 	GFX_THROW_INFO(device->CreateBuffer(&bd, &sd, &vertexBuffer));
-	
 
 	// Bind the vertex buffer data to the pipeline
 	const UINT stride = sizeof(Vertex);
@@ -125,10 +130,10 @@ void Graphics::DrawTriangle()
 	{
 		0, 1, 2,
 		0, 2, 3,
-		4, 0, 3, 
-		5, 0, 4, 
+		4, 0, 3,
+		5, 0, 4,
 		5, 6, 0,
-		0, 6, 1  
+		0, 6, 1
 	};
 	ComPtr<ID3D11Buffer> indexBuffer;
 	D3D11_BUFFER_DESC ibd = {};
@@ -144,7 +149,35 @@ void Graphics::DrawTriangle()
 
 	device->CreateBuffer(&ibd, &isd, &indexBuffer);
 	context->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
-	
+
+	// Transformation Matrix
+	const float sin = std::sin(angle);
+	const float cos = std::cos(angle);
+	float matrixData[4][4] = 
+	{
+		{cos * 3.0f,  sin * 3.0f,  0.0f, 0.0f},
+		{-sin, cos,  0.0f, 0.0f},
+		{0.0f, 0.0f, 1.0f, 0.0f},
+		{0.0f, 0.0f, 0.0f, 1.0f},
+	};
+
+	ComPtr<ID3D11Buffer> matrixBuffer;
+	D3D11_BUFFER_DESC mbd = {};
+	mbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	mbd.Usage = D3D11_USAGE_DYNAMIC; 
+	mbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	mbd.MiscFlags = 0u;
+	mbd.ByteWidth = sizeof(matrixData);
+	mbd.StructureByteStride = 0u;
+
+	D3D11_SUBRESOURCE_DATA msd = {};
+	msd.pSysMem = &matrixData;
+	GFX_THROW_INFO(device->CreateBuffer(&mbd, &msd, &matrixBuffer));
+	context->VSSetConstantBuffers(0u, 1u, matrixBuffer.GetAddressOf());
+
+	GFX_THROW_INFO(device->CreateBuffer(&ibd, &isd, &indexBuffer));
+	context->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
+
 	// Pixel shader
 	ComPtr<ID3D11PixelShader> pixelShader;
 	ComPtr<ID3DBlob> blob;

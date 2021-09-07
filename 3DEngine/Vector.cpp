@@ -144,6 +144,17 @@ T Vector<n, T>::operator[](int index) const
 }
 
 template <int n, class T>
+T& Vector<n, T>::operator[](int index)
+{
+	if (index < 0 || index >= n)
+	{
+		throw EngineException(__LINE__, __FILE__, "IndexOutOfBounds", "For index: " + index);
+	}
+
+	return data[index];
+}
+
+template <int n, class T>
 bool Vector<n, T>::operator==(const Vector<n, T>& other) const
 {
 	return std::tie(data) == std::tie(other);

@@ -37,7 +37,8 @@ struct Vector
 
 	// Accessor by index. When using a 2d, 3d, or 4d vector, use the constants x, y, z, w
 	T operator[](int index) const;
-	
+	T& operator[](int index);
+
 	// Equality Operators
 	bool operator==(const Vector<n, T>& other) const;
 	bool operator!=(const Vector<n, T>& other) const;
