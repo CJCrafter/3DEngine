@@ -68,6 +68,39 @@ Graphics::Graphics(HWND window)
 		nullptr,
 		&target
 	));
+
+	D3D11_DEPTH_STENCIL_DESC depthDesc = {};
+	depthDesc.DepthEnable = true;
+	depthDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+	ComPtr<ID3D11DepthStencilState> depthState;
+	GFX_THROW_INFO(device->CreateDepthStencilState(&depthDesc, &depthState));
+
+	context->OMSetDepthStencilState(depthState.Get(), 1u);
+
+	ComPtr<ID3D11Texture2D> depthStencil;
+	D3D11_TEXTURE2D_DESC textureDesc = {};
+	textureDesc.Width = 800u;
+	textureDesc.Height = 800u;
+	textureDesc.MipLevels = 1u;
+	textureDesc.ArraySize = 1u;
+	textureDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	textureDesc.SampleDesc.Count = 1u;
+	textureDesc.SampleDesc.Quality = 0u;
+	textureDesc.Usage = D3D11_USAGE_DEFAULT;
+	textureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
+	GFX_THROW_INFO(device->CreateTexture2D(&textureDesc, nullptr, &depthStencil));
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC viewDesc = {};
+	viewDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	viewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	viewDesc.Texture2D.MipSlice = 0u;
+
+	GFX_THROW_INFO(device->CreateDepthStencilView(depthStencil.Get(), &viewDesc, &depth));
+
+	context->OMSetRenderTargets(1u, target.GetAddressOf(), depth.Get());
 }
 
 Graphics::~Graphics()
@@ -79,6 +112,7 @@ void Graphics::Clear(float r, float g, float b) noexcept
 {
 	float color[4] = { r, g, b, 1.0f };
 	context->ClearRenderTargetView(target.Get(), color);
+	context->ClearDepthStencilView(depth.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
 void Graphics::DrawTriangle(float angle, float x, float y)
@@ -88,21 +122,18 @@ void Graphics::DrawTriangle(float angle, float x, float y)
 
 	struct Vertex
 	{
-		struct { float x, y; } position;
-		struct { unsigned char r, g, b, a; } color;
+		struct { float x, y, z; } position;
 	};
 	const Vertex vertices[] =
 	{
-		// Center of octagon
-		{0, 0, 255, 255, 255, 0},
-
-		{0.0f, 0.5f, 255, 0, 0, 0},
-		{0.3f, 0.25f, 255, 255, 0, 0},
-		{0.3f, -0.25f, 0, 255, 0, 0},
-		{0.0f, -0.5f, 0, 255, 255, 0},
-		{-0.3f, -0.25f, 0, 0, 255, 0},
-		{-0.3f, 0.25f, 255, 0, 255, 0}
-
+		{-1.0f, -1.0f, -1.0f},
+		{1.0f, -1.0f, -1.0f},
+		{-1.0f, 1.0f, -1.0f},
+		{1.0f, 1.0f, -1.0f},
+		{-1.0f, -1.0f, 1.0f},
+		{1.0f, -1.0f, 1.0f},
+		{-1.0f, 1.0f, 1.0f},
+		{1.0f, 1.0f, 1.0f},
 	};
 
 	ComPtr<ID3D11Buffer> vertexBuffer;
@@ -128,12 +159,12 @@ void Graphics::DrawTriangle(float angle, float x, float y)
 	// Create the index buffer. The index buffer allows us to remove redundant vertexes.
 	const unsigned short indices[] =
 	{
-		0, 1, 2,
-		0, 2, 3,
-		4, 0, 3,
-		5, 0, 4,
-		5, 6, 0,
-		0, 6, 1
+		0,2,1, 2,3,1,
+		1,3,5, 3,7,5,
+		2,6,3, 3,6,7,
+		4,5,7, 4,7,6,
+		0,4,2, 2,4,6,
+		0,1,4, 1,5,4,
 	};
 	ComPtr<ID3D11Buffer> indexBuffer;
 	D3D11_BUFFER_DESC ibd = {};
@@ -151,34 +182,70 @@ void Graphics::DrawTriangle(float angle, float x, float y)
 	context->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
 
 	// Transformation Matrix
-	const float sin = std::sin(angle);
-	const float cos = std::cos(angle);
 	struct ConstantBuffer
 	{
 		DirectX::XMMATRIX transform;
 	};
+
 	const ConstantBuffer cb = 
 	{
 		{
 			DirectX::XMMatrixTranspose(
-				DirectX::XMMatrixRotationZ(angle) * DirectX::XMMatrixScaling(3.0f / 4.0f, 1.0f, 1.0f) * DirectX::XMMatrixTranslation(x, y, 0.0f)
+				DirectX::XMMatrixRotationX(y * 4) *
+				DirectX::XMMatrixRotationY(x * 4) *
+				DirectX::XMMatrixRotationZ(3.1415 / 4.0f) * 
+				//DirectX::XMMatrixScaling(2 * cos * sin, 2 * cos * cos, 2 * sin) * 
+				DirectX::XMMatrixTranslation(0, 0, x + 4.0f) *
+				DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 10.0)
 			)
 		}
 	};
 
 	ComPtr<ID3D11Buffer> matrixBuffer;
-	D3D11_BUFFER_DESC mbd = {};
-	mbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	mbd.Usage = D3D11_USAGE_DYNAMIC; 
-	mbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	mbd.MiscFlags = 0u;
-	mbd.ByteWidth = sizeof(cb);
-	mbd.StructureByteStride = 0u;
+	D3D11_BUFFER_DESC matrixDesc = {};
+	matrixDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	matrixDesc.Usage = D3D11_USAGE_DYNAMIC; 
+	matrixDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	matrixDesc.MiscFlags = 0u;
+	matrixDesc.ByteWidth = sizeof(cb);
+	matrixDesc.StructureByteStride = 0u;
 
-	D3D11_SUBRESOURCE_DATA msd = {};
-	msd.pSysMem = &cb;
-	GFX_THROW_INFO(device->CreateBuffer(&mbd, &msd, &matrixBuffer));
+	D3D11_SUBRESOURCE_DATA matrixData = {};
+	matrixData.pSysMem = &cb;
+	GFX_THROW_INFO(device->CreateBuffer(&matrixDesc, &matrixData, &matrixBuffer));
 	context->VSSetConstantBuffers(0u, 1u, matrixBuffer.GetAddressOf());
+
+	struct FaceColorBuffer
+	{
+		struct
+		{
+			float r, g, b, a;
+		} face_colors[6];	
+	};
+	const FaceColorBuffer faceColor {
+		{
+			{1.0f, 0.0f, 1.0f},
+			{1.0f, 0.0f, 0.0f},
+			{0.0f, 1.0f, 0.0f},
+			{0.0f, 0.0f, 1.0f},
+			{1.0f, 1.0f, 0.0f},
+			{0.0f, 1.0f, 1.0f},
+		}
+	};
+	ComPtr<ID3D11Buffer> faceColorBuffer;
+	D3D11_BUFFER_DESC faceDesc = {};
+	faceDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	faceDesc.Usage = D3D11_USAGE_DEFAULT;
+	faceDesc.CPUAccessFlags = 0u;
+	faceDesc.MiscFlags = 0u;
+	faceDesc.ByteWidth = sizeof(faceColor);
+	faceDesc.StructureByteStride = 0u;
+
+	D3D11_SUBRESOURCE_DATA faceData = {};
+	faceData.pSysMem = &faceColor;
+	GFX_THROW_INFO(device->CreateBuffer(&faceDesc, &faceData, &faceColorBuffer));
+	context->PSSetConstantBuffers(0u, 1u, faceColorBuffer.GetAddressOf());
+
 
 	GFX_THROW_INFO(device->CreateBuffer(&ibd, &isd, &indexBuffer));
 	context->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
@@ -197,30 +264,26 @@ void Graphics::DrawTriangle(float angle, float x, float y)
 
 	// Tell Direct3D how to use the Vertex structure to read points
 	ComPtr<ID3D11InputLayout> inputLayout;
-	const D3D11_INPUT_ELEMENT_DESC ied[] =
+	const D3D11_INPUT_ELEMENT_DESC inputDesc[] =
 	{
-		{"POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, 8u, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
 	};
-	GFX_THROW_INFO(device->CreateInputLayout(ied, std::size(ied), blob->GetBufferPointer(), blob->GetBufferSize(), &inputLayout));
+	GFX_THROW_INFO(device->CreateInputLayout(inputDesc, std::size(inputDesc), blob->GetBufferPointer(), blob->GetBufferSize(), &inputLayout));
 	context->IASetInputLayout(inputLayout.Get());
 	context->PSSetShader(pixelShader.Get(), nullptr, 0u);
 	
-	// Bind render target
-	context->OMSetRenderTargets(1u, target.GetAddressOf(), nullptr);
-
 	// Set primitive context (What kind of shape to draw)
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	
 	// Viewports map points from the [-1, 1] coordinates to the [0, screenSize] coordinates
-	D3D11_VIEWPORT vp;
-	vp.Width = 800;
-	vp.Height = 800;
-	vp.MinDepth = 0;
-	vp.MaxDepth = 1;
-	vp.TopLeftX = 0;
-	vp.TopLeftY = 0;
-	context->RSSetViewports(1u, &vp);
+	D3D11_VIEWPORT viewport;
+	viewport.Width = 800;
+	viewport.Height = 800;
+	viewport.MinDepth = 0;
+	viewport.MaxDepth = 1;
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	context->RSSetViewports(1u, &viewport);
 
 	context->DrawIndexed(std::size(indices), 0u, 0u);
 	//context->Draw(std::size(vertices), 0u);

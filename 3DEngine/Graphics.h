@@ -21,6 +21,7 @@ private:
 	ComPtr<IDXGISwapChain>         swap = nullptr;
 	ComPtr<ID3D11DeviceContext>    context = nullptr;
 	ComPtr<ID3D11RenderTargetView> target = nullptr;
+	ComPtr<ID3D11DepthStencilView> depth = nullptr;
 
 #ifndef NDEBUG
 	DxgiInfoManager infoManager;
