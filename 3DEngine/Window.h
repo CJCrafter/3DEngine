@@ -31,6 +31,16 @@ public:
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
 
+	int GetWidth()
+	{
+		return width;
+	}
+
+	int GetHeight()
+	{
+		return height;
+	}
+
 	void SetTitle(std::string& title);
 	static std::optional<int> ProcessMessages();
 	Graphics& GFX();

@@ -169,7 +169,6 @@
     <ClCompile Include="IllegalStateException.cpp" />
     <ClCompile Include="InfoException.cpp" />
     <ClCompile Include="Keyboard.cpp" />
-    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Vector.cpp" />
@@ -187,7 +186,6 @@
     <ClInclude Include="IllegalStateException.h" />
     <ClInclude Include="InfoException.h" />
     <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="Matrix.h" />
     <ClInclude Include="ModifiedWindows.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Timer.h" />

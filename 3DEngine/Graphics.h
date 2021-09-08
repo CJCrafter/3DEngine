@@ -33,6 +33,6 @@ public:
 	~Graphics();
 
 	void Clear(float r, float g, float b) noexcept;
-	void DrawTriangle(float angle);
+	void DrawTriangle(float angle, float x, float y);
 	void Present();
 };

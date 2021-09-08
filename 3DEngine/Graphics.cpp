@@ -2,7 +2,7 @@
 #include "Graphics.h"
 #include <sstream>
 #include <d3dcompiler.h>
-#include "Matrix.h"
+#include "DirectXMath.h"
 
 #include "Window.h"
 
@@ -81,7 +81,7 @@ void Graphics::Clear(float r, float g, float b) noexcept
 	context->ClearRenderTargetView(target.Get(), color);
 }
 
-void Graphics::DrawTriangle(float angle)
+void Graphics::DrawTriangle(float angle, float x, float y)
 {
 	// Gotta define this dude for error reporting
 	HRESULT hr;
@@ -153,12 +153,17 @@ void Graphics::DrawTriangle(float angle)
 	// Transformation Matrix
 	const float sin = std::sin(angle);
 	const float cos = std::cos(angle);
-	float matrixData[4][4] = 
+	struct ConstantBuffer
 	{
-		{cos * 3.0f,  sin * 3.0f,  0.0f, 0.0f},
-		{-sin, cos,  0.0f, 0.0f},
-		{0.0f, 0.0f, 1.0f, 0.0f},
-		{0.0f, 0.0f, 0.0f, 1.0f},
+		DirectX::XMMATRIX transform;
+	};
+	const ConstantBuffer cb = 
+	{
+		{
+			DirectX::XMMatrixTranspose(
+				DirectX::XMMatrixRotationZ(angle) * DirectX::XMMatrixScaling(3.0f / 4.0f, 1.0f, 1.0f) * DirectX::XMMatrixTranslation(x, y, 0.0f)
+			)
+		}
 	};
 
 	ComPtr<ID3D11Buffer> matrixBuffer;
@@ -167,11 +172,11 @@ void Graphics::DrawTriangle(float angle)
 	mbd.Usage = D3D11_USAGE_DYNAMIC; 
 	mbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	mbd.MiscFlags = 0u;
-	mbd.ByteWidth = sizeof(matrixData);
+	mbd.ByteWidth = sizeof(cb);
 	mbd.StructureByteStride = 0u;
 
 	D3D11_SUBRESOURCE_DATA msd = {};
-	msd.pSysMem = &matrixData;
+	msd.pSysMem = &cb;
 	GFX_THROW_INFO(device->CreateBuffer(&mbd, &msd, &matrixBuffer));
 	context->VSSetConstantBuffers(0u, 1u, matrixBuffer.GetAddressOf());
 

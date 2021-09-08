@@ -84,9 +84,6 @@
     <ClCompile Include="Vector.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="ArithmeticException.cpp">
       <Filter>Source Files\Utilities\Exception</Filter>
     </ClCompile>
@@ -132,9 +129,6 @@
       <Filter>Header Files\Utilities\Exception</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="ArithmeticException.h">
