@@ -40,6 +40,21 @@
     <Filter Include="Source Files\Utilities\Exception">
       <UniqueIdentifier>{c8b04d9f-c503-4670-86c6-f88f54ec441e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utilities\Exception\Macros">
+      <UniqueIdentifier>{7932b3ee-6c40-489c-b3a2-31d9f4161d5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Bindable">
+      <UniqueIdentifier>{cc1ca9e9-a6cd-4d13-b430-6e1f496fdd0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Drawable">
+      <UniqueIdentifier>{9888ea48-6994-4dcd-b7ec-4948f42008eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Bindable">
+      <UniqueIdentifier>{7e6da612-5a53-4844-add5-3273c1d82288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Drawable">
+      <UniqueIdentifier>{316eca02-99d9-4830-bbe5-efcd6cc0cf6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -133,6 +148,12 @@
     </ClInclude>
     <ClInclude Include="ArithmeticException.h">
       <Filter>Header Files\Utilities\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsMacros.h">
+      <Filter>Header Files\Utilities\Exception\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowMacros.h">
+      <Filter>Header Files\Utilities\Exception\Macros</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -188,6 +188,7 @@
     <ClInclude Include="DXGIInfoManager.h" />
     <ClInclude Include="EngineException.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="GraphicsMacros.h" />
     <ClInclude Include="HRException.h" />
     <ClInclude Include="IllegalStateException.h" />
     <ClInclude Include="InfoException.h" />
@@ -197,6 +198,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="WindowMacros.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">

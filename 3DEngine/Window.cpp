@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "IllegalStateException.h"
+#include "WindowMacros.h"
 
 Window::WindowClass Window::WindowClass::singleton;
 

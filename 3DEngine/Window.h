@@ -5,7 +5,6 @@
 #include "Mouse.h"
 #include <sstream>
 #include <optional>
-
 #include "Graphics.h"
 
 class Window 
@@ -60,7 +59,3 @@ public:
 	Mouse mouse;
 	
 };
-
-// Exception location macro
-#define EXCEPTION(result) HRException(__LINE__, __FILE__, result)
-#define LAST_EXCEPTION() HRException(__LINE__, __FILE__, GetLastError())

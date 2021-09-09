@@ -3,27 +3,11 @@
 #include <sstream>
 #include <d3dcompiler.h>
 #include "DirectXMath.h"
-
 #include "Window.h"
+#include "GraphicsMacros.h"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "D3DCompiler.lib")
-
-// graphics exception checking/throwing macros (some with dxgi infos)
-#define GFX_EXCEPT_NOINFO(hr) HRException(__LINE__, __FILE__, (hr))
-#define GFX_THROW_NOINFO(hrcall) if (HRESULT hr; FAILED(hr = (hrcall))) throw HRException(__LINE__, __FILE__, hr)
-
-#ifndef NDEBUG
-#define GFX_EXCEPT(hr) HRException(__LINE__, __FILE__, (hr), infoManager.GetMessages())
-#define GFX_THROW_INFO(hrcall) infoManager.Set(); if( FAILED( hr = (hrcall) ) ) throw GFX_EXCEPT(hr)
-#define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException( __LINE__,__FILE__,(hr),infoManager.GetMessages() )
-#define GFX_THROW_INFO_ONLY(call) infoManager.Set(); (call); {auto v = infoManager.GetMessages(); if(!v.empty()) {throw InfoException( __LINE__,__FILE__,v);}}
-#else
-#define GFX_EXCEPT(hr) HRException(__LINE__, __FILE__, (hr))
-#define GFX_THROW_INFO(hrcall) GFX_THROW_NOINFO(hrcall)
-#define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException(__LINE__, __FILE__, (hr))
-#define GFX_THROW_INFO_ONLY(call) (call)
-#endif
 
 Graphics::Graphics(HWND window)
 {
@@ -137,19 +121,19 @@ void Graphics::DrawTriangle(float angle, float x, float y)
 	};
 
 	ComPtr<ID3D11Buffer> vertexBuffer;
-	D3D11_BUFFER_DESC bd = {};
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.CPUAccessFlags = 0u;
-	bd.MiscFlags = 0u;
-	bd.ByteWidth = sizeof(vertices);
-	bd.StructureByteStride = sizeof(Vertex);
+	D3D11_BUFFER_DESC vertexDesc = {};
+	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vertexDesc.Usage = D3D11_USAGE_DEFAULT;
+	vertexDesc.CPUAccessFlags = 0u;
+	vertexDesc.MiscFlags = 0u;
+	vertexDesc.ByteWidth = sizeof(vertices);
+	vertexDesc.StructureByteStride = sizeof(Vertex);
 
-	D3D11_SUBRESOURCE_DATA sd = {};
-	sd.pSysMem = vertices;
+	D3D11_SUBRESOURCE_DATA vertexData = {};
+	vertexData.pSysMem = vertices;
 
 	// Create the vertex buffer
-	GFX_THROW_INFO(device->CreateBuffer(&bd, &sd, &vertexBuffer));
+	GFX_THROW_INFO(device->CreateBuffer(&vertexDesc, &vertexData, &vertexBuffer));
 
 	// Bind the vertex buffer data to the pipeline
 	const UINT stride = sizeof(Vertex);
@@ -167,18 +151,18 @@ void Graphics::DrawTriangle(float angle, float x, float y)
 		0,1,4, 1,5,4,
 	};
 	ComPtr<ID3D11Buffer> indexBuffer;
-	D3D11_BUFFER_DESC ibd = {};
-	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	ibd.Usage = D3D11_USAGE_DEFAULT;
-	ibd.CPUAccessFlags = 0u;
-	ibd.MiscFlags = 0u;
-	ibd.ByteWidth = sizeof(indices);
-	ibd.StructureByteStride = sizeof(unsigned short);
+	D3D11_BUFFER_DESC indexDesc = {};
+	indexDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	indexDesc.Usage = D3D11_USAGE_DEFAULT;
+	indexDesc.CPUAccessFlags = 0u;
+	indexDesc.MiscFlags = 0u;
+	indexDesc.ByteWidth = sizeof(indices);
+	indexDesc.StructureByteStride = sizeof(unsigned short);
 
-	D3D11_SUBRESOURCE_DATA isd = {};
-	isd.pSysMem = indices;
+	D3D11_SUBRESOURCE_DATA indexData = {};
+	indexData.pSysMem = indices;
 
-	device->CreateBuffer(&ibd, &isd, &indexBuffer);
+	device->CreateBuffer(&indexDesc, &indexData, &indexBuffer);
 	context->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
 
 	// Transformation Matrix
@@ -187,7 +171,7 @@ void Graphics::DrawTriangle(float angle, float x, float y)
 		DirectX::XMMATRIX transform;
 	};
 
-	const ConstantBuffer cb = 
+	const ConstantBuffer matrix = 
 	{
 		{
 			DirectX::XMMatrixTranspose(
@@ -207,11 +191,11 @@ void Graphics::DrawTriangle(float angle, float x, float y)
 	matrixDesc.Usage = D3D11_USAGE_DYNAMIC; 
 	matrixDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	matrixDesc.MiscFlags = 0u;
-	matrixDesc.ByteWidth = sizeof(cb);
+	matrixDesc.ByteWidth = sizeof(matrix);
 	matrixDesc.StructureByteStride = 0u;
 
 	D3D11_SUBRESOURCE_DATA matrixData = {};
-	matrixData.pSysMem = &cb;
+	matrixData.pSysMem = &matrix;
 	GFX_THROW_INFO(device->CreateBuffer(&matrixDesc, &matrixData, &matrixBuffer));
 	context->VSSetConstantBuffers(0u, 1u, matrixBuffer.GetAddressOf());
 
@@ -247,7 +231,7 @@ void Graphics::DrawTriangle(float angle, float x, float y)
 	context->PSSetConstantBuffers(0u, 1u, faceColorBuffer.GetAddressOf());
 
 
-	GFX_THROW_INFO(device->CreateBuffer(&ibd, &isd, &indexBuffer));
+	GFX_THROW_INFO(device->CreateBuffer(&indexDesc, &indexData, &indexBuffer));
 	context->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
 
 	// Pixel shader
