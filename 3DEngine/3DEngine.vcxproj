@@ -184,6 +184,9 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="ArithmeticException.h" />
+    <ClInclude Include="Bindable.h" />
+    <ClInclude Include="BindableBase.h" />
+    <ClInclude Include="ConstantBuffers.h" />
     <ClInclude Include="dxerr.h" />
     <ClInclude Include="DXGIInfoManager.h" />
     <ClInclude Include="EngineException.h" />
@@ -191,12 +194,16 @@
     <ClInclude Include="GraphicsMacros.h" />
     <ClInclude Include="HRException.h" />
     <ClInclude Include="IllegalStateException.h" />
+    <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InfoException.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="ModifiedWindows.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowMacros.h" />
   </ItemGroup>

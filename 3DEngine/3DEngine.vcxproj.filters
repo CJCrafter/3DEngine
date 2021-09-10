@@ -155,6 +155,27 @@
     <ClInclude Include="WindowMacros.h">
       <Filter>Header Files\Utilities\Exception\Macros</Filter>
     </ClInclude>
+    <ClInclude Include="Bindable.h">
+      <Filter>Header Files\Graphics\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="BindableBase.h">
+      <Filter>Header Files\Graphics\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffers.h">
+      <Filter>Header Files\Graphics\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>Header Files\Graphics\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Header Files\Graphics\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelShader.h">
+      <Filter>Header Files\Graphics\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>Header Files\Graphics\Bindable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
