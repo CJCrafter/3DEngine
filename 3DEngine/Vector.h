@@ -6,19 +6,74 @@ struct Vector
 {
 	T data[n];
 
-	Vector();
-	explicit Vector(T value);
-	Vector(T data[n]);
+	Vector(){}
+	explicit Vector(T value)
+	{
+		Fill(value);
+	}
+	Vector(T data[n])
+		:
+		data(data) {}
+
+	void Fill(T value)
+	{
+		for (int i = 0; i < n; i++)
+			data[i] = value;
+	}
 
 	// Arithmetic Operators
-	Vector<n, T> operator+(const Vector<n, T>& other) const;
-	Vector<n, T> operator-(const Vector<n, T>& other) const;
-	Vector<n, T> operator*(const Vector<n, T>& other) const;
-	Vector<n, T> operator/(const Vector<n, T>& other) const;
-	Vector<n, T>& operator+=(const Vector<n, T>& other);
-	Vector<n, T>& operator-=(const Vector<n, T>& other);
-	Vector<n, T>& operator*=(const Vector<n, T>& other);
-	Vector<n, T>& operator/=(const Vector<n, T>& other);
+	Vector<n, T> operator+(const Vector<n, T>& other) const
+	{
+		Vector<n, T> temp(this);
+		temp += other;
+		return temp;
+	}
+	Vector<n, T> operator-(const Vector<n, T>& other) const
+	{
+		Vector<n, T> temp(this);
+		temp -= other;
+		return temp;
+	}
+	Vector<n, T> operator*(const Vector<n, T>& other) const
+	{
+		Vector<n, T> temp(this);
+		temp *= other;
+		return temp;
+	}
+	Vector<n, T> operator/(const Vector<n, T>& other) const
+	{
+		Vector<n, T> temp(this);
+		temp /= other;
+		return temp;
+	}
+	Vector<n, T>& operator+=(const Vector<n, T>& other)
+	{
+		for (int i = 0; i < n; i++)
+			data[i] += other.data[i];
+
+		return &this;
+	}
+	Vector<n, T>& operator-=(const Vector<n, T>& other)
+	{
+		for (int i = 0; i < n; i++)
+			data[i] -= other.data[i];
+
+		return &this;
+	}
+	Vector<n, T>& operator*=(const Vector<n, T>& other)
+	{
+		for (int i = 0; i < n; i++)
+			data[i] *= other.data[i];
+
+		return &this;
+	}
+	Vector<n, T>& operator/=(const Vector<n, T>& other)
+	{
+		for (int i = 0; i < n; i++)
+			data[i] /= other.data[i];
+
+		return &this;
+	}
 
 	// Never makes sense to add a scalar to a vector
 	Vector<n, T> operator+(T) = delete;
@@ -27,32 +82,131 @@ struct Vector
 	Vector<n, T>& operator-=(T) = delete;
 
 	// Scalar Arithmetic Operators
-	Vector<n, T> operator*(T scalar) const;
-	Vector<n, T> operator/(T scalar) const;
-	Vector<n, T>& operator*=(T scalar);
-	Vector<n, T>& operator/=(T scalar);
+	Vector<n, T> operator*(T scalar) const
+	{
+		Vector<n, T> temp(this);
+		temp *= scalar;
+		return temp;
+	}
+	Vector<n, T> operator/(T scalar) const
+	{
+		Vector<n, T> temp(this);
+		temp /= scalar;
+		return temp;
+	}
+	Vector<n, T>& operator*=(T scalar)
+	{
+		for (int i = 0; i < n; i++)
+			data[i] *= scalar;
+
+		return &this;
+	}
+	Vector<n, T>& operator/=(T scalar)
+	{
+		for (int i = 0; i < n; i++)
+			data[i] /= scalar;
+
+		return &this;
+	}
 
 	// Inverse Operator
-	Vector<n, T> operator-() const;
+	Vector<n, T> operator-() const
+	{
+		Vector<n, T> temp(this);
+		for (int i = 0; i < n; i++)
+			temp[i] = -temp[i];
+
+		return temp;
+	}
 
 	// Accessor by index. When using a 2d, 3d, or 4d vector, use the constants x, y, z, w
-	T operator[](int index) const;
-	T& operator[](int index);
+	T operator[](int index) const
+	{
+		if (index < 0 || index >= n)
+		{
+			throw EngineException(__LINE__, __FILE__, "IndexOutOfBounds", "For index: " + index);
+		}
+
+		return data[index];
+	}
+	T& operator[](int index)
+	{
+		if (index < 0 || index >= n)
+		{
+			throw EngineException(__LINE__, __FILE__, "IndexOutOfBounds", "For index: " + index);
+		}
+
+		return data[index];
+	}
 
 	// Equality Operators
-	bool operator==(const Vector<n, T>& other) const;
-	bool operator!=(const Vector<n, T>& other) const;
+	bool operator==(const Vector<n, T>& other) const
+	{
+		return std::tie(data) == std::tie(other);
+	}
+	bool operator!=(const Vector<n, T>& other) const
+	{
+		return !(this == other);
+	}
 
-	bool IsEmpty() const;
+	[[nodiscard]] bool IsEmpty() const
+	{
+		T zero = T(0);
+
+		for (int i = 0; i < n; i++)
+		{
+			if (data[i] != zero)
+				return false;
+		}
+		return true;
+	}
 	
 	// Magnitude Methods
-	T Magnitude() const;
-	Vector<n, T>& Normalize();
-	Vector<n, T> GetNormalized() const;
-	Vector<n, T>& Midpoint();
-	Vector<n, T> GetMidpoint() const;
-	Vector<n, T>& Clear();
-	Vector<n, T>& SetMagnitude(T magnitude);
+	[[nodiscard]] T Magnitude() const
+	{
+		T total = T(0);
+		for (int i = 0; i < n; i++)
+			total += data[i] * data[i];
+
+		return sqrt(total);
+	}
+	Vector<n, T>& Normalize()
+	{
+		T magnitude = Magnitude();
+		for (int i = 0; i < n; i++)
+			data[i] /= magnitude;
+
+		return &this;
+	}
+	[[nodiscard]] Vector<n, T> GetNormalized() const
+	{
+		return Vector(this).Normalize();
+	}
+	Vector<n, T>& Midpoint()
+	{
+		this /= T(2);
+		return &this;
+	}
+	[[nodiscard]] Vector<n, T> GetMidpoint() const
+	{
+		Vector<n, T> temp(this);
+		return temp.Midpoint();
+	}
+	Vector<n, T>& Clear()
+	{
+		for (int i = 0; i < n; i++)
+			data[i] = 0;
+
+		return &this;
+	}
+	Vector<n, T>& SetMagnitude(T magnitude)
+	{
+		T scalar = magnitude / Magnitude();
+		for (int i = 0; i < n; i++)
+			data[i] *= scalar;
+
+		return &this;
+	}
 	
 	// Rotation/Reflection Methods
 	Vector<n, T>& Rotate(const Vector<n, T>& axis, T theta);
@@ -60,33 +214,74 @@ struct Vector
 };
 
 template <int n, typename T>
-T Dot(const Vector<n, T>& left, const Vector<n, T>& right);
+T Dot(const Vector<n, T>& left, const Vector<n, T>& right)
+{
+	T total = T(0);
+	for (int i = 0; i < n; i++)
+		total += left[i] * right[i];
+
+	return total;
+}
 
 // We cannot use a template number here, we need floating points
 template <int n, typename T>
-double Angle(const Vector<n, T>& left, const Vector<n, T>& right);
+[[nodiscard]] double Angle(const Vector<n, T>& left, const Vector<n, T>& right)
+{
+	const double total = Dot(left, right) / (left.Magnitude() * right.Magnitude());
+	return std::acos(total);
+}
 
 // Invalid in the sense that you cannot take the cross-product of a 2 vector,
 // but valid in the sense that this method will return a perpendicular vector
 template <typename T>
-Vector<2, T> Cross(const Vector<2, T>& vector);
+[[nodiscard]] Vector<2, T> Cross(const Vector<2, T>& vector)
+{
+	return Vector<2, T>(vector.y, -vector.x);
+}
 
 template <typename T>
-Vector<3, T> Cross(const Vector<3, T>& left, const Vector<3, T>& right);
-
-template <int n, typename T>
-Vector<n, T> Cross(const Vector<n, T>* vectors[n - 1]);
+[[nodiscard]] Vector<3, T> Cross(const Vector<3, T>& left, const Vector<3, T>& right)
+{
+	return Vector<3, T>();
+}
 
 // Pairwise Min/Max
 template <int n, typename T>
-Vector<n, T> Min(const Vector<n, T>& left, const Vector<n, T>& right);
+[[nodiscard]] Vector<n, T> Min(const Vector<n, T>& left, const Vector<n, T>& right)
+{
+	Vector<n, T> temp;
+	for (int i = 0; i < n; i++)
+	{
+		temp[i] = std::min(left[i], right[i]);
+	}
+	return temp;
+}
 
 template <int n, typename T>
-Vector<n, T> Max(const Vector<n, T>& left, const Vector<n, T>& right);
+[[nodiscard]] Vector<n, T> Max(const Vector<n, T>& left, const Vector<n, T>& right)
+{
+	Vector<n, T> temp;
+	for (int i = 0; i < n; i++)
+	{
+		temp[i] = std::max(left[i], right[i]);
+	}
+	return temp;
+}
 
 // Writing a vector to a string stream
 template <int n, typename T>
-std::ostringstream& operator<<(std::ostringstream& stream, const Vector<n, T>& right);
+std::ostringstream& operator<<(std::ostringstream& stream, const Vector<n, T>& right)
+{
+	stream << "(";
+	for (int i = 0; i < n; i++)
+	{
+		if (i != 0) stream << ",";
+
+		stream << right[i];
+	}
+	stream << ")";
+	return stream;
+}
 
 // Default vector definitions
 typedef Vector<2, int>    Vec2i;

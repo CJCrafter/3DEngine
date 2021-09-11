@@ -1,5 +1,7 @@
 #include "Application.h"
 
+#include "Vector.h"
+
 Application::Application()
 	:
 	window(800, 800, "Testing testing 123"),
@@ -8,6 +10,12 @@ Application::Application()
 
 int Application::Start()
 {
+	if (true)
+	{
+		Vec2i vector(3, 4);
+	}
+
+
 	while (true)
 	{
 		if (const auto code = Window::ProcessMessages())

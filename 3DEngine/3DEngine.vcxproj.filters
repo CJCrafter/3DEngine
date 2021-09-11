@@ -96,9 +96,6 @@
     <ClCompile Include="InfoException.cpp">
       <Filter>Source Files\Utilities\Exception</Filter>
     </ClCompile>
-    <ClCompile Include="Vector.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="ArithmeticException.cpp">
       <Filter>Source Files\Utilities\Exception</Filter>
     </ClCompile>
