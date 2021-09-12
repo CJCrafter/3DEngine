@@ -6,15 +6,6 @@ struct Vector
 {
 	T data[n];
 
-	Vector(){}
-	explicit Vector(T value)
-	{
-		Fill(value);
-	}
-	Vector(T data[n])
-		:
-		data(data) {}
-
 	void Fill(T value)
 	{
 		for (int i = 0; i < n; i++)
@@ -213,8 +204,8 @@ struct Vector
 	Vector<n, T>& Reflect(const Vector<n, T>& normal); // The normal vector should be normalized
 };
 
-template <int n, typename T>
-T Dot(const Vector<n, T>& left, const Vector<n, T>& right)
+template <int n, typename T> 
+T Dot(Vector<n, T> left, Vector<n, T> right)
 {
 	T total = T(0);
 	for (int i = 0; i < n; i++)
@@ -224,8 +215,8 @@ T Dot(const Vector<n, T>& left, const Vector<n, T>& right)
 }
 
 // We cannot use a template number here, we need floating points
-template <int n, typename T>
-[[nodiscard]] double Angle(const Vector<n, T>& left, const Vector<n, T>& right)
+template <int n, typename T> [[nodiscard]]
+double Angle(const Vector<n, T>& left, const Vector<n, T>& right)
 {
 	const double total = Dot(left, right) / (left.Magnitude() * right.Magnitude());
 	return std::acos(total);
@@ -233,21 +224,21 @@ template <int n, typename T>
 
 // Invalid in the sense that you cannot take the cross-product of a 2 vector,
 // but valid in the sense that this method will return a perpendicular vector
-template <typename T>
-[[nodiscard]] Vector<2, T> Cross(const Vector<2, T>& vector)
+template <typename T> [[nodiscard]]
+Vector<2, T> Cross(const Vector<2, T>& vector)
 {
 	return Vector<2, T>(vector.y, -vector.x);
 }
 
-template <typename T>
-[[nodiscard]] Vector<3, T> Cross(const Vector<3, T>& left, const Vector<3, T>& right)
+template <typename T> [[nodiscard]]
+Vector<3, T> Cross(const Vector<3, T>& left, const Vector<3, T>& right)
 {
 	return Vector<3, T>();
 }
 
 // Pairwise Min/Max
-template <int n, typename T>
-[[nodiscard]] Vector<n, T> Min(const Vector<n, T>& left, const Vector<n, T>& right)
+template <int n, typename T> [[nodiscard]]
+Vector<n, T> Min(const Vector<n, T>& left, const Vector<n, T>& right)
 {
 	Vector<n, T> temp;
 	for (int i = 0; i < n; i++)
@@ -257,8 +248,8 @@ template <int n, typename T>
 	return temp;
 }
 
-template <int n, typename T>
-[[nodiscard]] Vector<n, T> Max(const Vector<n, T>& left, const Vector<n, T>& right)
+template <int n, typename T> [[nodiscard]]
+Vector<n, T> Max(const Vector<n, T>& left, const Vector<n, T>& right)
 {
 	Vector<n, T> temp;
 	for (int i = 0; i < n; i++)
@@ -275,8 +266,9 @@ std::ostringstream& operator<<(std::ostringstream& stream, const Vector<n, T>& r
 	stream << "(";
 	for (int i = 0; i < n; i++)
 	{
-		if (i != 0) stream << ",";
+		if (i != 0) stream << ", ";
 
+		T element = right[i];
 		stream << right[i];
 	}
 	stream << ")";

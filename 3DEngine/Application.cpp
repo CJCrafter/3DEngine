@@ -12,7 +12,10 @@ int Application::Start()
 {
 	if (true)
 	{
-		Vec2i vector(3, 4);
+		Vec3f vector{ 3.0f, 4.0f, 5.0f };
+		return Dot(vector, vector);
+
+		//MessageBox(nullptr, stream.str().c_str(), "Test", MB_OK | MB_ICONEXCLAMATION);
 	}
 
 
