@@ -173,6 +173,12 @@
     <ClInclude Include="IndexBuffer.h">
       <Filter>Header Files\Graphics\Bindable</Filter>
     </ClInclude>
+    <ClInclude Include="Vec3.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
