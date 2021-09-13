@@ -33,7 +33,8 @@ struct Vec3
 
 	Vec3(Vec3&& other) noexcept
 		: x(std::move(other.x)),
-		  y(std::move(other.y))
+		  y(std::move(other.y)),
+		  z(std::move(other.z))
 	{
 	}
 
@@ -59,7 +60,6 @@ struct Vec3
 
 	~Vec3<T>()
 	{
-		delete[] data;
 	}
 
 	// Vector Arithmetic Operators
@@ -93,13 +93,13 @@ struct Vec3
 	// Scalar Arithmetic Operators
 	template<class E> Vec3<T> operator*(E scalar) const
 	{
-		Vec3<T> temp(this);
+		Vec3<T> temp(*this);
 		temp *= scalar;
 		return temp;
 	}
 	template<class E> Vec3<T> operator/(E scalar) const
 	{
-		Vec3<T> temp(this);
+		Vec3<T> temp(*this);
 		temp /= scalar;
 		return temp;
 	}
@@ -191,7 +191,7 @@ struct Vec3
 	}
 	Vec3<T>& Midpoint()
 	{
-		*this /= T(3);
+		*this /= T(2);
 		return *this;
 	}
 	Vec3<T> GetMidpoint() const
@@ -260,7 +260,7 @@ struct Vec3
 		// axis should be normalized already!
 		float cos = std::cos(angle);
 		float sin = std::sin(angle);
-		float dot = Dot(this, axis);
+		float dot = Dot(*this, axis);
 
 		T i = axis.x * dot * (1.0f - cos) + x * cos + (-axis.z * y + axis.y * z) * sin;
 		T j = axis.y * dot * (1.0f - cos) + y * cos + ( axis.z * x - axis.x * z) * sin;
@@ -318,7 +318,7 @@ Vec3<T> Max(const Vec3<T>& left, const Vec3<T>& right)
 
 // Writing a vector to a string stream
 template <typename T>
-std::ostringstream& operator<<(std::ostringstream& stream, const Vec3<T>& vector)
+std::ostream& operator<<(std::ostream& stream, const Vec3<T>& vector)
 {
 	stream << "Vec3(" << vector.x << ", " << vector.y << ", " << vector.z << ")";
 	return stream;

@@ -140,9 +140,6 @@
     <ClInclude Include="InfoException.h">
       <Filter>Header Files\Utilities\Exception</Filter>
     </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="ArithmeticException.h">
       <Filter>Header Files\Utilities\Exception</Filter>
     </ClInclude>

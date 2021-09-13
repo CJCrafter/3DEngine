@@ -1,6 +1,6 @@
 #include "Application.h"
 
-#include "Vector.h"
+#include "Vec3.h"
 
 Application::Application()
 	:
@@ -10,12 +10,19 @@ Application::Application()
 
 int Application::Start()
 {
-	if (true)
+	if (false)
 	{
-		Vec3f vector{ 3.0f, 4.0f, 5.0f };
-		return Dot(vector, vector);
+		std::ostringstream stream;
+		Vec3f vector1(3.0f, 4.0f, 5.0f);
+		Vec3f vector2(vector1);
 
-		//MessageBox(nullptr, stream.str().c_str(), "Test", MB_OK | MB_ICONEXCLAMATION);
+		stream << "Vector 1: " << vector1 << std::endl
+			<< "Vector 1: " << (vector1 *= 2.0f) << std::endl
+			<< "Vector 2: " << vector2 << std::endl
+			<< "Add     : " << (vector1 + vector2) << std::endl
+			<< "Rotate  : " << (Vec3(5, 0, 0).RotateY(3.1415 / 2));
+
+		MessageBox(nullptr, stream.str().c_str(), "Test", MB_OK | MB_ICONEXCLAMATION);
 	}
 
 

@@ -230,9 +230,11 @@ Vec2<T> Max(const Vec2<T>& left, const Vec2<T>& right)
 	return Vec2<T>(std::max(left.x, right.x), std::max(left.y, right.y));
 }
 
+
+
 // Writing a vector to a string stream
 template <typename T>
-std::ostringstream& operator<<(std::ostringstream& stream, const Vec2<T>& vector)
+std::stringstream& operator<<(std::stringstream& stream, const Vec2<T>& vector)
 {
 	stream << "Vec2(" << vector.x << ", " << vector.y << ")";
 	return stream;
