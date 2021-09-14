@@ -4,7 +4,6 @@
 #include <d3dcompiler.h>
 #include "DirectXMath.h"
 #include "Window.h"
-#include "GraphicsMacros.h"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "D3DCompiler.lib")

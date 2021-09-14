@@ -5,6 +5,7 @@
 
 #include "HRException.h"
 #include "DXGIInfoManager.h"
+#include "GraphicsMacros.h"
 
 using namespace Microsoft::WRL;  
 

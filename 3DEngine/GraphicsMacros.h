@@ -15,3 +15,12 @@
 #define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException(__LINE__, __FILE__, (hr))
 #define GFX_THROW_INFO_ONLY(call) (call)
 #endif
+
+// Info manager
+#ifdef NDEBUG
+#define INFOMAN() HRESULT hr
+#define INFOMAN(gfx) HRESULT hr
+#else
+#define GET_INFO_MANAGER() HRESULT hr; DxgiInfoManager& infoManager = GetInfoManager()
+#define GET_INFO_MANAGER(gfx) HRESULT hr; DxgiInfoManager& infoManager = GetInfoManager((gfx))
+#endif
