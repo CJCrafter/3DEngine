@@ -8,18 +8,20 @@
 Application::Application()
 	:
 	window(800, 800, "Testing testing 123"),
-	timer(0.05f)
+	timer(0.005f)
 {
 	std::mt19937 rand(std::random_device{}());
-	std::uniform_real_distribution<float> a(0.0f, 3.1415 * 2.0f);
-	std::uniform_real_distribution<float> b(0.0f, 3.1415 * 2.0f);
-	std::uniform_real_distribution<float> c(0.0f, 3.1415 * 0.3f);
+	std::uniform_real_distribution<float> a(0.0f, 3.1415f * 2.0f);
+	std::uniform_real_distribution<float> b(0.0f, 3.1415f * 2.0f);
+	std::uniform_real_distribution<float> c(0.0f, 3.1415f * 0.3f);
 	std::uniform_real_distribution<float> d(6.0f, 20.0f);
+	std::uniform_real_distribution<float> e(0.25f, 2.0f);
+	std::uniform_real_distribution<float> f(0.0f, 1.0f);
 
-	for (int i = 0; i < 80; i++)
+	for (int i = 0; i < 200; i++)
 	{
 		cubes.push_back(std::make_unique<Cube>(
-			window.GFX(), rand, a, b, c, d
+			window.GFX(), rand, a, b, c, d, e, f
 		));
 	}
 	window.GFX().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 40.0f));

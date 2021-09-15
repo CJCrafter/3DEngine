@@ -4,85 +4,98 @@
 #include "EngineException.h"
 
 template<class T>
-struct Vec3
+struct Vec4
 {
 	union
 	{
-		T data[3]; struct { T x, y, z; };
+		T data[4];
+		struct { T x, y, z, w; };
+		struct { T r, g, b, a; };
 	};
 
-	Vec3()
-		: x(0),
-		  y(0),
-		  z(0)
-	{
-	}
-	Vec3(T x, T y, T z)
-		: x(x),
-		  y(y),
-		  z(z)
+	Vec4()
+		:
+		x(0),
+		y(0),
+		z(0),
+		w(0)
 	{
 	}
 
-	Vec3(const Vec3& other)
-		: x(other.x),
-		  y(other.y),
-		  z(other.z)
+	Vec4(T x, T y, T z, T w)
+		:
+		x(x),
+		y(y),
+		z(z),
+		w(w)
 	{
 	}
 
-	Vec3(Vec3&& other) noexcept
-		: x(std::move(other.x)),
-		  y(std::move(other.y)),
-		  z(std::move(other.z))
+	Vec4(const Vec4& other)
+		:
+		x(other.x),
+		y(other.y),
+		z(other.z),
+		w(other.w)
 	{
 	}
 
-	Vec3<T>& operator=(const Vec3<T>& other)
+	Vec4(Vec4&& other) noexcept
+		:
+		x(std::move(other.x)),
+		y(std::move(other.y)),
+		z(std::move(other.z)),
+		w(std::move(other.w))
+	{
+	}
+
+	Vec4<T>& operator=(const Vec4<T>& other)
 	{
 		if (this == &other)
 			return *this;
 		x = other.x;
 		y = other.y;
 		z = other.z;
+		w = other.w;
 		return *this;
 	}
 
-	Vec3<T>& operator=(Vec3<T>&& other) noexcept
+	Vec4<T>& operator=(Vec4<T>&& other) noexcept
 	{
 		if (this == &other)
 			return *this;
 		x = std::move(other.x);
 		y = std::move(other.y);
 		z = std::move(other.z);
+		w
 		return *this;
 	}
 
-	~Vec3<T>()
+	~Vec4<T>()
 	{
 	}
 
 	// Vector Arithmetic Operators
-	Vec3<T> operator+(const Vec3<T>& other) const
+	Vec4<T> operator+(const Vec4<T>& other) const
 	{
-		Vec3<T> temp(*this);
+		Vec4<T> temp(*this);
 		temp += other;
 		return temp;
 	}
-	Vec3<T> operator-(const Vec3<T>& other) const
+	Vec4<T> operator-(const Vec4<T>& other) const
 	{
-		Vec3<T> temp(*this);
+		Vec4<T> temp(*this);
 		temp -= other;
 		return temp;
 	}
-	Vec3<T>& operator+=(const Vec3<T>& other)
+	Vec4<T>& operator+=(const Vec4<T>& other)
 	{
 		x += other.x;
 		y += other.y;
 		z += other.z;
 		return *this;
 	}
-	Vec3<T>& operator-=(const Vec3<T>& other)
+	Vec4<T>& operator-=(const Vec4<T>& other)
 	{
 		x -= other.x;
 		y -= other.y;
@@ -91,14 +104,14 @@ struct Vec3
 	}
 
 	// No need to override * and / operators, we have a templated function for it
-	Vec3<T>& operator*=(const Vec3<T>& other)
+	Vec4<T>& operator*=(const Vec4<T>& other)
 	{
 		x *= other.x;
 		y *= other.y;
 		z *= other.z;
 		return *this;
 	}
-	Vec3<T>& operator/=(const Vec3<T>& other)
+	Vec4<T>& operator/=(const Vec4<T>& other)
 	{
 		x /= other.x;
 		y /= other.y;
@@ -107,26 +120,26 @@ struct Vec3
 	}
 
 	// Scalar Arithmetic Operators
-	template<class E> Vec3<T> operator*(E scalar) const
+	template<class E> Vec4<T> operator*(E scalar) const
 	{
-		Vec3<T> temp(*this);
+		Vec4<T> temp(*this);
 		temp *= scalar;
 		return temp;
 	}
-	template<class E> Vec3<T> operator/(E scalar) const
+	template<class E> Vec4<T> operator/(E scalar) const
 	{
-		Vec3<T> temp(*this);
+		Vec4<T> temp(*this);
 		temp /= scalar;
 		return temp;
 	}
-	template<class E> Vec3<T> operator*=(E scalar)
+	template<class E> Vec4<T> operator*=(E scalar)
 	{
 		x *= scalar;
 		y *= scalar;
 		z *= scalar;
 		return *this;
 	}
-	template<class E> Vec3<T> operator/=(E scalar)
+	template<class E> Vec4<T> operator/=(E scalar)
 	{
 		x /= scalar;
 		y /= scalar;
@@ -135,9 +148,9 @@ struct Vec3
 	}
 
 	// Inverse
-	Vec3<T> operator-() const
+	Vec4<T> operator-() const
 	{
-		Vec3 temp(*this);
+		Vec4 temp(*this);
 		temp.x = -temp.x;
 		temp.y = -temp.y;
 		temp.z = -temp.z;
@@ -151,7 +164,7 @@ struct Vec3
 	}
 	T& operator[](int index)
 	{
-		if (index < 0 || index >= 3)
+		if (index < 0 || index >= 4)
 		{
 			throw EngineException(__LINE__, __FILE__, "IndexOutOfBounds", "For index: " + index);
 		}
@@ -159,17 +172,17 @@ struct Vec3
 	}
 
 	// Relational Operators
-	bool operator==(const Vec3<T>& other)
+	bool operator==(const Vec4<T>& other)
 	{
 		return x == other.x && y == other.y;
 	}
-	bool operator!=(const Vec3<T>& other)
+	bool operator!=(const Vec4<T>& other)
 	{
 		return x != other.x || y != other.y || z != other.z;
 	}
 
 	// Helper methods (to avoid instantiating new vectors)
-	Vec3<T>& Add(T dx, T dy, T dz)
+	Vec4<T>& Add(T dx, T dy, T dz)
 	{
 		x += dx;
 		y += dy;
@@ -177,7 +190,7 @@ struct Vec3
 
 		return *this;
 	}
-	Vec3<T>& Subtract(T dx, T dy, T dz)
+	Vec4<T>& Subtract(T dx, T dy, T dz)
 	{
 		x -= dx;
 		y -= dy;
@@ -196,46 +209,46 @@ struct Vec3
 	{
 		return std::sqrt(x * x + y * y + z * z);
 	}
-	Vec3<T>& Normalize()
+	Vec4<T>& Normalize()
 	{
 		*this /= Magnitude();
 		return *this;
 	}
-	Vec3<T> GetNormalized() const
+	Vec4<T> GetNormalized() const
 	{
-		return Vec3(*this).Normalize();
+		return Vec4(*this).Normalize();
 	}
-	Vec3<T>& Midpoint()
+	Vec4<T>& Midpoint()
 	{
 		*this /= T(2);
 		return *this;
 	}
-	Vec3<T> GetMidpoint() const
+	Vec4<T> GetMidpoint() const
 	{
-		return Vec3(*this).Midpoint();
+		return Vec4(*this).Midpoint();
 	}
-	Vec3<T>& Clear()
+	Vec4<T>& Clear()
 	{
 		x = 0;
 		y = 0;
 		z = 0;
 		return *this;
 	}
-	Vec3<T>& SetMagnitude(T magnitude)
+	Vec4<T>& SetMagnitude(T magnitude)
 	{
 		*this *= magnitude / Magnitude();
 		return *this;
 	}
 
 	// Rotation functions
-	Vec3<T>& Reflect(const Vec3<T>& normal)
+	Vec4<T>& Reflect(const Vec4<T>& normal)
 	{
 		// normal should be normalized already
 		float factor = 2.0f * Dot(*this, normal);
 		this->Subtract(normal.x * factor, normal.y * factor, normal.z * factor);
 		return *this;
 	}
-	Vec3<T>& RotateX(const float angle)
+	Vec4<T>& RotateX(const float angle)
 	{
 		float cos = std::cos(angle);
 		float sin = std::sin(angle);
@@ -247,7 +260,7 @@ struct Vec3
 		z = k;
 		return *this;
 	}
-	Vec3<T>& RotateY(const float angle)
+	Vec4<T>& RotateY(const float angle)
 	{
 		float cos = std::cos(angle);
 		float sin = std::sin(angle);
@@ -259,7 +272,7 @@ struct Vec3
 		z = k;
 		return *this;
 	}
-	Vec3<T>& RotateZ(const float angle)
+	Vec4<T>& RotateZ(const float angle)
 	{
 		float cos = std::cos(angle);
 		float sin = std::sin(angle);
@@ -271,7 +284,7 @@ struct Vec3
 		y = j;
 		return *this;
 	}
-	Vec3<T>& Rotate(const Vec3<T>& axis, const float angle)
+	Vec4<T>& Rotate(const Vec4<T>& axis, const float angle)
 	{
 		// axis should be normalized already!
 		float cos = std::cos(angle);
@@ -279,7 +292,7 @@ struct Vec3
 		float dot = Dot(*this, axis);
 
 		T i = axis.x * dot * (1.0f - cos) + x * cos + (-axis.z * y + axis.y * z) * sin;
-		T j = axis.y * dot * (1.0f - cos) + y * cos + ( axis.z * x - axis.x * z) * sin;
+		T j = axis.y * dot * (1.0f - cos) + y * cos + (axis.z * x - axis.x * z) * sin;
 		T k = axis.z * dot * (1.0f - cos) + z * cos + (-axis.y * x + axis.x * y) * sin;
 
 		x = i;
@@ -290,42 +303,42 @@ struct Vec3
 };
 
 template <typename T> [[nodiscard]]
-T Dot(const Vec3<T>& left, const Vec3<T>& right)
+T Dot(const Vec4<T>& left, const Vec4<T>& right)
 {
 	return left.x * right.x + left.y * right.y + left.z * right.z;
 }
 
 template <typename T> [[nodiscard]]
-float Angle(const Vec3<T>& left, const Vec3<T>& right)
+float Angle(const Vec4<T>& left, const Vec4<T>& right)
 {
 	const float total = Dot(left, right) / (left.Magnitude() * right.Magnitude());
 	return std::acos(total);
 }
 
 template <typename T> [[nodiscard]]
-Vec3<T> Cross(const Vec3<T>& left, const Vec3<T>& right)
+Vec4<T> Cross(const Vec4<T>& left, const Vec4<T>& right)
 {
 	T x = left.y * right.z - right.y * left.z;
 	T y = left.z * right.x - right.z * left.x;
 	T z = left.x * right.y - right.x * left.y;
 
-	return Vec3<T>(x, y, z);
+	return Vec4<T>(x, y, z);
 }
 
 template <typename T> [[nodiscard]]
-Vec3<T> Min(const Vec3<T>& left, const Vec3<T>& right)
+Vec4<T> Min(const Vec4<T>& left, const Vec4<T>& right)
 {
-	return Vec3<T>(
-		(std::numeric_limits<T>::min)(left.x, right.x), 
+	return Vec4<T>(
+		(std::numeric_limits<T>::min)(left.x, right.x),
 		(std::numeric_limits<T>::min)(left.y, right.y),
 		(std::numeric_limits<T>::min)(left.z, right.z)
 		);
 }
 
 template <typename T> [[nodiscard]]
-Vec3<T> Max(const Vec3<T>& left, const Vec3<T>& right)
+Vec4<T> Max(const Vec4<T>& left, const Vec4<T>& right)
 {
-	return Vec3<T>(
+	return Vec4<T>(
 		(std::numeric_limits<T>::max)(left.x, right.x),
 		(std::numeric_limits<T>::max)(left.y, right.y),
 		(std::numeric_limits<T>::max)(left.z, right.z)
@@ -334,14 +347,14 @@ Vec3<T> Max(const Vec3<T>& left, const Vec3<T>& right)
 
 // Writing a vector to a string stream
 template <typename T>
-std::ostream& operator<<(std::ostream& stream, const Vec3<T>& vector)
+std::ostream& operator<<(std::ostream& stream, const Vec4<T>& vector)
 {
-	stream << "Vec3(" << vector.x << ", " << vector.y << ", " << vector.z << ")";
+	stream << "Vec4(" << vector.x << ", " << vector.y << ", " << vector.z << ")";
 	return stream;
 }
 
 // Default vector implementations
-typedef Vec3<unsigned char> Vec3b;
-typedef Vec3<int>           Vec3i;
-typedef Vec3<float>         Vec3f;
-typedef Vec3<double>        Vec3d;
+typedef Vec4<unsigned char> Vec4b;
+typedef Vec4<int>           Vec4i;
+typedef Vec4<float>         Vec4f;
+typedef Vec4<double>        Vec4d;

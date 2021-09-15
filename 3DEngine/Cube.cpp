@@ -6,21 +6,18 @@ Cube::Cube(Graphics& graphics, std::mt19937& rand,
            std::uniform_real_distribution<float>& a,
            std::uniform_real_distribution<float>& b,
            std::uniform_real_distribution<float>& c,
-           std::uniform_real_distribution<float>& d)
+           std::uniform_real_distribution<float>& d,
+           std::uniform_real_distribution<float>& e,
+           std::uniform_real_distribution<float>& f)
 	:
 	radius(d(rand)),
 	position(a(rand), a(rand), a(rand)),
 	velocity(c(rand), c(rand), c(rand)),
-	rotation(b(rand), b(rand), b(rand))
+	rotation(b(rand), b(rand), b(rand)),
+	scale(e(rand), e(rand), e(rand)),
+	color(f(rand), f(rand), f(rand))
 {
-	struct Vertex
-	{
-		struct
-		{
-			float x, y, z;
-		} data;
-	};
-	std::vector<Vertex> vertices = {
+	std::vector<Vec3f> vertices = {
 		{-1.0f, -1.0f, -1.0f},
 		{1.0f, -1.0f, -1.0f},
 		{-1.0f, 1.0f, -1.0f},
@@ -51,17 +48,19 @@ Cube::Cube(Graphics& graphics, std::mt19937& rand,
 	{
 		struct
 		{
-			float r, g, b, a;
+			Vec3f rgb;
+			float alpha;
 		} face_colors[6];
 	};
-	Vec4 colors = {
+	Vec4 colors = 
+	{
 		{
-			{1.0f, 0.0f, 1.0f},
-			{1.0f, 0.0f, 0.0f},
-			{0.0f, 1.0f, 0.0f},
-			{0.0f, 0.0f, 1.0f},
-			{1.0f, 1.0f, 0.0f},
-			{0.0f, 1.0f, 1.0f},
+			{Vec3f(1.0f, 0.0f, 1.0f) *= color, 0.0f},
+			{Vec3f(1.0f, 0.0f, 0.0f) *= color, 0.0f},
+			{Vec3f(0.0f, 1.0f, 0.0f) *= color, 0.0f},
+			{Vec3f(0.0f, 0.0f, 1.0f) *= color, 0.0f},
+			{Vec3f(1.0f, 1.0f, 0.0f) *= color, 0.0f},
+			{Vec3f(0.0f, 1.0f, 1.0f) *= color, 0.0f},
 		}
 	};
 	AddBind(std::make_unique<PixelConstantBuffer<Vec4>>(graphics, colors));
@@ -83,7 +82,8 @@ void Cube::Update(float dt) noexcept
 
 DirectX::XMMATRIX Cube::GetTransform() const noexcept
 {
-	return DirectX::XMMatrixRotationRollPitchYaw(angle.x, angle.y, angle.z) *
+	return DirectX::XMMatrixScaling(scale.x, scale.y, scale.z) *
+		DirectX::XMMatrixRotationRollPitchYaw(angle.x, angle.y, angle.z) *
 		DirectX::XMMatrixTranslation(radius, 0.0f, 0.0f) *
 		DirectX::XMMatrixRotationRollPitchYaw(position.x, position.y, position.z) *
 		DirectX::XMMatrixTranslation(0.0f, 0.0f, 20.0f);

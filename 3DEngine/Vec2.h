@@ -83,6 +83,20 @@ struct Vec2
 		return *this;
 	}
 
+	// No need to override * and / operators, we have a templated function for it
+	Vec2<T>& operator*=(const Vec2<T>& other)
+	{
+		x *= other.x;
+		y *= other.y;
+		return *this;
+	}
+	Vec2<T>& operator/=(const Vec2<T>& other)
+	{
+		x /= other.x;
+		y /= other.y;
+		return *this;
+	}
+
 	// Scalar Arithmetic Operators
 	template<class E> Vec2<T> operator*(E scalar) const
 	{

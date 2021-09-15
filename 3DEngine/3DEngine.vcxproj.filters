@@ -221,6 +221,9 @@
     <ClInclude Include="BindableMacro.h">
       <Filter>Header Files\Utilities\Exception\Macros</Filter>
     </ClInclude>
+    <ClInclude Include="Vec4.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
