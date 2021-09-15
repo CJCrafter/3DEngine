@@ -3,10 +3,10 @@
 #include "Drawable.h"
 #include <DirectXMath.h>
 
-class TransformCbuf : public Bindable
+class TransformCBuffer : public Bindable
 {
 public:
-	TransformCbuf(Graphics& graphics, const Drawable& parent);
+	TransformCBuffer(Graphics& graphics, const Drawable& parent);
 	void Bind(Graphics& graphics) noexcept override;
 private:
 	VertexConstantBuffer<DirectX::XMMATRIX> buffer;

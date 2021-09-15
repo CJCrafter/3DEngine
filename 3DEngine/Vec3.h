@@ -300,9 +300,9 @@ template <typename T> [[nodiscard]]
 Vec3<T> Min(const Vec3<T>& left, const Vec3<T>& right)
 {
 	return Vec3<T>(
-		std::min(left.x, right.x), 
-		std::min(left.y, right.y),
-		std::min(left.z, right.z)
+		(std::numeric_limits<T>::min)(left.x, right.x), 
+		(std::numeric_limits<T>::min)(left.y, right.y),
+		(std::numeric_limits<T>::min)(left.z, right.z)
 		);
 }
 
@@ -310,9 +310,9 @@ template <typename T> [[nodiscard]]
 Vec3<T> Max(const Vec3<T>& left, const Vec3<T>& right)
 {
 	return Vec3<T>(
-		std::max(left.x, right.x), 
-		std::max(left.y, right.y),
-		std::max(left.z, right.z)
+		(std::numeric_limits<T>::max)(left.x, right.x),
+		(std::numeric_limits<T>::max)(left.y, right.y),
+		(std::numeric_limits<T>::max)(left.z, right.z)
 		);
 }
 

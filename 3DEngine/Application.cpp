@@ -1,12 +1,29 @@
 #include "Application.h"
 
+#include <random>
+
 #include "Vec3.h"
+#include "Cube.h"
 
 Application::Application()
 	:
 	window(800, 800, "Testing testing 123"),
 	timer(0.05f)
-{}
+{
+	std::mt19937 rand(std::random_device{}());
+	std::uniform_real_distribution<float> a(0.0f, 3.1415 * 2.0f);
+	std::uniform_real_distribution<float> b(0.0f, 3.1415 * 2.0f);
+	std::uniform_real_distribution<float> c(0.0f, 3.1415 * 0.3f);
+	std::uniform_real_distribution<float> d(6.0f, 20.0f);
+
+	for (int i = 0; i < 80; i++)
+	{
+		cubes.push_back(std::make_unique<Cube>(
+			window.GFX(), rand, a, b, c, d
+		));
+	}
+	window.GFX().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 40.0f));
+}
 
 int Application::Start()
 {
@@ -39,10 +56,14 @@ int Application::Start()
 
 void Application::Render()
 {
-	const float c = sin(timer.Elapsed()) / 2.0 + 0.5;
-	window.GFX().Clear(c, c, 1.0f);
-	window.GFX().DrawTriangle(timer.Elapsed(), window.mouse.GetX() / (window.GetWidth() / 2.0f) - 1.0f, -(window.mouse.GetY() / (window.GetHeight() / 2.0f) - 1.0f));
-	window.GFX().DrawTriangle(timer.Elapsed(), 0, 0);
+	window.GFX().Clear(0.07f, 0.0f, 0.12f);
+	const float delta = timer.Elapsed();
+	timer.Mark();
+	for (auto& cube : cubes)
+	{
+		cube->Update(delta);
+		cube->Draw(window.GFX());
+	}
 	window.GFX().Present();
 }
 

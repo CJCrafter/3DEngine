@@ -1,6 +1,7 @@
 #pragma once
 
 #include <d3d11.h>
+#include <DirectXMath.h>
 #include <wrl.h>
 
 #include "HRException.h"
@@ -11,6 +12,7 @@ using namespace Microsoft::WRL;
 
 class Graphics
 {
+	friend class Bindable;
 public:
 	class DeviceRemovedException : public HRException
 	{
@@ -24,6 +26,8 @@ private:
 	ComPtr<ID3D11RenderTargetView> target = nullptr;
 	ComPtr<ID3D11DepthStencilView> depth = nullptr;
 
+	DirectX::XMMATRIX projection;
+
 #ifndef NDEBUG
 	DxgiInfoManager infoManager;
 #endif
@@ -34,7 +38,10 @@ public:
 	Graphics& operator=(const Graphics&) = delete;
 	~Graphics();
 
+	DirectX::XMMATRIX GetProjection() const noexcept;
+	void SetProjection(DirectX::FXMMATRIX projection) noexcept;
+
 	void Clear(float r, float g, float b) noexcept;
-	void DrawTriangle(float angle, float x, float y);
+	void DrawIndexed(UINT count);
 	void Present();
 };

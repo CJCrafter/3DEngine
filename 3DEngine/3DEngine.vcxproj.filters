@@ -117,6 +117,18 @@
     <ClCompile Include="VertexBuffer.cpp">
       <Filter>Source Files\Graphics\Bindable</Filter>
     </ClCompile>
+    <ClCompile Include="Drawable.cpp">
+      <Filter>Source Files\Graphics\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source Files\Graphics\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformCBuffer.cpp">
+      <Filter>Source Files\Graphics\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Bindable.cpp">
+      <Filter>Source Files\Graphics\Bindable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModifiedWindows.h">
@@ -170,9 +182,6 @@
     <ClInclude Include="Bindable.h">
       <Filter>Header Files\Graphics\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="BindableBase.h">
-      <Filter>Header Files\Graphics\Bindable</Filter>
-    </ClInclude>
     <ClInclude Include="ConstantBuffers.h">
       <Filter>Header Files\Graphics\Bindable</Filter>
     </ClInclude>
@@ -205,6 +214,12 @@
     </ClInclude>
     <ClInclude Include="Drawable.h">
       <Filter>Header Files\Graphics\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Header Files\Graphics\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="BindableMacro.h">
+      <Filter>Header Files\Utilities\Exception\Macros</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
