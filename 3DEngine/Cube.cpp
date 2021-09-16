@@ -1,6 +1,7 @@
 ﻿#include "Cube.h"
 
 #include "BindableMacro.h"
+#include "Vec4.h"
 
 Cube::Cube(Graphics& graphics, std::mt19937& rand,
            std::uniform_real_distribution<float>& a,
@@ -15,7 +16,7 @@ Cube::Cube(Graphics& graphics, std::mt19937& rand,
 	velocity(c(rand), c(rand), c(rand)),
 	rotation(b(rand), b(rand), b(rand)),
 	scale(e(rand), e(rand), e(rand)),
-	color(f(rand), f(rand), f(rand))
+	color(f(rand), f(rand), f(rand), 0.0f)
 {
 	std::vector<Vec3f> vertices = {
 		{-1.0f, -1.0f, -1.0f},
@@ -46,21 +47,17 @@ Cube::Cube(Graphics& graphics, std::mt19937& rand,
 
 	struct Vec4
 	{
-		struct
-		{
-			Vec3f rgb;
-			float alpha;
-		} face_colors[6];
+		Vec4f face_colors[6];
 	};
 	Vec4 colors = 
 	{
 		{
-			{Vec3f(1.0f, 0.0f, 1.0f) *= color, 0.0f},
-			{Vec3f(1.0f, 0.0f, 0.0f) *= color, 0.0f},
-			{Vec3f(0.0f, 1.0f, 0.0f) *= color, 0.0f},
-			{Vec3f(0.0f, 0.0f, 1.0f) *= color, 0.0f},
-			{Vec3f(1.0f, 1.0f, 0.0f) *= color, 0.0f},
-			{Vec3f(0.0f, 1.0f, 1.0f) *= color, 0.0f},
+			{Vec4f(1.0f, 0.0f, 1.0f, 0.0f) *= color},
+			{Vec4f(1.0f, 0.0f, 0.0f, 0.0f) *= color},
+			{Vec4f(0.0f, 1.0f, 0.0f, 0.0f) *= color},
+			{Vec4f(0.0f, 0.0f, 1.0f, 0.0f) *= color},
+			{Vec4f(1.0f, 1.0f, 0.0f, 0.0f) *= color},
+			{Vec4f(0.0f, 1.0f, 1.0f, 0.0f) *= color}
 		}
 	};
 	AddBind(std::make_unique<PixelConstantBuffer<Vec4>>(graphics, colors));

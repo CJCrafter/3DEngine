@@ -3,6 +3,7 @@
 
 #include "Drawable.h"
 #include "Vec3.h"
+#include "Vec4.h"
 
 class Cube : public Drawable
 {
@@ -23,5 +24,5 @@ private:
 	Vec3f angle;
 	Vec3f rotation;
 	Vec3f scale;
-	Vec3f color;
+	Vec4f color;
 };

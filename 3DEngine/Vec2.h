@@ -54,7 +54,6 @@ struct Vec2
 
 	~Vec2<T>()
 	{
-		delete[] data;
 	}
 
 	// Vector Arithmetic Operators
@@ -126,10 +125,7 @@ struct Vec2
 	// Inverse
 	Vec2<T> operator-() const
 	{
-		Vec2 temp(*this);
-		temp.x = -temp.x;
-		temp.y = -temp.y;
-		return temp;
+		return Vec2(-x, -y);
 	}
 
 	// Access/Write by index
@@ -182,6 +178,10 @@ struct Vec2
 	{
 		return std::sqrt(x * x + y * y);
 	}
+	[[nodiscard]] float MagnitudeSquared() const
+	{
+		return x * x + y * y;
+	}
 	Vec2<T>& Normalize()
 	{
 		*this /= Magnitude();
@@ -202,8 +202,8 @@ struct Vec2
 	}
 	Vec2<T>& Clear()
 	{
-		x = T(0);
-		y = T(0);
+		x = 0;
+		y = 0;
 		return *this;
 	}
 	Vec2<T>& SetMagnitude(T magnitude)

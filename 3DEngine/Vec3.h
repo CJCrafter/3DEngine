@@ -137,11 +137,7 @@ struct Vec3
 	// Inverse
 	Vec3<T> operator-() const
 	{
-		Vec3 temp(*this);
-		temp.x = -temp.x;
-		temp.y = -temp.y;
-		temp.z = -temp.z;
-		return temp;
+		return Vec3<T>(-x, -y, -z);
 	}
 
 	// Access/Write by index
@@ -161,7 +157,7 @@ struct Vec3
 	// Relational Operators
 	bool operator==(const Vec3<T>& other)
 	{
-		return x == other.x && y == other.y;
+		return x == other.x && y == other.y && z == other.z;
 	}
 	bool operator!=(const Vec3<T>& other)
 	{
@@ -195,6 +191,10 @@ struct Vec3
 	[[nodiscard]] float Magnitude() const
 	{
 		return std::sqrt(x * x + y * y + z * z);
+	}
+	[[nodiscard]] float MagnitudeSquared() const
+	{
+		return x * x + y * y + z * z;
 	}
 	Vec3<T>& Normalize()
 	{
