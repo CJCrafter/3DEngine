@@ -18,33 +18,51 @@ Cube::Cube(Graphics& graphics, std::mt19937& rand,
 	scale(e(rand), e(rand), e(rand)),
 	color(f(rand), f(rand), f(rand), 0.0f)
 {
-	std::vector<Vec3f> vertices = {
-		{-1.0f, -1.0f, -1.0f},
-		{1.0f, -1.0f, -1.0f},
-		{-1.0f, 1.0f, -1.0f},
-		{1.0f, 1.0f, -1.0f},
-		{-1.0f, -1.0f, 1.0f},
-		{1.0f, -1.0f, 1.0f},
-		{-1.0f, 1.0f, 1.0f},
-		{1.0f, 1.0f, 1.0f},
-	};
-	AddBind(std::make_unique<VertexBuffer>(graphics, vertices));
+	// Since every cube needs to share a few binds, we will declare them here. Static constructor, if you will.
+	if (!isStaticInitialized)
+	{
+		std::vector<Vec3f> vertices = {
+			{-1.0f, -1.0f, -1.0f},
+			{1.0f, -1.0f, -1.0f},
+			{-1.0f, 1.0f, -1.0f},
+			{1.0f, 1.0f, -1.0f},
+			{-1.0f, -1.0f, 1.0f},
+			{1.0f, -1.0f, 1.0f},
+			{-1.0f, 1.0f, 1.0f},
+			{1.0f, 1.0f, 1.0f},
+		};
+		AddStaticBind(std::make_unique<VertexBuffer>(graphics, vertices));
 
-	auto vertexShader = std::make_unique<VertexShader>(graphics, L"VertexShader.cso");
-	auto byteCode = vertexShader->GetCode();
-	AddBind(std::move(vertexShader));
-	AddBind(std::make_unique<PixelShader>(graphics, L"PixelShader.cso"));
+		auto vertexShader = std::make_unique<VertexShader>(graphics, L"VertexShader.cso");
+		auto byteCode = vertexShader->GetCode();
+		AddStaticBind(std::move(vertexShader));
+		AddStaticBind(std::make_unique<PixelShader>(graphics, L"PixelShader.cso"));
 
-	const std::vector<unsigned short> indices = {
-		0,2,1, 2,3,1,
-		1,3,5, 3,7,5,
-		2,6,3, 3,6,7,
-		4,5,7, 4,7,6,
-		0,4,2, 2,4,6,
-		0,1,4, 1,5,4,
-	};
-	AddIndexBuffer(std::make_unique<IndexBuffer>(graphics, indices));
+		const std::vector<unsigned short> indices = {
+			0,2,1, 2,3,1,
+			1,3,5, 3,7,5,
+			2,6,3, 3,6,7,
+			4,5,7, 4,7,6,
+			0,4,2, 2,4,6,
+			0,1,4, 1,5,4,
+		};
+		AddStaticIndexBuffer(std::make_unique<IndexBuffer>(graphics, indices));
 
+		const std::vector<D3D11_INPUT_ELEMENT_DESC> inputDesc =
+		{
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		};
+		AddStaticBind(std::make_unique<InputLayout>(graphics, inputDesc, byteCode));
+		AddStaticBind(std::make_unique<Topology>(graphics, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
+
+		isStaticInitialized = true;
+	} else
+	{
+		SetIndexBuffer();
+	}
+	// End of static constructor
+
+	// Only non static bindables are color and transform
 	struct Vec4
 	{
 		Vec4f face_colors[6];
@@ -61,14 +79,7 @@ Cube::Cube(Graphics& graphics, std::mt19937& rand,
 		}
 	};
 	AddBind(std::make_unique<PixelConstantBuffer<Vec4>>(graphics, colors));
-
-	const std::vector<D3D11_INPUT_ELEMENT_DESC> inputDesc =
-	{
-		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-	};
-	AddBind(std::make_unique<InputLayout>(graphics, inputDesc, byteCode));
-	AddBind(std::make_unique<Topology>(graphics, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-	AddBind(std::make_unique<TransformCBuffer>(graphics, *this));
+	AddBind(std::make_unique<TransformCBuffer<Cube>>(graphics, *this));
 }
 
 void Cube::Update(float dt) noexcept

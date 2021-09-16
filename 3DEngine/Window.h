@@ -42,7 +42,7 @@ public:
 
 	void SetTitle(std::string& title);
 	static std::optional<int> ProcessMessages();
-	Graphics& GFX();
+	Graphics& GetGraphics();
 
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND window, UINT msg, WPARAM w, LPARAM l);

@@ -99,7 +99,7 @@ std::optional<int> Window::ProcessMessages()
 	return { };
 }
 
-Graphics& Window::GFX()
+Graphics& Window::GetGraphics()
 {
 	if (graphics == nullptr)
 	{

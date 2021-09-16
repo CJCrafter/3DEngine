@@ -21,10 +21,10 @@ Application::Application()
 	for (int i = 0; i < 200; i++)
 	{
 		cubes.push_back(std::make_unique<Cube>(
-			window.GFX(), rand, a, b, c, d, e, f
+			window.GetGraphics(), rand, a, b, c, d, e, f
 		));
 	}
-	window.GFX().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 40.0f));
+	window.GetGraphics().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 40.0f));
 }
 
 int Application::Start()
@@ -58,15 +58,15 @@ int Application::Start()
 
 void Application::Render()
 {
-	window.GFX().Clear(0.07f, 0.0f, 0.12f);
+	window.GetGraphics().Clear(0.07f, 0.0f, 0.12f);
 	const float delta = timer.Elapsed();
 	timer.Mark();
 	for (auto& cube : cubes)
 	{
 		cube->Update(delta);
-		cube->Draw(window.GFX());
+		cube->Draw(window.GetGraphics());
 	}
-	window.GFX().Present();
+	window.GetGraphics().Present();
 }
 
 void Application::Update()

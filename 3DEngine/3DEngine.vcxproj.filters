@@ -117,14 +117,8 @@
     <ClCompile Include="VertexBuffer.cpp">
       <Filter>Source Files\Graphics\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="Drawable.cpp">
-      <Filter>Source Files\Graphics\Drawable</Filter>
-    </ClCompile>
     <ClCompile Include="Cube.cpp">
       <Filter>Source Files\Graphics\Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="TransformCBuffer.cpp">
-      <Filter>Source Files\Graphics\Bindable</Filter>
     </ClCompile>
     <ClCompile Include="Bindable.cpp">
       <Filter>Source Files\Graphics\Bindable</Filter>

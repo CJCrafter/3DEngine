@@ -5,7 +5,7 @@
 #include "Vec3.h"
 #include "Vec4.h"
 
-class Cube : public Drawable
+class Cube : public Drawable<Cube>
 {
 public:
 	Cube(Graphics& graphics, std::mt19937& rand,
