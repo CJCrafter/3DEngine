@@ -55,6 +55,9 @@
     <Filter Include="Source Files\Graphics\Drawable">
       <UniqueIdentifier>{316eca02-99d9-4830-bbe5-efcd6cc0cf6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\geometry">
+      <UniqueIdentifier>{2b090ded-8afa-457b-82de-33a52331560e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -117,7 +120,7 @@
     <ClCompile Include="VertexBuffer.cpp">
       <Filter>Source Files\Graphics\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="Cube.cpp">
+    <ClCompile Include="Block.cpp">
       <Filter>Source Files\Graphics\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="Bindable.cpp">
@@ -209,7 +212,7 @@
     <ClInclude Include="Drawable.h">
       <Filter>Header Files\Graphics\Drawable</Filter>
     </ClInclude>
-    <ClInclude Include="Cube.h">
+    <ClInclude Include="Block.h">
       <Filter>Header Files\Graphics\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="BindableMacro.h">
@@ -217,6 +220,27 @@
     </ClInclude>
     <ClInclude Include="Vec4.h">
       <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Cone.h">
+      <Filter>Header Files\Graphics\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Header Files\Graphics\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexedTriangleList.h">
+      <Filter>Header Files\Graphics\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Header Files\Graphics\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Prism.h">
+      <Filter>Header Files\Graphics\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Header Files\Graphics\geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

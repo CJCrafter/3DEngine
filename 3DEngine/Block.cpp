@@ -1,9 +1,11 @@
-﻿#include "Cube.h"
+﻿#include "Block.h"
 
 #include "BindableMacro.h"
+#include "Cube.h"
+#include "Sphere.h"
 #include "Vec4.h"
 
-Cube::Cube(Graphics& graphics, std::mt19937& rand,
+Block::Block(Graphics& graphics, std::mt19937& rand,
            std::uniform_real_distribution<float>& a,
            std::uniform_real_distribution<float>& b,
            std::uniform_real_distribution<float>& c,
@@ -21,32 +23,16 @@ Cube::Cube(Graphics& graphics, std::mt19937& rand,
 	// Since every cube needs to share a few binds, we will declare them here. Static constructor, if you will.
 	if (!isStaticInitialized)
 	{
-		std::vector<Vec3f> vertices = {
-			{-1.0f, -1.0f, -1.0f},
-			{1.0f, -1.0f, -1.0f},
-			{-1.0f, 1.0f, -1.0f},
-			{1.0f, 1.0f, -1.0f},
-			{-1.0f, -1.0f, 1.0f},
-			{1.0f, -1.0f, 1.0f},
-			{-1.0f, 1.0f, 1.0f},
-			{1.0f, 1.0f, 1.0f},
-		};
-		AddStaticBind(std::make_unique<VertexBuffer>(graphics, vertices));
+		auto model = Cube::Make<Vec3f>();
+		model.Transform(DirectX::XMMatrixScaling(1.0f, 1.0f, 1.2f));
+		AddStaticBind(std::make_unique<VertexBuffer>(graphics, model.vertices));
 
 		auto vertexShader = std::make_unique<VertexShader>(graphics, L"VertexShader.cso");
 		auto byteCode = vertexShader->GetCode();
 		AddStaticBind(std::move(vertexShader));
 		AddStaticBind(std::make_unique<PixelShader>(graphics, L"PixelShader.cso"));
 
-		const std::vector<unsigned short> indices = {
-			0,2,1, 2,3,1,
-			1,3,5, 3,7,5,
-			2,6,3, 3,6,7,
-			4,5,7, 4,7,6,
-			0,4,2, 2,4,6,
-			0,1,4, 1,5,4,
-		};
-		AddStaticIndexBuffer(std::make_unique<IndexBuffer>(graphics, indices));
+		AddStaticIndexBuffer(std::make_unique<IndexBuffer>(graphics, model.indices));
 
 		const std::vector<D3D11_INPUT_ELEMENT_DESC> inputDesc =
 		{
@@ -79,16 +65,16 @@ Cube::Cube(Graphics& graphics, std::mt19937& rand,
 		}
 	};
 	AddBind(std::make_unique<PixelConstantBuffer<Vec4>>(graphics, colors));
-	AddBind(std::make_unique<TransformCBuffer<Cube>>(graphics, *this));
+	AddBind(std::make_unique<TransformCBuffer<Block>>(graphics, *this));
 }
 
-void Cube::Update(float dt) noexcept
+void Block::Update(float dt) noexcept
 {
 	position += (velocity * dt);
 	angle += (rotation * dt);
 }
 
-DirectX::XMMATRIX Cube::GetTransform() const noexcept
+DirectX::XMMATRIX Block::GetTransform() const noexcept
 {
 	return DirectX::XMMatrixScaling(scale.x, scale.y, scale.z) *
 		DirectX::XMMatrixRotationRollPitchYaw(angle.x, angle.y, angle.z) *

@@ -25,6 +25,7 @@ public:
 		);
 		buffer->Bind(graphics);
 	}
+
 private:
 	static std::unique_ptr<VertexConstantBuffer<DirectX::XMMATRIX>> buffer;
 	const Drawable<T>& parent;

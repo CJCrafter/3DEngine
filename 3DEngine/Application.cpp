@@ -2,8 +2,8 @@
 
 #include <random>
 
+#include "Block.h"
 #include "Vec3.h"
-#include "Cube.h"
 
 Application::Application()
 	:
@@ -18,9 +18,9 @@ Application::Application()
 	std::uniform_real_distribution<float> e(0.25f, 2.0f);
 	std::uniform_real_distribution<float> f(0.0f, 1.0f);
 
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < 100; i++)
 	{
-		cubes.push_back(std::make_unique<Cube>(
+		cubes.push_back(std::make_unique<Block>(
 			window.GetGraphics(), rand, a, b, c, d, e, f
 		));
 	}

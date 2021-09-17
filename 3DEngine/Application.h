@@ -1,7 +1,7 @@
 #pragma once
 #include "Timer.h"
 #include "Window.h"
-#include "Cube.h"
+#include "Block.h"
 
 class Application
 {
@@ -15,5 +15,5 @@ public:
 	Window window;
 	Timer timer;
 private:
-	std::vector<std::unique_ptr<class Cube>> cubes;
+	std::vector<std::unique_ptr<Block>> cubes;
 };

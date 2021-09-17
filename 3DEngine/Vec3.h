@@ -31,6 +31,13 @@ struct Vec3
 	{
 	}
 
+	Vec3(const DirectX::XMFLOAT3& other)
+		: x(other.x),
+		  y(other.y),
+	      z(other.z)
+	{
+	}
+
 	Vec3(Vec3&& other) noexcept
 		: x(std::move(other.x)),
 		  y(std::move(other.y)),
@@ -162,6 +169,17 @@ struct Vec3
 	bool operator!=(const Vec3<T>& other)
 	{
 		return x != other.x || y != other.y || z != other.z;
+	}
+
+	// Conversion operators
+	operator DirectX::XMFLOAT3() const
+	{
+		return DirectX::XMFLOAT3(x, y, z);
+	}
+	explicit operator DirectX::XMFLOAT3*() const
+	{
+		auto temp = DirectX::XMFLOAT3(x, y, z);
+		return &temp;
 	}
 
 	// Helper methods (to avoid instantiating new vectors)
