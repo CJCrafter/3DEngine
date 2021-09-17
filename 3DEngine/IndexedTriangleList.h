@@ -18,11 +18,11 @@ public:
 	}
 	void Transform(DirectX::FXMMATRIX matrix)
 	{
-		for (DirectX::XMFLOAT3 v : vertices)
+		for (auto& v : vertices)
 		{
-			const DirectX::XMVECTOR pos = DirectX::XMLoadFloat3(&v);
+			const DirectX::XMVECTOR pos = DirectX::XMLoadFloat3(&v.vertex);
 			DirectX::XMStoreFloat3(
-				&v,
+				&v.vertex,
 				DirectX::XMVector3Transform(pos, matrix)
 			);
 		}

@@ -2,6 +2,7 @@
 
 #include "BindableMacro.h"
 #include "Cube.h"
+#include "Prism.h"
 #include "Sphere.h"
 #include "Vec4.h"
 
@@ -23,7 +24,12 @@ Block::Block(Graphics& graphics, std::mt19937& rand,
 	// Since every cube needs to share a few binds, we will declare them here. Static constructor, if you will.
 	if (!isStaticInitialized)
 	{
-		auto model = Cube::Make<Vec3f>();
+		struct Vertex
+		{
+			DirectX::XMFLOAT3 vertex;
+		};
+
+		auto model = Prism::Make<Vertex>();
 		model.Transform(DirectX::XMMatrixScaling(1.0f, 1.0f, 1.2f));
 		AddStaticBind(std::make_unique<VertexBuffer>(graphics, model.vertices));
 

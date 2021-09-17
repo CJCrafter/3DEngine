@@ -19,11 +19,11 @@ public:
 		// near center
 		std::vector<V> vertices;
 		vertices.emplace_back();
-		vertices.back().pos = { 0.0f,0.0f,-1.0f };
+		vertices.back().vertex = { 0.0f,0.0f,-1.0f };
 		const auto iCenterNear = static_cast<unsigned short>(vertices.size() - 1);
 		// far center
 		vertices.emplace_back();
-		vertices.back().pos = { 0.0f,0.0f,1.0f };
+		vertices.back().vertex = { 0.0f,0.0f,1.0f };
 		const auto iCenterFar = static_cast<unsigned short>(vertices.size() - 1);
 
 		// base vertices
@@ -36,7 +36,7 @@ public:
 					base,
 					DirectX::XMMatrixRotationZ(longitudeAngle * iLong)
 				);
-				DirectX::XMStoreFloat3(&vertices.back().pos, v);
+				DirectX::XMStoreFloat3(&vertices.back().vertex, v);
 			}
 			// far base
 			{
@@ -46,7 +46,7 @@ public:
 					DirectX::XMMatrixRotationZ(longitudeAngle * iLong)
 				);
 				v = DirectX::XMVectorAdd(v, offset);
-				DirectX::XMStoreFloat3(&vertices.back().pos, v);
+				DirectX::XMStoreFloat3(&vertices.back().vertex, v);
 			}
 		}
 
