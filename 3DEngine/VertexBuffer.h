@@ -17,7 +17,7 @@ public:
 		vertexDesc.Usage = D3D11_USAGE_DEFAULT;
 		vertexDesc.CPUAccessFlags = 0u;
 		vertexDesc.MiscFlags = 0u;
-		vertexDesc.ByteWidth = UINT(sizeof(V) * vertices.size());
+		vertexDesc.ByteWidth = static_cast<UINT>(sizeof(V) * vertices.size());
 		vertexDesc.StructureByteStride = sizeof(V);
 		D3D11_SUBRESOURCE_DATA vertexData = {};
 		vertexData.pSysMem = vertices.data();

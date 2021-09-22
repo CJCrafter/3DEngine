@@ -1,7 +1,9 @@
 #pragma once
+
 #include "Timer.h"
 #include "Window.h"
-#include "Block.h"
+#include "Drawable.h"
+#include "PointList.h"
 
 class Application
 {
@@ -15,5 +17,5 @@ public:
 	Window window;
 	Timer timer;
 private:
-	std::vector<std::unique_ptr<Block>> cubes;
+	std::vector<std::unique_ptr<Drawable<PointList>>> cubes;
 };

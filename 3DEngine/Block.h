@@ -17,6 +17,7 @@ public:
 		std::uniform_real_distribution<float>& f);
 	void Update(float dt) noexcept override;
 	DirectX::XMMATRIX GetTransform() const noexcept override;
+	UINT GetVertexCount() const noexcept override;
 private:
 	float radius;
 	Vec3f position;

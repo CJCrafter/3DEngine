@@ -23,6 +23,7 @@ public:
 				parent.GetTransform() * graphics.GetProjection()
 			)
 		);
+
 		buffer->Bind(graphics);
 	}
 

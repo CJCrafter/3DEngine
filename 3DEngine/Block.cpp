@@ -2,7 +2,6 @@
 
 #include "BindableMacro.h"
 #include "Cube.h"
-#include "Prism.h"
 #include "Sphere.h"
 #include "Vec4.h"
 
@@ -24,12 +23,8 @@ Block::Block(Graphics& graphics, std::mt19937& rand,
 	// Since every cube needs to share a few binds, we will declare them here. Static constructor, if you will.
 	if (!isStaticInitialized)
 	{
-		struct Vertex
-		{
-			DirectX::XMFLOAT3 vertex;
-		};
 
-		auto model = Prism::Make<Vertex>();
+		auto model = Cube::Make();
 		model.Transform(DirectX::XMMatrixScaling(1.0f, 1.0f, 1.2f));
 		AddStaticBind(std::make_unique<VertexBuffer>(graphics, model.vertices));
 
@@ -87,4 +82,9 @@ DirectX::XMMATRIX Block::GetTransform() const noexcept
 		DirectX::XMMatrixTranslation(radius, 0.0f, 0.0f) *
 		DirectX::XMMatrixRotationRollPitchYaw(position.x, position.y, position.z) *
 		DirectX::XMMatrixTranslation(0.0f, 0.0f, 20.0f);
+}
+
+UINT Block::GetVertexCount() const noexcept
+{
+	return 0u; // This shape is indexed
 }

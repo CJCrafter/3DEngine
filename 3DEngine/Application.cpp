@@ -3,6 +3,8 @@
 #include <random>
 
 #include "Block.h"
+#include "PointList.h"
+#include "Sphere.h"
 #include "Vec3.h"
 
 Application::Application()
@@ -10,20 +12,16 @@ Application::Application()
 	window(800, 800, "Testing testing 123"),
 	timer(0.005f)
 {
-	std::mt19937 rand(std::random_device{}());
-	std::uniform_real_distribution<float> a(0.0f, 3.1415f * 2.0f);
-	std::uniform_real_distribution<float> b(0.0f, 3.1415f * 2.0f);
-	std::uniform_real_distribution<float> c(0.0f, 3.1415f * 0.3f);
-	std::uniform_real_distribution<float> d(6.0f, 20.0f);
-	std::uniform_real_distribution<float> e(0.25f, 2.0f);
-	std::uniform_real_distribution<float> f(0.0f, 1.0f);
 
-	for (int i = 0; i < 100; i++)
+	/*
+	Sphere sphere(100);
+	for (int i = 0; i < 1; i++)
 	{
-		cubes.push_back(std::make_unique<Block>(
-			window.GetGraphics(), rand, a, b, c, d, e, f
+		cubes.push_back(std::make_unique<PointList>(
+			window.GetGraphics(), sphere
 		));
 	}
+	*/
 	window.GetGraphics().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 40.0f));
 }
 
@@ -58,15 +56,31 @@ int Application::Start()
 
 void Application::Render()
 {
-	window.GetGraphics().Clear(0.07f, 0.0f, 0.12f);
+	Graphics& graphics = window.GetGraphics();
+	graphics.Clear(0.07f, 0.0f, 0.12f);
 	const float delta = timer.Elapsed();
 	timer.Mark();
+
+	std::mt19937 rand(std::random_device{}());
+	std::uniform_real_distribution<float> a(0.0f, 3.1415f * 2.0f);
+	std::uniform_real_distribution<float> b(0.0f, 3.1415f * 2.0f);
+	std::uniform_real_distribution<float> c(0.0f, 3.1415f * 0.3f);
+	std::uniform_real_distribution<float> d(6.0f, 20.0f);
+	std::uniform_real_distribution<float> e(0.25f, 2.0f);
+	std::uniform_real_distribution<float> f(0.0f, 1.0f);
+
+	PointList sphere(graphics, Sphere(100000));
+	Block block(graphics, rand, a, b, c, d, e, f);
+	sphere.Draw(graphics);
+	//block.Draw(graphics);
+	/* 
 	for (auto& cube : cubes)
 	{
 		cube->Update(delta);
-		cube->Draw(window.GetGraphics());
+		cube->Draw(graphics);
 	}
-	window.GetGraphics().Present();
+	*/
+	graphics.Present();
 }
 
 void Application::Update()

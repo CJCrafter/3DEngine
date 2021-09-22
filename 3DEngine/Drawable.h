@@ -12,6 +12,7 @@ public:
 	Drawable() = default;
 	Drawable(const Drawable&) = delete;
 	virtual DirectX::XMMATRIX GetTransform() const noexcept = 0;
+	virtual UINT GetVertexCount() const noexcept = 0;
 
 	void Draw(Graphics& graphics) const
 	{
@@ -23,11 +24,20 @@ public:
 		{
 			bind->Bind(graphics);
 		}
-		graphics.DrawIndexed(indexBuffer->GetCount());
+
+		if (!indexBuffer && notIndexed)
+		{
+			graphics.Draw(100000);
+		}
+		else
+		{
+			graphics.DrawIndexed(indexBuffer->GetCount());
+		}
 	}
 	virtual void Update(float dt) noexcept = 0;
 
 
+protected:
 	void AddBind(std::unique_ptr<Bindable> bind)
 	{
 		assert("*Must* use AddIndexBuffer to bind index buffer" && typeid(*bind) != typeid(IndexBuffer));
@@ -52,7 +62,6 @@ public:
 		staticBinds.push_back(std::move(indexBuffer));
 	}
 
-protected:
 	void SetIndexBuffer()
 	{
 		assert("We already have an index buffer set, dumbass" && indexBuffer == nullptr);
@@ -74,6 +83,7 @@ private:
 
 protected:
 	static bool isStaticInitialized;
+	static bool notIndexed;
 };
 
 template<class T>
@@ -81,3 +91,6 @@ std::vector<std::unique_ptr<Bindable>> Drawable<T>::staticBinds;
 
 template<class T>
 bool Drawable<T>::isStaticInitialized;
+
+template<class T>
+bool Drawable<T>::notIndexed;

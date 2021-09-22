@@ -43,5 +43,6 @@ public:
 
 	void Clear(float r, float g, float b) noexcept;
 	void DrawIndexed(UINT count);
+	void Draw(UINT count);
 	void Present();
 };

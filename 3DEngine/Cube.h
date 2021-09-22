@@ -6,8 +6,7 @@
 class Cube
 {
 public:
-	template<class V>
-	static IndexedTriangleList<V> Make()
+	static IndexedTriangleList Make()
 	{
 		constexpr float side = 1.0f / 2.0f;
 
@@ -21,10 +20,10 @@ public:
 		vertices.emplace_back(-side, side, side); // 6
 		vertices.emplace_back(side, side, side); // 7
 
-		std::vector<V> verts(vertices.size());
+		std::vector<Vertex> verts(vertices.size());
 		for (size_t i = 0; i < vertices.size(); i++)
 		{
-			verts[i] = vertices[i];
+			verts[i] = Vertex(vertices[i]);
 		}
 		return{
 			std::move(verts),{

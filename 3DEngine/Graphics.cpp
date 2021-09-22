@@ -123,6 +123,11 @@ void Graphics::DrawIndexed(const UINT count)
 	GFX_THROW_INFO_ONLY(context->DrawIndexed(count, 0u, 0));
 }
 
+void Graphics::Draw(const UINT count)
+{
+	GFX_THROW_INFO_ONLY(context->Draw(count, 0));
+}
+
 void Graphics::Present()
 {
 	if (HRESULT hr; FAILED(hr = swap->Present(1u, 0u)))

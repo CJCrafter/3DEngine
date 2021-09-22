@@ -3,12 +3,13 @@
 #include <vector>
 #include <DirectXMath.h>
 
-template<class T>
+#include "Vertex.h"
+
 class IndexedTriangleList
 {
 public:
 	IndexedTriangleList() = default;
-	IndexedTriangleList(std::vector<T> verts_in, std::vector<unsigned short> indices_in)
+	IndexedTriangleList(std::vector<Vertex> verts_in, std::vector<unsigned short> indices_in)
 		:
 		vertices(std::move(verts_in)),
 		indices(std::move(indices_in))
@@ -18,17 +19,17 @@ public:
 	}
 	void Transform(DirectX::FXMMATRIX matrix)
 	{
-		for (auto& v : vertices)
+		for (auto& vertex : vertices)
 		{
-			const DirectX::XMVECTOR pos = DirectX::XMLoadFloat3(&v.vertex);
+			const DirectX::XMVECTOR pos = DirectX::XMLoadFloat3(&vertex.data);
 			DirectX::XMStoreFloat3(
-				&v.vertex,
+				&vertex.data,
 				DirectX::XMVector3Transform(pos, matrix)
 			);
 		}
 	}
 
 public:
-	std::vector<T> vertices;
+	std::vector<Vertex> vertices;
 	std::vector<unsigned short> indices;
 };

@@ -126,6 +126,12 @@
     <ClCompile Include="Bindable.cpp">
       <Filter>Source Files\Graphics\Bindable</Filter>
     </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="PointList.cpp">
+      <Filter>Source Files\Graphics\Drawable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModifiedWindows.h">
@@ -224,23 +230,23 @@
     <ClInclude Include="Math.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Cone.h">
-      <Filter>Header Files\Graphics\geometry</Filter>
-    </ClInclude>
     <ClInclude Include="Cube.h">
       <Filter>Header Files\Graphics\geometry</Filter>
     </ClInclude>
     <ClInclude Include="IndexedTriangleList.h">
       <Filter>Header Files\Graphics\geometry</Filter>
     </ClInclude>
-    <ClInclude Include="Plane.h">
+    <ClInclude Include="Shape.h">
       <Filter>Header Files\Graphics\geometry</Filter>
     </ClInclude>
-    <ClInclude Include="Prism.h">
+    <ClInclude Include="Vertex.h">
       <Filter>Header Files\Graphics\geometry</Filter>
     </ClInclude>
     <ClInclude Include="Sphere.h">
       <Filter>Header Files\Graphics\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="PointList.h">
+      <Filter>Header Files\Graphics\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -248,6 +254,12 @@
       <Filter>Header Files\Graphics\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="VertexShader.hlsl">
+      <Filter>Header Files\Graphics\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="ColoredVertexShader.hlsl">
+      <Filter>Header Files\Graphics\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="ColorlessPixelShader.hlsl">
       <Filter>Header Files\Graphics\Shaders</Filter>
     </FxCompile>
   </ItemGroup>
