@@ -12,16 +12,24 @@ Application::Application()
 	window(800, 800, "Testing testing 123"),
 	timer(0.005f)
 {
+	std::mt19937 rand(std::random_device{}());
+	std::uniform_real_distribution a(0.0f, 3.1415f * 2.0f);
+	std::uniform_real_distribution b(0.0f, 3.1415f * 2.0f);
+	std::uniform_real_distribution c(0.0f, 3.1415f * 0.3f);
+	std::uniform_real_distribution d(6.0f, 20.0f);
+	std::uniform_real_distribution e(0.25f, 2.0f);
+	std::uniform_real_distribution f(0.0f, 1.0f);
 
-	/*
-	Sphere sphere(100);
+	Sphere sphere(1000);
 	for (int i = 0; i < 1; i++)
 	{
-		cubes.push_back(std::make_unique<PointList>(
-			window.GetGraphics(), sphere
-		));
+		shapes.push_back(std::make_unique<PointList>(window.GetGraphics(), sphere));
+		auto& temp = shapes.back();
+		//temp->position = { a(rand), a(rand), a(rand) };
+		//temp->velocity = { c(rand), c(rand), c(rand) };
+		temp->rotation = { b(rand), b(rand), b(rand) };
+		temp->rotation /= 4.0f;
 	}
-	*/
 	window.GetGraphics().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 40.0f));
 }
 
@@ -61,25 +69,11 @@ void Application::Render()
 	const float delta = timer.Elapsed();
 	timer.Mark();
 
-	std::mt19937 rand(std::random_device{}());
-	std::uniform_real_distribution<float> a(0.0f, 3.1415f * 2.0f);
-	std::uniform_real_distribution<float> b(0.0f, 3.1415f * 2.0f);
-	std::uniform_real_distribution<float> c(0.0f, 3.1415f * 0.3f);
-	std::uniform_real_distribution<float> d(6.0f, 20.0f);
-	std::uniform_real_distribution<float> e(0.25f, 2.0f);
-	std::uniform_real_distribution<float> f(0.0f, 1.0f);
-
-	PointList sphere(graphics, Sphere(100000));
-	Block block(graphics, rand, a, b, c, d, e, f);
-	sphere.Draw(graphics);
-	//block.Draw(graphics);
-	/* 
-	for (auto& cube : cubes)
+	for (auto& shape : shapes)
 	{
-		cube->Update(delta);
-		cube->Draw(graphics);
+		shape->Tick(delta);
+		shape->Draw(graphics);
 	}
-	*/
 	graphics.Present();
 }
 

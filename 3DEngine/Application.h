@@ -2,8 +2,7 @@
 
 #include "Timer.h"
 #include "Window.h"
-#include "Drawable.h"
-#include "PointList.h"
+#include "DrawableBase.h"
 
 class Application
 {
@@ -17,5 +16,5 @@ public:
 	Window window;
 	Timer timer;
 private:
-	std::vector<std::unique_ptr<Drawable<PointList>>> cubes;
+	std::vector<std::unique_ptr<Drawable>> shapes;
 };

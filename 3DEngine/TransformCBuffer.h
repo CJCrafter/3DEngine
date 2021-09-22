@@ -1,13 +1,13 @@
 ﻿#pragma once
 #include "ConstantBuffers.h"
-#include "Drawable.h"
+#include "DrawableBase.h"
 #include <DirectXMath.h>
 
 template <class T>
 class TransformCBuffer : public Bindable
 {
 public:
-	TransformCBuffer(Graphics& graphics, const Drawable<T>& parent)
+	TransformCBuffer(Graphics& graphics, const DrawableBase<T>& parent)
 		:
 		parent(parent)
 	{
@@ -29,7 +29,7 @@ public:
 
 private:
 	static std::unique_ptr<VertexConstantBuffer<DirectX::XMMATRIX>> buffer;
-	const Drawable<T>& parent;
+	const DrawableBase<T>& parent;
 };
 
 template <class T>

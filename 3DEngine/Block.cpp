@@ -45,7 +45,7 @@ Block::Block(Graphics& graphics, std::mt19937& rand,
 		isStaticInitialized = true;
 	} else
 	{
-		SetIndexBuffer();
+		DrawableBase<Block>::Init();
 	}
 	// End of static constructor
 
@@ -67,21 +67,6 @@ Block::Block(Graphics& graphics, std::mt19937& rand,
 	};
 	AddBind(std::make_unique<PixelConstantBuffer<Vec4>>(graphics, colors));
 	AddBind(std::make_unique<TransformCBuffer<Block>>(graphics, *this));
-}
-
-void Block::Update(float dt) noexcept
-{
-	position += (velocity * dt);
-	angle += (rotation * dt);
-}
-
-DirectX::XMMATRIX Block::GetTransform() const noexcept
-{
-	return DirectX::XMMatrixScaling(scale.x, scale.y, scale.z) *
-		DirectX::XMMatrixRotationRollPitchYaw(angle.x, angle.y, angle.z) *
-		DirectX::XMMatrixTranslation(radius, 0.0f, 0.0f) *
-		DirectX::XMMatrixRotationRollPitchYaw(position.x, position.y, position.z) *
-		DirectX::XMMatrixTranslation(0.0f, 0.0f, 20.0f);
 }
 
 UINT Block::GetVertexCount() const noexcept

@@ -169,6 +169,7 @@
     <ClCompile Include="ArithmeticException.cpp" />
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="dxerr.cpp" />
     <ClCompile Include="DXGIInfoManager.cpp" />
     <ClCompile Include="EngineException.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Drawable.h" />
+    <ClInclude Include="DrawableBase.h" />
     <ClInclude Include="dxerr.h" />
     <ClInclude Include="DXGIInfoManager.h" />
     <ClInclude Include="EngineException.h" />

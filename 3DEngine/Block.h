@@ -1,11 +1,11 @@
 #pragma once
 #include <random>
 
-#include "Drawable.h"
+#include "DrawableBase.h"
 #include "Vec3.h"
 #include "Vec4.h"
 
-class Block : public Drawable<Block>
+class Block : public DrawableBase<Block>
 {
 public:
 	Block(Graphics& graphics, std::mt19937& rand,
@@ -15,8 +15,6 @@ public:
 		std::uniform_real_distribution<float>& d,
 		std::uniform_real_distribution<float>& e,
 		std::uniform_real_distribution<float>& f);
-	void Update(float dt) noexcept override;
-	DirectX::XMMATRIX GetTransform() const noexcept override;
 	UINT GetVertexCount() const noexcept override;
 private:
 	float radius;

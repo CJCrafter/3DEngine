@@ -132,6 +132,9 @@
     <ClCompile Include="PointList.cpp">
       <Filter>Source Files\Graphics\Drawable</Filter>
     </ClCompile>
+    <ClCompile Include="Drawable.cpp">
+      <Filter>Source Files\Graphics\Drawable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModifiedWindows.h">
@@ -215,7 +218,7 @@
     <ClInclude Include="TransformCBuffer.h">
       <Filter>Header Files\Graphics\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="Drawable.h">
+    <ClInclude Include="DrawableBase.h">
       <Filter>Header Files\Graphics\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="Block.h">
@@ -246,6 +249,9 @@
       <Filter>Header Files\Graphics\geometry</Filter>
     </ClInclude>
     <ClInclude Include="PointList.h">
+      <Filter>Header Files\Graphics\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawable.h">
       <Filter>Header Files\Graphics\Drawable</Filter>
     </ClInclude>
   </ItemGroup>

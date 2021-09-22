@@ -33,15 +33,6 @@ PointList::PointList(Graphics& graphics, const Shape& shape)
 	AddBind(std::make_unique<TransformCBuffer<PointList>>(graphics, *this));
 }
 
-void PointList::Update(float dt) noexcept
-{
-}
-
-DirectX::XMMATRIX PointList::GetTransform() const noexcept
-{
-	return DirectX::XMMatrixTranslation(0.0f, 0.0f, 20.0f);
-}
-
 UINT PointList::GetVertexCount() const noexcept
 {
 	return points;
