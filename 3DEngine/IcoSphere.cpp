@@ -55,8 +55,8 @@ IcoSphere::IcoSphere(const int recursion)
 		for (int iteration = 0; iteration < geometry.indices.size(); iteration += 3)
 		{
 			const int i = geometry.indices[iteration];
-			const int j = geometry.indices[iteration + 1];
-			const int k = geometry.indices[iteration + 2];
+			const int j = geometry.indices[1 + iteration];
+			const int k = geometry.indices[2 + iteration];
 
 			const unsigned short a = GetMiddlePoint(i, j);
 			const unsigned short b = GetMiddlePoint(j, k);
