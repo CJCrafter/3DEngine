@@ -1,7 +1,11 @@
 ﻿#pragma once
 #include "IndexedTriangleList.h"
 
-struct Shape
+class Shape
 {
-	virtual IndexedTriangleList Generate() const = 0;
+public:
+	IndexedTriangleList Geometry() const { return geometry; }
+
+protected:
+	IndexedTriangleList geometry;
 };

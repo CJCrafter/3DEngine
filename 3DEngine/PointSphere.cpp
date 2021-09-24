@@ -1,12 +1,7 @@
-#include "Sphere.h"
+#include "PointSphere.h"
 #include "Math.h"
 
-Sphere::Sphere(const int points)
-	: points(points)
-{
-}
-
-IndexedTriangleList Sphere::Generate() const
+PointSphere::PointSphere(const int points)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned short> indices;
@@ -20,10 +15,10 @@ IndexedTriangleList Sphere::Generate() const
 		const float theta = static_cast<float>(i) * GOLDEN_ANGLE;
 
 		const float x = r * std::cos(theta);
-		const float z = r * std::cos(theta);
-		Vertex vertex(Vec3f(x, y, z));
+		const float z = r * std::sin(theta);
+		Vertex vertex(Vec3f(x / 2.0f, y / 2.0f, z / 2.0f));
 		vertices.push_back(vertex);
 	}
 
-	return {vertices, indices};
+	geometry = { vertices, indices };
 }

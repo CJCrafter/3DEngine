@@ -3,8 +3,10 @@
 #include <random>
 
 #include "Block.h"
+#include "IcoSphere.h"
 #include "PointList.h"
-#include "Sphere.h"
+#include "ShapeDrawable.h"
+#include "PointSphere.h"
 #include "Vec3.h"
 
 Application::Application()
@@ -14,21 +16,20 @@ Application::Application()
 {
 	std::mt19937 rand(std::random_device{}());
 	std::uniform_real_distribution a(0.0f, 3.1415f * 2.0f);
-	std::uniform_real_distribution b(0.0f, 3.1415f * 2.0f);
-	std::uniform_real_distribution c(0.0f, 3.1415f * 0.3f);
-	std::uniform_real_distribution d(6.0f, 20.0f);
+	std::uniform_real_distribution b(0.0f, 3.1415f * 0.25f);
+	std::uniform_real_distribution c(-3.1415f * 0.3f, 3.1415f * 0.3f);
+	std::uniform_real_distribution d(0.2f, 0.4f);
 	std::uniform_real_distribution e(0.25f, 2.0f);
 	std::uniform_real_distribution f(0.0f, 1.0f);
 
-	Sphere sphere(1000);
 	for (int i = 0; i < 1; i++)
 	{
-		shapes.push_back(std::make_unique<PointList>(window.GetGraphics(), sphere));
+		shapes.push_back(std::make_unique<ShapeDrawable>(window.GetGraphics(), IcoSphere(5)));
 		auto& temp = shapes.back();
 		//temp->position = { a(rand), a(rand), a(rand) };
-		//temp->velocity = { c(rand), c(rand), c(rand) };
+		//temp->velocity = { c(rand), c(rand), c(rand) * 2 };
 		temp->rotation = { b(rand), b(rand), b(rand) };
-		temp->rotation /= 4.0f;
+		temp->scale    = { 12.5f, 12.5f, 12.5f };
 	}
 	window.GetGraphics().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 40.0f));
 }

@@ -55,7 +55,10 @@
     <Filter Include="Source Files\Graphics\Drawable">
       <UniqueIdentifier>{316eca02-99d9-4830-bbe5-efcd6cc0cf6e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Graphics\geometry">
+    <Filter Include="Source Files\Graphics\Geometry">
+      <UniqueIdentifier>{6d08e9ba-5a01-4bef-81d6-5dacd50e3bbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Geometry">
       <UniqueIdentifier>{2b090ded-8afa-457b-82de-33a52331560e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -126,14 +129,23 @@
     <ClCompile Include="Bindable.cpp">
       <Filter>Source Files\Graphics\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="Sphere.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="PointList.cpp">
       <Filter>Source Files\Graphics\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="Drawable.cpp">
       <Filter>Source Files\Graphics\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeDrawable.cpp">
+      <Filter>Source Files\Graphics\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source Files\Graphics\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="PointSphere.cpp">
+      <Filter>Source Files\Graphics\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="IcoSphere.cpp">
+      <Filter>Source Files\Graphics\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -234,25 +246,31 @@
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Cube.h">
-      <Filter>Header Files\Graphics\geometry</Filter>
+      <Filter>Header Files\Graphics\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="IndexedTriangleList.h">
-      <Filter>Header Files\Graphics\geometry</Filter>
+      <Filter>Header Files\Graphics\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Shape.h">
-      <Filter>Header Files\Graphics\geometry</Filter>
+      <Filter>Header Files\Graphics\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
-      <Filter>Header Files\Graphics\geometry</Filter>
+      <Filter>Header Files\Graphics\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="Sphere.h">
-      <Filter>Header Files\Graphics\geometry</Filter>
+    <ClInclude Include="PointSphere.h">
+      <Filter>Header Files\Graphics\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="PointList.h">
       <Filter>Header Files\Graphics\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="Drawable.h">
       <Filter>Header Files\Graphics\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeDrawable.h">
+      <Filter>Header Files\Graphics\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="IcoSphere.h">
+      <Filter>Header Files\Graphics\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,9 +6,8 @@ PointList::PointList(Graphics& graphics, const Shape& shape)
 {
 	if (!isStaticInitialized)
 	{
-		IndexedTriangleList model = shape.Generate();
+		IndexedTriangleList model = shape.Geometry();
 		points = model.vertices.size();
-		model.Transform(DirectX::XMMatrixScaling(10.0f, 10.0f, 10.0f));
 		AddStaticBind(std::make_unique<VertexBuffer>(graphics, model.vertices));
 
 		auto vertexShader = std::make_unique<VertexShader>(graphics, L"ColoredVertexShader.cso");
@@ -27,8 +26,8 @@ PointList::PointList(Graphics& graphics, const Shape& shape)
 		//AddStaticBind(std::make_unique<VertexConstantBuffer<std::vector<Vertex>>>(graphics, model.vertices));
 
 		notIndexed = true;
-		isStaticInitialized = true;
-	}
+		isStaticInitialized = false;
+	} 
 
 	AddBind(std::make_unique<TransformCBuffer<PointList>>(graphics, *this));
 }

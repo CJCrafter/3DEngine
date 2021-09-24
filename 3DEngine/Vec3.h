@@ -216,7 +216,9 @@ struct Vec3
 	}
 	Vec3<T>& Normalize()
 	{
-		*this /= Magnitude();
+		const float magnitude = Magnitude();
+		assert(magnitude > 0.0f);
+		*this /= magnitude;
 		return *this;
 	}
 	Vec3<T> GetNormalized() const

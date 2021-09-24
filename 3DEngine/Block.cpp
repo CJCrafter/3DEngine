@@ -2,7 +2,7 @@
 
 #include "BindableMacro.h"
 #include "Cube.h"
-#include "Sphere.h"
+#include "PointSphere.h"
 #include "Vec4.h"
 
 Block::Block(Graphics& graphics, std::mt19937& rand,
@@ -24,7 +24,7 @@ Block::Block(Graphics& graphics, std::mt19937& rand,
 	if (!isStaticInitialized)
 	{
 
-		auto model = Cube::Make();
+		auto model = Cube().Geometry();
 		model.Transform(DirectX::XMMatrixScaling(1.0f, 1.0f, 1.2f));
 		AddStaticBind(std::make_unique<VertexBuffer>(graphics, model.vertices));
 
@@ -49,23 +49,6 @@ Block::Block(Graphics& graphics, std::mt19937& rand,
 	}
 	// End of static constructor
 
-	// Only non static bindables are color and transform
-	struct Vec4
-	{
-		Vec4f face_colors[6];
-	};
-	Vec4 colors = 
-	{
-		{
-			{Vec4f(1.0f, 0.0f, 1.0f, 0.0f) *= color},
-			{Vec4f(1.0f, 0.0f, 0.0f, 0.0f) *= color},
-			{Vec4f(0.0f, 1.0f, 0.0f, 0.0f) *= color},
-			{Vec4f(0.0f, 0.0f, 1.0f, 0.0f) *= color},
-			{Vec4f(1.0f, 1.0f, 0.0f, 0.0f) *= color},
-			{Vec4f(0.0f, 1.0f, 1.0f, 0.0f) *= color}
-		}
-	};
-	AddBind(std::make_unique<PixelConstantBuffer<Vec4>>(graphics, colors));
 	AddBind(std::make_unique<TransformCBuffer<Block>>(graphics, *this));
 }
 

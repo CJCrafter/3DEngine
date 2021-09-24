@@ -169,6 +169,7 @@
     <ClCompile Include="ArithmeticException.cpp" />
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="dxerr.cpp" />
     <ClCompile Include="DXGIInfoManager.cpp" />
@@ -183,7 +184,9 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="PointList.cpp" />
-    <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="ShapeDrawable.cpp" />
+    <ClCompile Include="PointSphere.cpp" />
+    <ClCompile Include="IcoSphere.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Topology.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -219,7 +222,9 @@
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="PointList.h" />
     <ClInclude Include="Shape.h" />
-    <ClInclude Include="Sphere.h" />
+    <ClInclude Include="ShapeDrawable.h" />
+    <ClInclude Include="PointSphere.h" />
+    <ClInclude Include="IcoSphere.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Topology.h" />
     <ClInclude Include="TransformCBuffer.h" />

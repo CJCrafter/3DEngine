@@ -39,7 +39,5 @@ DirectX::XMMATRIX Drawable::GetTransform() const noexcept
 {
 	return DirectX::XMMatrixScaling(scale.x, scale.y, scale.z) *
 		DirectX::XMMatrixRotationRollPitchYaw(angle.x, angle.y, angle.z) *
-		DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f) *
-		DirectX::XMMatrixRotationRollPitchYaw(position.x, position.y, position.z) *
-		DirectX::XMMatrixTranslation(0.0f, 0.0f, 3.0f);
+		DirectX::XMMatrixTranslation(position.x, position.y, 20.0f + position.z);
 }
