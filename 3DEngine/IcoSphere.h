@@ -11,6 +11,6 @@ private:
 	unsigned int GetMiddlePoint(unsigned int indexA, unsigned int indexB);
 
 private:
-	std::unordered_map<unsigned long, unsigned int> cache;
+	std::unordered_map<unsigned __int64, unsigned int> cache;
 	unsigned int index;
 };

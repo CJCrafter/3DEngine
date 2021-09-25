@@ -84,9 +84,9 @@ unsigned int IcoSphere::GetMiddlePoint(const unsigned int indexA, const unsigned
 {
 	// The cache stores a point as lower << 32 | upper
 	// It is crucial to figure out if indexA is lower, or indexB is lower
-  	const unsigned int lower = indexA < indexB ? indexA : indexB;
-	const unsigned int upper = indexA < indexB ? indexB : indexA;
-	const unsigned long hash = static_cast<unsigned int>(lower) << 32 | upper;
+  	const unsigned __int64 lower = indexA < indexB ? indexA : indexB;
+	const unsigned __int64 upper = indexA < indexB ? indexB : indexA;
+	const unsigned __int64 hash = lower << 32 | upper;
 
 	// Whenever find an old hash value, we can return a previous vertex instead
 	// of creating a new one.

@@ -23,7 +23,7 @@ IndexBuffer::IndexBuffer(Graphics& graphics, const std::vector<unsigned int>& in
 void IndexBuffer::Bind(Graphics& graphics) noexcept
 {
 
-	GetContext(graphics)->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
+	GetContext(graphics)->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0u);
 }
 
 UINT IndexBuffer::GetCount() const noexcept
