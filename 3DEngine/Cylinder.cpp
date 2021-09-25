@@ -6,7 +6,7 @@
 Cylinder::Cylinder(int divisions)
 {
 	std::vector<Vertex> vertices;
-	std::vector<unsigned short> indices;
+	std::vector<unsigned int> indices;
 
 	vertices.reserve(2 + divisions * 2);
 	indices.reserve(divisions * 12);

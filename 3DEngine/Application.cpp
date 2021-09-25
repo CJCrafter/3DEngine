@@ -4,6 +4,7 @@
 
 #include "Block.h"
 #include "Cone.h"
+#include "Cube.h"
 #include "Cylinder.h"
 #include "IcoSphere.h"
 #include "PointList.h"
@@ -26,7 +27,7 @@ Application::Application()
 
 	for (int i = 0; i < 1; i++)
 	{
-		shapes.push_back(std::make_unique<ShapeDrawable>(window.GetGraphics(), Cylinder(16)));
+		shapes.push_back(std::make_unique<ShapeDrawable>(window.GetGraphics(), Cube()));
 		auto& temp = shapes.back();
 		//temp->position = { a(rand), a(rand), a(rand) };
 		//temp->velocity = { c(rand), c(rand), c(rand) * 2 };
