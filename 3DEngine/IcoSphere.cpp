@@ -74,7 +74,7 @@ IcoSphere::IcoSphere(const int recursion)
 unsigned short IcoSphere::AddVertex(const Vec3f& point)
 {
 
-	// We normalize a new point (not effecting the passed parameter) so the
+	// We normalize a new point (not effecting  the passed parameter) so the
 	// point will lay perfectly on a unit sphere (radius = 1).
 	geometry.vertices.push_back(Vertex(point.GetNormalized()));
 	return index++;

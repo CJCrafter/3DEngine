@@ -4,6 +4,7 @@
 
 #include "Block.h"
 #include "Cone.h"
+#include "Cube.h"
 #include "Cylinder.h"
 #include "IcoSphere.h"
 #include "PointList.h"
@@ -26,7 +27,7 @@ Application::Application()
 
 	for (int i = 0; i < 1; i++)
 	{
-		shapes.push_back(std::make_unique<ShapeDrawable>(window.GetGraphics(), Cylinder(16)));
+		shapes.push_back(std::make_unique<ShapeDrawable>(window.GetGraphics(), Cube()));
 		auto& temp = shapes.back();
 		//temp->position = { a(rand), a(rand), a(rand) };
 		//temp->velocity = { c(rand), c(rand), c(rand) * 2 };
@@ -38,22 +39,6 @@ Application::Application()
 
 int Application::Start()
 {
-	if (false)
-	{
-		std::ostringstream stream;
-		Vec3f vector1(3.0f, 4.0f, 5.0f);
-		Vec3f vector2(vector1);
-
-		stream << "Vector 1: " << vector1 << std::endl
-			<< "Vector 1: " << (vector1 *= 2.0f) << std::endl
-			<< "Vector 2: " << vector2 << std::endl
-			<< "Add     : " << (vector1 + vector2) << std::endl
-			<< "Rotate  : " << (Vec3(5, 0, 0).RotateY(3.1415 / 2));
-
-		MessageBox(nullptr, stream.str().c_str(), "Test", MB_OK | MB_ICONEXCLAMATION);
-	}
-
-
 	while (true)
 	{
 		if (const auto code = Window::ProcessMessages())
