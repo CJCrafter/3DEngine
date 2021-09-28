@@ -40,9 +40,6 @@
     <Filter Include="Source Files\Utilities\Exception">
       <UniqueIdentifier>{c8b04d9f-c503-4670-86c6-f88f54ec441e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Utilities\Exception\Macros">
-      <UniqueIdentifier>{7932b3ee-6c40-489c-b3a2-31d9f4161d5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Graphics\Bindable">
       <UniqueIdentifier>{cc1ca9e9-a6cd-4d13-b430-6e1f496fdd0c}</UniqueIdentifier>
     </Filter>
@@ -60,6 +57,9 @@
     </Filter>
     <Filter Include="Header Files\Graphics\Geometry">
       <UniqueIdentifier>{2b090ded-8afa-457b-82de-33a52331560e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Macros">
+      <UniqueIdentifier>{7932b3ee-6c40-489c-b3a2-31d9f4161d5e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +153,24 @@
     <ClCompile Include="Cylinder.cpp">
       <Filter>Source Files\Graphics\Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Surface.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GDIPlusManager.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\Graphics\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Sampler.cpp">
+      <Filter>Source Files\Graphics\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="MirahCube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModifiedWindows.h">
@@ -198,10 +216,10 @@
       <Filter>Header Files\Utilities\Exception</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsMacros.h">
-      <Filter>Header Files\Utilities\Exception\Macros</Filter>
+      <Filter>Header Files\Utilities\Macros</Filter>
     </ClInclude>
     <ClInclude Include="WindowMacros.h">
-      <Filter>Header Files\Utilities\Exception\Macros</Filter>
+      <Filter>Header Files\Utilities\Macros</Filter>
     </ClInclude>
     <ClInclude Include="Bindable.h">
       <Filter>Header Files\Graphics\Bindable</Filter>
@@ -243,7 +261,7 @@
       <Filter>Header Files\Graphics\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="BindableMacro.h">
-      <Filter>Header Files\Utilities\Exception\Macros</Filter>
+      <Filter>Header Files\Utilities\Macros</Filter>
     </ClInclude>
     <ClInclude Include="Vec4.h">
       <Filter>Header Files\Utilities</Filter>
@@ -258,9 +276,6 @@
       <Filter>Header Files\Graphics\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Shape.h">
-      <Filter>Header Files\Graphics\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex.h">
       <Filter>Header Files\Graphics\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="PointSphere.h">
@@ -284,6 +299,24 @@
     <ClInclude Include="Cylinder.h">
       <Filter>Header Files\Graphics\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="Surface.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GDIPlusManager.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\Graphics\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Sampler.h">
+      <Filter>Header Files\Graphics\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="MirahCube.h">
+      <Filter>Header Files\Graphics\Drawable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
@@ -292,10 +325,16 @@
     <FxCompile Include="VertexShader.hlsl">
       <Filter>Header Files\Graphics\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="ColoredVertexShader.hlsl">
+    <FxCompile Include="ColorlessVertexShader.hlsl">
       <Filter>Header Files\Graphics\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="ColorlessPixelShader.hlsl">
+      <Filter>Header Files\Graphics\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="TextureVertexShader.hlsl">
+      <Filter>Header Files\Graphics\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="TexturePixelShader.hlsl">
       <Filter>Header Files\Graphics\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

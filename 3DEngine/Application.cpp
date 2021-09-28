@@ -27,12 +27,12 @@ Application::Application()
 
 	for (int i = 0; i < 1; i++)
 	{
-		shapes.push_back(std::make_unique<ShapeDrawable>(window.GetGraphics(), Cube()));
+		shapes.push_back(std::make_unique<ShapeDrawable>(window.GetGraphics(), IcoSphere(2)));
 		auto& temp = shapes.back();
 		//temp->position = { a(rand), a(rand), a(rand) };
 		//temp->velocity = { c(rand), c(rand), c(rand) * 2 };
 		temp->rotation = { b(rand), b(rand), b(rand) };
-		temp->scale    = { 7.5f, 7.5f, 7.5f };
+		temp->scale    = { 10.0f, 10.0f, 10.0f };
 	}
 	window.GetGraphics().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 40.0f));
 }

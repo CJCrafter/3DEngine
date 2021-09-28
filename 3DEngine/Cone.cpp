@@ -6,7 +6,7 @@
 Cone::Cone(int divisions)
 {
 	std::vector<Vertex> vertices;
-	std::vector<unsigned short> indices;
+	std::vector<unsigned int> indices;
 
 	vertices.reserve(2 + divisions);
 	vertices.push_back(Vertex(Vec3f(0.0f, 1.0f, 0.0f)));

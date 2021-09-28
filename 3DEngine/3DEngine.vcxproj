@@ -169,6 +169,7 @@
     <ClCompile Include="ArithmeticException.cpp" />
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="Cone.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Cylinder.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="dxerr.cpp" />
     <ClCompile Include="DXGIInfoManager.cpp" />
     <ClCompile Include="EngineException.cpp" />
+    <ClCompile Include="GDIPlusManager.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="HRException.cpp" />
     <ClCompile Include="IllegalStateException.cpp" />
@@ -183,12 +185,16 @@
     <ClCompile Include="InfoException.cpp" />
     <ClCompile Include="InputLayout.cpp" />
     <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="MirahCube.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="PointList.cpp" />
+    <ClCompile Include="Sampler.cpp" />
     <ClCompile Include="ShapeDrawable.cpp" />
     <ClCompile Include="PointSphere.cpp" />
     <ClCompile Include="IcoSphere.cpp" />
+    <ClCompile Include="Surface.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Topology.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -201,6 +207,7 @@
     <ClInclude Include="ArithmeticException.h" />
     <ClInclude Include="Bindable.h" />
     <ClInclude Include="BindableMacro.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="Cone.h" />
     <ClInclude Include="ConstantBuffers.h" />
     <ClInclude Include="Block.h" />
@@ -211,6 +218,7 @@
     <ClInclude Include="dxerr.h" />
     <ClInclude Include="DXGIInfoManager.h" />
     <ClInclude Include="EngineException.h" />
+    <ClInclude Include="GDIPlusManager.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GraphicsMacros.h" />
     <ClInclude Include="HRException.h" />
@@ -221,21 +229,24 @@
     <ClInclude Include="InputLayout.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="MirahCube.h" />
     <ClInclude Include="ModifiedWindows.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="PointList.h" />
+    <ClInclude Include="Sampler.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="ShapeDrawable.h" />
     <ClInclude Include="PointSphere.h" />
     <ClInclude Include="IcoSphere.h" />
+    <ClInclude Include="Surface.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Topology.h" />
     <ClInclude Include="TransformCBuffer.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec3.h" />
     <ClInclude Include="Vec4.h" />
-    <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />
@@ -250,7 +261,7 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
     </FxCompile>
-    <FxCompile Include="ColoredVertexShader.hlsl">
+    <FxCompile Include="ColorlessVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
@@ -267,6 +278,18 @@
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="TexturePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="TextureVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="VertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>

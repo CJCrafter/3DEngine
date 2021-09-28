@@ -1,6 +1,6 @@
 #include "IndexBuffer.h"
 
-IndexBuffer::IndexBuffer(Graphics& graphics, const std::vector<unsigned short>& indices)
+IndexBuffer::IndexBuffer(Graphics& graphics, const std::vector<unsigned int>& indices)
 	:
 	count(static_cast<UINT>(indices.size()))
 {
@@ -11,8 +11,8 @@ IndexBuffer::IndexBuffer(Graphics& graphics, const std::vector<unsigned short>& 
 	indexDesc.Usage = D3D11_USAGE_DEFAULT;
 	indexDesc.CPUAccessFlags = 0u;
 	indexDesc.MiscFlags = 0u;
-	indexDesc.ByteWidth = count * sizeof(unsigned short);
-	indexDesc.StructureByteStride = sizeof(unsigned short);
+	indexDesc.ByteWidth = count * sizeof(unsigned int);
+	indexDesc.StructureByteStride = sizeof(unsigned int);
 
 	D3D11_SUBRESOURCE_DATA indexData = {};
 	indexData.pSysMem = indices.data();
@@ -23,7 +23,7 @@ IndexBuffer::IndexBuffer(Graphics& graphics, const std::vector<unsigned short>& 
 void IndexBuffer::Bind(Graphics& graphics) noexcept
 {
 
-	GetContext(graphics)->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
+	GetContext(graphics)->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0u);
 }
 
 UINT IndexBuffer::GetCount() const noexcept

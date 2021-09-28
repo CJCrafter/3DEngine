@@ -3,13 +3,11 @@
 #include <vector>
 #include <DirectXMath.h>
 
-#include "Vertex.h"
-
 class IndexedTriangleList
 {
 public:
 	IndexedTriangleList() = default;
-	IndexedTriangleList(std::vector<Vertex> verts_in, std::vector<unsigned short> indices_in)
+	IndexedTriangleList(std::vector<class Vertex> verts_in, std::vector<unsigned int> indices_in)
 		:
 		vertices(std::move(verts_in)),
 		indices(std::move(indices_in))
@@ -30,6 +28,6 @@ public:
 	}
 
 public:
-	std::vector<Vertex> vertices;
-	std::vector<unsigned short> indices;
+	std::vector<class Vertex> vertices;
+	std::vector<unsigned int> indices;
 };

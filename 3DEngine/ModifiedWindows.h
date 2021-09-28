@@ -43,6 +43,7 @@
 #endif
 
 #define NOMINMAX
+#define NORGB
 
 #define STRICT
 

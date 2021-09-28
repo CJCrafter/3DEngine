@@ -4,7 +4,7 @@
 IcoSphere::IcoSphere(const int recursion)
 	: index(0)
 {
-	float x = (1.0f + std::sqrt(5.0f)) / 2.0f;
+	const float x = (1.0f + std::sqrt(5.0f)) / 2.0f;
 
 	AddVertex({ -1,  x, 0 });
 	AddVertex({  1,  x, 0 });
@@ -50,17 +50,17 @@ IcoSphere::IcoSphere(const int recursion)
 
 	for (int ignore = 0; ignore < recursion; ignore++) 
 	{
-		auto faces = std::vector<unsigned short>();
+		auto faces = std::vector<unsigned int>();
 		faces.reserve(geometry.indices.size() / 3 * 4);
 		for (int iteration = 0; iteration < geometry.indices.size(); iteration += 3)
 		{
-			const int i = geometry.indices[iteration];
-			const int j = geometry.indices[1 + iteration];
-			const int k = geometry.indices[2 + iteration];
+			const unsigned int i = geometry.indices[iteration];
+			const unsigned int j = geometry.indices[1 + iteration];
+			const unsigned int k = geometry.indices[2 + iteration];
 
-			const unsigned short a = GetMiddlePoint(i, j);
-			const unsigned short b = GetMiddlePoint(j, k);
-			const unsigned short c = GetMiddlePoint(k, i);
+			const unsigned int a = GetMiddlePoint(i, j);
+			const unsigned int b = GetMiddlePoint(j, k);
+			const unsigned int c = GetMiddlePoint(k, i);
 
 			faces.push_back(i); faces.push_back(a); faces.push_back(c);
 			faces.push_back(j); faces.push_back(b); faces.push_back(a);
@@ -71,7 +71,7 @@ IcoSphere::IcoSphere(const int recursion)
 	}
 }
 
-unsigned short IcoSphere::AddVertex(const Vec3f& point)
+unsigned int IcoSphere::AddVertex(const Vec3f& point)
 {
 
 	// We normalize a new point (not effecting  the passed parameter) so the
@@ -80,13 +80,13 @@ unsigned short IcoSphere::AddVertex(const Vec3f& point)
 	return index++;
 }
 
-unsigned short IcoSphere::GetMiddlePoint(const unsigned short indexA, const unsigned short indexB)
+unsigned int IcoSphere::GetMiddlePoint(const unsigned int indexA, const unsigned int indexB)
 {
 	// The cache stores a point as lower << 32 | upper
 	// It is crucial to figure out if indexA is lower, or indexB is lower
-  	const unsigned short lower = indexA < indexB ? indexA : indexB;
-	const unsigned short upper = indexA < indexB ? indexB : indexA;
-	const unsigned int   hash = static_cast<unsigned int>(lower) << 16 | upper;
+  	const unsigned __int64 lower = indexA < indexB ? indexA : indexB;
+	const unsigned __int64 upper = indexA < indexB ? indexB : indexA;
+	const unsigned __int64 hash = lower << 32 | upper;
 
 	// Whenever find an old hash value, we can return a previous vertex instead
 	// of creating a new one.
@@ -105,7 +105,7 @@ unsigned short IcoSphere::GetMiddlePoint(const unsigned short indexA, const unsi
 		throw EngineException(__LINE__, __FILE__, "", "");
 	}
 
-	const unsigned short i = AddVertex(middle);
+	const unsigned int i = AddVertex(middle);
 
 	cache[hash] = i;
 	return i;
