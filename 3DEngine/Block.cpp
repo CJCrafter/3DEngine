@@ -23,8 +23,7 @@ Block::Block(Graphics& graphics, std::mt19937& rand,
 	// Since every cube needs to share a few binds, we will declare them here. Static constructor, if you will.
 	if (!isStaticInitialized)
 	{
-
-		auto model = Cube().Geometry();
+		auto model = Cube<VertexBase>().Geometry();
 		model.Transform(DirectX::XMMatrixScaling(1.0f, 1.0f, 1.2f));
 		AddStaticBind(std::make_unique<VertexBuffer>(graphics, model.vertices));
 

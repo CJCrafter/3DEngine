@@ -2,7 +2,21 @@
 
 #include <cassert>
 #include <intsafe.h>
+
+#define FULL_WINTARD
 #include "ModifiedWindows.h"
+
+#include <algorithm>
+namespace Gdiplus
+{
+	using std::min;
+	using std::max;
+}
+#include <gdiplus.h>
+#include <sstream>
+
+#pragma comment( lib,"gdiplus.lib" )
+
 #undef RGB(r,g,b)
 
 Surface::SurfaceException::SurfaceException(int line, const char* file, std::string note) noexcept
@@ -106,7 +120,7 @@ void Surface::Save(const std::string& filename) const
 		{
 			std::stringstream ss;
 			ss << "Saving surface to [" << filename << "]: failed to get encoder; size == 0.";
-			throw Exception(__LINE__, __FILE__, ss.str());
+			throw SurfaceException(__LINE__, __FILE__, ss.str());
 		}
 
 		pImageCodecInfo = (Gdiplus::ImageCodecInfo*)(malloc(size));
@@ -114,7 +128,7 @@ void Surface::Save(const std::string& filename) const
 		{
 			std::stringstream ss;
 			ss << "Saving surface to [" << filename << "]: failed to get encoder; failed to allocate memory.";
-			throw Exception(__LINE__, __FILE__, ss.str());
+			throw SurfaceException(__LINE__, __FILE__, ss.str());
 		}
 
 		GetImageEncoders(num, size, pImageCodecInfo);
@@ -133,7 +147,7 @@ void Surface::Save(const std::string& filename) const
 		std::stringstream ss;
 		ss << "Saving surface to [" << filename <<
 			"]: failed to get encoder; failed to find matching encoder.";
-		throw Exception(__LINE__, __FILE__, ss.str());
+		throw SurfaceException(__LINE__, __FILE__, ss.str());
 	};
 
 	CLSID bmpID;
@@ -144,7 +158,7 @@ void Surface::Save(const std::string& filename) const
 	wchar_t wideName[512];
 	mbstowcs_s(nullptr, wideName, filename.c_str(), _TRUNCATE);
 
-	Gdiplus::Bitmap bitmap(width, height, width * sizeof(Color), PixelFormat32bppARGB, (BYTE*)pBuffer.get());
+	Gdiplus::Bitmap bitmap(width, height, width * sizeof(Color), PixelFormat32bppARGB, reinterpret_cast<BYTE*>(buffer.get()));
 	if (bitmap.Save(wideName, &bmpID, nullptr) != Gdiplus::Status::Ok)
 	{
 		std::stringstream ss;
@@ -153,11 +167,11 @@ void Surface::Save(const std::string& filename) const
 	}
 }
 
-void Surface::Copy(const Surface& src) 
+void Surface::Copy(const Surface& other) 
 {
-	assert(width == src.width);
-	assert(height == src.height);
-	memcpy(buffer.get(), src.buffer.get(), width * height * sizeof(Color));
+	assert(width == other.width);
+	assert(height == other.height);
+	memcpy(buffer.get(), other.buffer.get(), width * height * sizeof(Color));
 }
 
 Surface::Surface(const unsigned int width, const unsigned int height, std::unique_ptr<Color[]> buffer)
@@ -175,7 +189,7 @@ Surface Surface::FromFile(const std::string& name)
 	std::unique_ptr<Color[]> buffer = nullptr;
 
 	{
-		// convert filenam to wide string (for Gdiplus)
+		// convert filename to wide string (for GDIPlus)
 		wchar_t wideName[512];
 		mbstowcs_s(nullptr, wideName, name.c_str(), _TRUNCATE);
 

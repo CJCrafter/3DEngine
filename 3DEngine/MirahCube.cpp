@@ -2,12 +2,30 @@
 
 #include "Cube.h"
 #include "BindableMacro.h"
+#include "VertexBase.h"
 
 MirahCube::MirahCube(Graphics& graphics)
 {
 	if (!isStaticInitialized)
 	{
-		auto model = Cube().Geometry();
+		struct Vertex : public VertexBase
+		{
+			Vertex(const float x, const float y, const float z)
+				: VertexBase(x, y, z)
+			{
+			}
+
+			explicit Vertex(const Vec3f& vector)
+				: VertexBase(vector)
+			{
+			}
+
+			~Vertex()
+			{
+			}
+		};
+
+		auto model = Cube<Vertex>().Geometry();
 		AddStaticBind(std::make_unique<VertexBuffer>(graphics, model.vertices));
 
 		auto vertexShader = std::make_unique<VertexShader>(graphics, L"TexturedVertexShader.cso");

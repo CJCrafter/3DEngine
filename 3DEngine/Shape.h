@@ -1,11 +1,15 @@
 ﻿#pragma once
 #include "IndexedTriangleList.h"
+#include "VertexBase.h"
 
+template<class T>
 class Shape
 {
+	static_assert(std::is_base_of_v<VertexBase, T>, L"Vertex template MUST inherit from VertexBase");
+
 public:
-	IndexedTriangleList Geometry() const { return geometry; }
+	const IndexedTriangleList<T>& Geometry() const { return geometry; }
 
 protected:
-	IndexedTriangleList geometry;
+	IndexedTriangleList<T> geometry;
 };

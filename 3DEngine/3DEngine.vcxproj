@@ -170,9 +170,6 @@
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Color.cpp" />
-    <ClCompile Include="Cone.cpp" />
-    <ClCompile Include="Cube.cpp" />
-    <ClCompile Include="Cylinder.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="dxerr.cpp" />
     <ClCompile Include="DXGIInfoManager.cpp" />
@@ -190,9 +187,6 @@
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="PointList.cpp" />
     <ClCompile Include="Sampler.cpp" />
-    <ClCompile Include="ShapeDrawable.cpp" />
-    <ClCompile Include="PointSphere.cpp" />
-    <ClCompile Include="IcoSphere.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -247,6 +241,7 @@
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec3.h" />
     <ClInclude Include="Vec4.h" />
+    <ClInclude Include="VertexBase.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />

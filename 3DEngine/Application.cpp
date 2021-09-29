@@ -27,7 +27,7 @@ Application::Application()
 
 	for (int i = 0; i < 1; i++)
 	{
-		shapes.push_back(std::make_unique<ShapeDrawable>(window.GetGraphics(), IcoSphere(2)));
+		shapes.push_back(std::make_unique<ShapeDrawable>(window.GetGraphics(), IcoSphere<VertexBase>(2)));
 		auto& temp = shapes.back();
 		//temp->position = { a(rand), a(rand), a(rand) };
 		//temp->velocity = { c(rand), c(rand), c(rand) * 2 };
