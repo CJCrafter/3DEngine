@@ -27,7 +27,9 @@ Surface::SurfaceException::SurfaceException(int line, const char* file, std::str
 
 const char* Surface::SurfaceException::what() const noexcept
 {
-	return EngineException::what();
+	std::stringstream stream;
+	stream << std::endl << EngineException::what() << "[Note] " << note;
+	return stream.str().c_str();
 }
 
 const std::string& Surface::SurfaceException::GetNote() const noexcept
@@ -35,15 +37,10 @@ const std::string& Surface::SurfaceException::GetNote() const noexcept
 	return note;
 }
 
-Surface::Surface(const unsigned int width, const unsigned int height, const unsigned int pitch)
-	: buffer(std::make_unique<Color[]>(pitch * height)),
+Surface::Surface(const unsigned int width, const unsigned int height)
+	: buffer(std::make_unique<Color[]>(width * height)),
 	  width(width),
 	  height(height)
-{
-}
-
-Surface::Surface(const unsigned int width, const unsigned int height)
-	: Surface(width, height, width)
 {
 }
 
@@ -69,7 +66,7 @@ Surface::~Surface()
 
 void Surface::Clear(const Color& fill) noexcept
 {
-	memset(buffer.get(), fill.RGB(), width * height * sizeof(Color));
+	memset(buffer.get(), fill.ARGB(), width * height * sizeof(Color));
 }
 
 void Surface::Put(const unsigned int x, const unsigned int y, const Color& color)
@@ -123,7 +120,7 @@ void Surface::Save(const std::string& filename) const
 			throw SurfaceException(__LINE__, __FILE__, ss.str());
 		}
 
-		pImageCodecInfo = (Gdiplus::ImageCodecInfo*)(malloc(size));
+		pImageCodecInfo = static_cast<Gdiplus::ImageCodecInfo*>(malloc(size));
 		if (pImageCodecInfo == nullptr)
 		{
 			std::stringstream ss;
@@ -185,7 +182,6 @@ Surface Surface::FromFile(const std::string& name)
 {
 	unsigned int width  = 0;
 	unsigned int height = 0;
-	unsigned int pitch  = 0;
 	std::unique_ptr<Color[]> buffer = nullptr;
 
 	{
@@ -201,6 +197,7 @@ Surface Surface::FromFile(const std::string& name)
 			throw SurfaceException(__LINE__, __FILE__, ss.str());
 		}
 
+		width = bitmap.GetWidth();
 		height = bitmap.GetHeight();
 		buffer = std::make_unique<Color[]>(width * height);
 
@@ -210,7 +207,7 @@ Surface Surface::FromFile(const std::string& name)
 			{
 				Gdiplus::Color c;
 				bitmap.GetPixel(x, y, &c);
-				buffer[y * pitch + x] = c.GetValue();
+				buffer[y * width + x] = c.GetValue();
 			}
 		}
 	}

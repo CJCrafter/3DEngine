@@ -3,17 +3,17 @@
 class Color
 {
 public:
-	constexpr Color() noexcept;
-	constexpr Color(const Color& color) noexcept;
-	constexpr Color(unsigned int argb);
-	constexpr Color(unsigned char a, unsigned char r, unsigned char g, unsigned char b) noexcept;
+	Color() = default;
+	Color(const Color& color) noexcept;
+	Color(unsigned int argb);
+	Color(unsigned char a, unsigned char r, unsigned char g, unsigned char b) noexcept;
 
-	constexpr unsigned int RGB() const noexcept;
+	unsigned int ARGB() const noexcept;
 
-	constexpr unsigned char A() const noexcept;
-	constexpr unsigned char R() const noexcept;
-	constexpr unsigned char G() const noexcept;
-	constexpr unsigned char B() const noexcept;
+	unsigned char A() const noexcept;
+	unsigned char R() const noexcept;
+	unsigned char G() const noexcept;
+	unsigned char B() const noexcept;
 private:
 	unsigned int argb;
 };

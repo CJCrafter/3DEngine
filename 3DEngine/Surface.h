@@ -16,7 +16,6 @@ public:
 	};
 
 public:
-	Surface(unsigned int width, unsigned int height, unsigned int pitch);
 	Surface(unsigned int width, unsigned int height);
 	Surface(const Surface& other) = delete;
 	Surface(Surface&& other) noexcept;

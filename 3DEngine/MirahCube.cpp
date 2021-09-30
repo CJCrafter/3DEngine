@@ -3,6 +3,7 @@
 #include "Cube.h"
 #include "BindableMacro.h"
 #include "VertexBase.h"
+#include "Surface.h"
 
 MirahCube::MirahCube(Graphics& graphics)
 {
@@ -10,13 +11,20 @@ MirahCube::MirahCube(Graphics& graphics)
 	{
 		struct Vertex : public VertexBase
 		{
+			struct
+			{
+				float u, v;
+			} texture;
+
 			Vertex(const float x, const float y, const float z)
-				: VertexBase(x, y, z)
+				: VertexBase(x, y, z),
+			      texture{0, 0}
 			{
 			}
 
 			explicit Vertex(const Vec3f& vector)
-				: VertexBase(vector)
+				: VertexBase(vector),
+			      texture{0, 0}
 			{
 			}
 
@@ -26,9 +34,16 @@ MirahCube::MirahCube(Graphics& graphics)
 		};
 
 		auto model = Cube<Vertex>().Geometry();
-		AddStaticBind(std::make_unique<VertexBuffer>(graphics, model.vertices));
+		model.vertices[0].texture = { 0.0f, 0.0f };
+		model.vertices[1].texture = { 1.0f, 0.0f };
+		model.vertices[2].texture = { 0.0f, 1.0f };
+		model.vertices[3].texture = { 1.0f, 1.0f };
 
-		auto vertexShader = std::make_unique<VertexShader>(graphics, L"TexturedVertexShader.cso");
+		AddStaticBind(std::make_unique<Texture>(graphics, Surface::FromFile("mirah.png")));
+		AddStaticBind(std::make_unique<VertexBuffer>(graphics, model.vertices));
+		AddStaticBind(std::make_unique<Sampler>(graphics));
+			
+		auto vertexShader = std::make_unique<VertexShader>(graphics, L"TextureVertexShader.cso");
 		auto byteCode = vertexShader->GetCode();
 		AddStaticBind(std::move(vertexShader));
 		AddStaticBind(std::make_unique<PixelShader>(graphics, L"TexturePixelShader.cso"));
@@ -38,6 +53,7 @@ MirahCube::MirahCube(Graphics& graphics)
 		const std::vector<D3D11_INPUT_ELEMENT_DESC> inputDesc = 
 		{
 			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
 		};
 		AddStaticBind(std::make_unique<InputLayout>(graphics, inputDesc, byteCode));
 		AddStaticBind(std::make_unique<Topology>(graphics, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));

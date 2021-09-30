@@ -20,6 +20,11 @@ struct VertexBase
 	{
 	}
 
+	VertexBase(const VertexBase& vector)
+		: vector(Vec3f(vector.vector))
+	{
+	}
+
 	~VertexBase()
 	{
 	}

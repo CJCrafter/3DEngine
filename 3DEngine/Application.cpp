@@ -7,10 +7,14 @@
 #include "Cube.h"
 #include "Cylinder.h"
 #include "IcoSphere.h"
+#include "MirahCube.h"
 #include "PointList.h"
 #include "ShapeDrawable.h"
 #include "PointSphere.h"
 #include "Vec3.h"
+#include "GDIPlusManager.h"
+
+GDIPlusManager gdi;
 
 Application::Application()
 	:
@@ -27,7 +31,7 @@ Application::Application()
 
 	for (int i = 0; i < 1; i++)
 	{
-		shapes.push_back(std::make_unique<ShapeDrawable>(window.GetGraphics(), IcoSphere<VertexBase>(2)));
+		shapes.push_back(std::make_unique<MirahCube>(window.GetGraphics()));
 		auto& temp = shapes.back();
 		//temp->position = { a(rand), a(rand), a(rand) };
 		//temp->velocity = { c(rand), c(rand), c(rand) * 2 };

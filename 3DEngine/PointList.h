@@ -15,7 +15,7 @@ public:
 			points = model.vertices.size();
 			AddStaticBind(std::make_unique<VertexBuffer>(graphics, model.vertices));
 
-			auto vertexShader = std::make_unique<VertexShader>(graphics, L"ColoredVertexShader.cso");
+			auto vertexShader = std::make_unique<VertexShader>(graphics, L"ColorlessVertexShader.cso");
 			auto byteCode = vertexShader->GetCode();
 			AddStaticBind(std::move(vertexShader));
 			AddStaticBind(std::make_unique<PixelShader>(graphics, L"ColorlessPixelShader.cso"));
