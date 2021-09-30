@@ -14,8 +14,8 @@ Graphics::Graphics(HWND window)
 	HRESULT hr; 
 
 	DXGI_SWAP_CHAIN_DESC sd;
-	sd.BufferDesc.Width = 0;                                                   // 0 allows Direct3D to look at the window and use that size
-	sd.BufferDesc.Height = 0;                                                  // ^
+	sd.BufferDesc.Width = 800;                                                   // 0 allows Direct3D to look at the window and use that size
+	sd.BufferDesc.Height = 800;                                                  // ^
 	sd.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;                         // Layout of the channels of the pixels
 	sd.BufferDesc.RefreshRate.Numerator = 0;                                   // 0 picks the default refresh rate
 	sd.BufferDesc.RefreshRate.Denominator = 0;                                 //
@@ -34,7 +34,7 @@ Graphics::Graphics(HWND window)
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
-		D3D11_CREATE_DEVICE_DEBUG,
+		_DEBUG ? D3D11_CREATE_DEVICE_DEBUG : 0u,
 		nullptr,
 		0,
 		D3D11_SDK_VERSION,

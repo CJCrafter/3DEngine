@@ -1,7 +1,7 @@
 ﻿#include "MirahCube.h"
 
-#include "Cube.h"
 #include "BindableMacro.h"
+#include "SkinnedCube.h"
 #include "VertexBase.h"
 #include "Surface.h"
 
@@ -15,6 +15,11 @@ MirahCube::MirahCube(Graphics& graphics)
 			{
 				float u, v;
 			} texture;
+
+			Vertex()
+				: Vertex(0.0f, 0.0f, 0.0f)
+			{
+			}
 
 			Vertex(const float x, const float y, const float z)
 				: VertexBase(x, y, z),
@@ -33,13 +38,9 @@ MirahCube::MirahCube(Graphics& graphics)
 			}
 		};
 
-		auto model = Cube<Vertex>().Geometry();
-		model.vertices[0].texture = { 0.0f, 0.0f };
-		model.vertices[1].texture = { 1.0f, 0.0f };
-		model.vertices[2].texture = { 0.0f, 1.0f };
-		model.vertices[3].texture = { 1.0f, 1.0f };
+		auto model = SkinnedCube<Vertex>().Geometry();
 
-		AddStaticBind(std::make_unique<Texture>(graphics, Surface::FromFile("mirah.png")));
+		AddStaticBind(std::make_unique<Texture>(graphics, Surface::FromFile("grass.png")));
 		AddStaticBind(std::make_unique<VertexBuffer>(graphics, model.vertices));
 		AddStaticBind(std::make_unique<Sampler>(graphics));
 			
@@ -65,9 +66,4 @@ MirahCube::MirahCube(Graphics& graphics)
 	}
 
 	AddBind(std::make_unique<TransformCBuffer<MirahCube>>(graphics, *this));
-}
-
-UINT MirahCube::GetVertexCount() const noexcept
-{
-	return 0u;
 }

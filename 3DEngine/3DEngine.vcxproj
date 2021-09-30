@@ -233,6 +233,7 @@
     <ClInclude Include="ShapeDrawable.h" />
     <ClInclude Include="PointSphere.h" />
     <ClInclude Include="IcoSphere.h" />
+    <ClInclude Include="SkinnedCube.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />

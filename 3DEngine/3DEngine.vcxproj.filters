@@ -299,6 +299,9 @@
     <ClInclude Include="VertexBase.h">
       <Filter>Header Files\Graphics\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="SkinnedCube.h">
+      <Filter>Header Files\Graphics\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
