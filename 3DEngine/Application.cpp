@@ -35,7 +35,8 @@ Application::Application()
 		auto& temp = shapes.back();
 		//temp->position = { a(rand), a(rand), a(rand) };
 		//temp->velocity = { c(rand), c(rand), c(rand) * 2 };
-		temp->rotation = { b(rand), b(rand), b(rand) };
+		//temp->rotation = { b(rand), b(rand), b(rand) };
+		temp->angle = { PI / 4.0f, PI / 4.0f, 0.0f };
 		temp->scale    = { 10.0f, 10.0f, 10.0f };
 	}
 	window.GetGraphics().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 40.0f));
@@ -63,8 +64,20 @@ void Application::Render()
 
 	for (auto& shape : shapes)
 	{
+		Vec3f& rotation = shape->rotation;
+		constexpr float rate = PI / 4;
+
+		if (window.key.KeyIsPressed('W')) rotation.x = rate;
+		else if (window.key.KeyIsPressed('S')) rotation.x = -rate;
+		if (window.key.KeyIsPressed('A')) rotation.z = rate;
+		else if (window.key.KeyIsPressed('D')) rotation.z = -rate;
+		if (window.key.KeyIsPressed('Q')) rotation.y = rate;
+		else if (window.key.KeyIsPressed('E')) rotation.y = -rate;
+
 		shape->Tick(delta);
 		shape->Draw(graphics);
+
+		rotation.Clear();
 	}
 	graphics.Present();
 }
