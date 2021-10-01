@@ -58,6 +58,12 @@
     <Filter Include="Header Files\Utilities\Macros">
       <UniqueIdentifier>{7932b3ee-6c40-489c-b3a2-31d9f4161d5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Window\imgui">
+      <UniqueIdentifier>{e84e390c-aece-4384-b038-fdf602f97107}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Window\imgui">
+      <UniqueIdentifier>{299e1cb1-fe99-44a0-8b63-d2a7dd1b6683}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -149,6 +155,27 @@
     </ClCompile>
     <ClCompile Include="MirahCube.cpp">
       <Filter>Source Files\Graphics\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx12.cpp">
+      <Filter>Source Files\Window\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Source Files\Window\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>Source Files\Window\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Source Files\Window\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Source Files\Window\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_win32.cpp">
+      <Filter>Source Files\Window\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>Source Files\Window\imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +328,30 @@
     </ClInclude>
     <ClInclude Include="SkinnedCube.h">
       <Filter>Header Files\Graphics\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx12.h">
+      <Filter>Header Files\Window\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Header Files\Window\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Header Files\Window\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_win32.h">
+      <Filter>Header Files\Window\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Header Files\Window\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Header Files\Window\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Header Files\Window\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Header Files\Window\imgui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
