@@ -4,6 +4,7 @@
 
 #include "IllegalStateException.h"
 #include "WindowMacros.h"
+#include "imgui_impl_win32.h"
 
 Window::WindowClass Window::WindowClass::singleton;
 
@@ -70,11 +71,14 @@ Window::Window(int width, int height, LPCSTR name)
 	// Display the window
 	ShowWindow(window, SW_SHOWDEFAULT);
 
+	ImGui_ImplWin32_Init(window);
+
 	graphics = std::make_unique<Graphics>(window);
 }
 
 Window::~Window()
 {
+	ImGui_ImplWin32_Shutdown();
 	DestroyWindow(window);
 }
 
@@ -128,8 +132,15 @@ LRESULT WINAPI Window::HandleMsgThunk(HWND window, UINT msg, WPARAM w, LPARAM l)
 	return win->HandleMsg(window, msg, w, l);
 }
 
+// We have to define this external function
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND window, UINT msg, WPARAM w, LPARAM l);
 LRESULT Window::HandleMsg(HWND window, UINT msg, WPARAM w, LPARAM l)
 {
+	if (ImGui_ImplWin32_WndProcHandler(window, msg, w, l))
+	{
+		return true;
+	}
+
 	switch (msg)
 	{
 	// The close button was pushed

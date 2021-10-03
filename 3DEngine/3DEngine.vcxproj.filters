@@ -177,6 +177,12 @@
     <ClCompile Include="imgui_tables.cpp">
       <Filter>Source Files\Window\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="ImguiManager.cpp">
+      <Filter>Source Files\Window\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx11.cpp">
+      <Filter>Source Files\Window\imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModifiedWindows.h">
@@ -351,6 +357,12 @@
       <Filter>Header Files\Window\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imstb_textedit.h">
+      <Filter>Header Files\Window\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImguiManager.h">
+      <Filter>Header Files\Window\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx11.h">
       <Filter>Header Files\Window\imgui</Filter>
     </ClInclude>
   </ItemGroup>

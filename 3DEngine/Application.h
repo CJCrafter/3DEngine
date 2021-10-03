@@ -3,6 +3,7 @@
 #include "Timer.h"
 #include "Window.h"
 #include "DrawableBase.h"
+#include "ImguiManager.h"
 
 class Application
 {
@@ -11,8 +12,9 @@ public:
 
 	int Start();
 	void Render();
-	void Update();
-	
+	void Update(float delta);
+
+	ImguiManager imgui;
 	Window window;
 	Timer timer;
 private:

@@ -13,6 +13,8 @@
 #include "PointSphere.h"
 #include "Vec3.h"
 #include "GDIPlusManager.h"
+#include "imgui_impl_dx11.h"
+#include "imgui_impl_win32.h"
 
 GDIPlusManager gdi;
 
@@ -50,7 +52,11 @@ int Application::Start()
 		{
 			return *code;
 		}
-		Update();
+
+		const float delta = timer.Elapsed();
+		timer.Mark();
+
+		Update(delta);
 		Render();
 	}
 }
@@ -59,9 +65,30 @@ void Application::Render()
 {
 	Graphics& graphics = window.GetGraphics();
 	graphics.Clear(0.07f, 0.0f, 0.12f);
-	const float delta = timer.Elapsed();
-	timer.Mark();
+	
 
+	for (auto& shape : shapes)
+	{
+		shape->Draw(graphics);
+	}
+
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+	static bool show = true;
+	if (show)
+	{
+		ImGui::ShowDemoWindow(&show);
+	}
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+	graphics.Present();
+}
+
+void Application::Update(const float delta)
+{
 	for (auto& shape : shapes)
 	{
 		Vec3f& rotation = shape->rotation;
@@ -75,17 +102,6 @@ void Application::Render()
 		else if (window.key.KeyIsPressed('E')) rotation.y = -rate;
 
 		shape->Tick(delta);
-		shape->Draw(graphics);
-
 		rotation.Clear();
 	}
-	graphics.Present();
-}
-
-void Application::Update()
-{
-	std::ostringstream title;
-	title << timer.Elapsed() << "s";
-	std::string str = title.str();
-	window.SetTitle(str);
 }
