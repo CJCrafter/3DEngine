@@ -18,6 +18,7 @@ public:
 	Window window;
 	Timer timer;
 	bool isPause = false;
+	float speed = 1.0;
 private:
 	std::vector<std::unique_ptr<Drawable>> shapes;
 };

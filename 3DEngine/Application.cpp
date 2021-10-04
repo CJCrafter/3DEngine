@@ -67,7 +67,7 @@ int Application::Start()
 
 		if (!isPause)
 		{
-			Update(delta);
+			Update(delta * speed);
 		}
 
 		Render();
@@ -98,17 +98,14 @@ void Application::Render()
 			{
 				isPause = false;
 			}
+			ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+			ImGui::SliderFloat("Speed", &speed, 0.25f, 10.0f);
 			if (ImGui::Button("Quit"))
 			{
 				PostQuitMessage(0);
 			}
 		}
 		ImGui::End();
-
-		if (true)
-		{
-			ImGui::ShowDemoWindow();
-		}
 
 		ImGui::Render();
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
