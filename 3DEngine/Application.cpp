@@ -56,7 +56,20 @@ int Application::Start()
 		const float delta = timer.Elapsed();
 		timer.Mark();
 
-		Update(delta);
+		Keyboard::Event keyPress = window.key.ReadKey();
+		if (keyPress.GetCode() == VK_ESCAPE)
+		{
+			if (keyPress.IsPress())
+			{
+				isPause = !isPause;
+			}
+		}
+
+		if (!isPause)
+		{
+			Update(delta);
+		}
+
 		Render();
 	}
 }
@@ -72,17 +85,34 @@ void Application::Render()
 		shape->Draw(graphics);
 	}
 
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-
-	static bool show = true;
-	if (show)
+	if (isPause)
 	{
-		ImGui::ShowDemoWindow(&show);
+		ImGui_ImplDX11_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
+
+		static bool show = true;
+		if (ImGui::Begin("Debug", &show))
+		{
+			if (ImGui::Button("Resume"))
+			{
+				isPause = false;
+			}
+			if (ImGui::Button("Quit"))
+			{
+				PostQuitMessage(0);
+			}
+		}
+		ImGui::End();
+
+		if (true)
+		{
+			ImGui::ShowDemoWindow();
+		}
+
+		ImGui::Render();
+		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	}
-	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	graphics.Present();
 }

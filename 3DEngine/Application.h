@@ -17,6 +17,7 @@ public:
 	ImguiManager imgui;
 	Window window;
 	Timer timer;
+	bool isPause = false;
 private:
 	std::vector<std::unique_ptr<Drawable>> shapes;
 };
