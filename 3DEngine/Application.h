@@ -4,6 +4,7 @@
 #include "Window.h"
 #include "DrawableBase.h"
 #include "ImguiManager.h"
+#include "Camera.h"
 
 class Application
 {
@@ -17,6 +18,7 @@ public:
 	ImguiManager imgui;
 	Window window;
 	Timer timer;
+	Camera camera;
 	bool isPause = false;
 	float speed = 1.0;
 private:

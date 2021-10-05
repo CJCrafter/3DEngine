@@ -169,6 +169,7 @@
     <ClCompile Include="ArithmeticException.cpp" />
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="dxerr.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="ArithmeticException.h" />
     <ClInclude Include="Bindable.h" />
     <ClInclude Include="BindableMacro.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Cone.h" />
     <ClInclude Include="ConstantBuffers.h" />

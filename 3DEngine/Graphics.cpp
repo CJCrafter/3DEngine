@@ -113,6 +113,16 @@ void Graphics::SetProjection(DirectX::FXMMATRIX projection) noexcept
 	this->projection = projection;
 }
 
+DirectX::XMMATRIX Graphics::GetCamera() const noexcept
+{
+	return camera;
+}
+
+void Graphics::SetCamera(DirectX::FXMMATRIX camera) noexcept
+{
+	this->camera = camera;
+}
+
 void Graphics::Clear(float r, float g, float b) noexcept
 {
 	float color[4] = { r, g, b, 1.0f };
