@@ -1,8 +1,8 @@
-// ReSharper disable CppClangTidyClangDiagnosticMissingBraces
 #include "Graphics.h"
 #include <sstream>
 #include <d3dcompiler.h>
 #include "DirectXMath.h"
+#include "imgui_impl_dx11.h"
 #include "Window.h"
 #include "InfoException.h"
 
@@ -94,6 +94,8 @@ Graphics::Graphics(HWND window)
 	view.TopLeftX = 0.0f;
 	view.TopLeftY = 0.0f;
 	context->RSSetViewports(1u, &view);
+
+	ImGui_ImplDX11_Init(device.Get(), context.Get());
 }
 
 Graphics::~Graphics()
@@ -109,6 +111,16 @@ DirectX::XMMATRIX Graphics::GetProjection() const noexcept
 void Graphics::SetProjection(DirectX::FXMMATRIX projection) noexcept
 {
 	this->projection = projection;
+}
+
+DirectX::XMMATRIX Graphics::GetCamera() const noexcept
+{
+	return camera;
+}
+
+void Graphics::SetCamera(DirectX::FXMMATRIX camera) noexcept
+{
+	this->camera = camera;
 }
 
 void Graphics::Clear(float r, float g, float b) noexcept

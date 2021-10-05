@@ -169,6 +169,7 @@
     <ClCompile Include="ArithmeticException.cpp" />
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="dxerr.cpp" />
@@ -179,8 +180,10 @@
     <ClCompile Include="HRException.cpp" />
     <ClCompile Include="IllegalStateException.cpp" />
     <ClCompile Include="imgui.cpp" />
+    <ClCompile Include="ImguiManager.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
+    <ClCompile Include="imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui_impl_dx12.cpp" />
     <ClCompile Include="imgui_impl_win32.cpp" />
     <ClCompile Include="imgui_tables.cpp" />
@@ -208,6 +211,7 @@
     <ClInclude Include="ArithmeticException.h" />
     <ClInclude Include="Bindable.h" />
     <ClInclude Include="BindableMacro.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Cone.h" />
     <ClInclude Include="ConstantBuffers.h" />
@@ -226,6 +230,8 @@
     <ClInclude Include="IllegalStateException.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
+    <ClInclude Include="ImguiManager.h" />
+    <ClInclude Include="imgui_impl_dx11.h" />
     <ClInclude Include="imgui_impl_dx12.h" />
     <ClInclude Include="imgui_impl_win32.h" />
     <ClInclude Include="imgui_internal.h" />

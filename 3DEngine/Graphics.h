@@ -27,6 +27,7 @@ private:
 	ComPtr<ID3D11DepthStencilView> depth = nullptr;
 
 	DirectX::XMMATRIX projection;
+	DirectX::XMMATRIX camera;
 
 #ifndef NDEBUG
 	DxgiInfoManager infoManager;
@@ -40,6 +41,8 @@ public:
 
 	DirectX::XMMATRIX GetProjection() const noexcept;
 	void SetProjection(DirectX::FXMMATRIX projection) noexcept;
+	DirectX::XMMATRIX GetCamera() const noexcept;
+	void SetCamera(DirectX::FXMMATRIX camera) noexcept;
 
 	void Clear(float r, float g, float b) noexcept;
 	void DrawIndexed(UINT count);

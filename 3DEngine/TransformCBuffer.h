@@ -20,7 +20,9 @@ public:
 	{
 		buffer->Update(graphics,
 			DirectX::XMMatrixTranspose(
-				parent.GetTransform() * graphics.GetProjection()
+				parent.GetTransform() *
+				graphics.GetCamera() * 
+				graphics.GetProjection()
 			)
 		);
 
