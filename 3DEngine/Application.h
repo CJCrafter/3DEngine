@@ -5,6 +5,7 @@
 #include "DrawableBase.h"
 #include "ImguiManager.h"
 #include "Camera.h"
+#include "PointLight.h"
 
 class Application
 {
@@ -19,6 +20,7 @@ public:
 	Window window;
 	Timer timer;
 	Camera camera;
+	PointLight light;
 	bool isPause = false;
 	float speed = 1.0;
 private:

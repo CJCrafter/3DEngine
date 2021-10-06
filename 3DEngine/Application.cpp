@@ -2,14 +2,8 @@
 
 #include <random>
 
-#include "Block.h"
-#include "Cone.h"
-#include "Cube.h"
-#include "Cylinder.h"
 #include "IcoSphere.h"
 #include "MirahCube.h"
-#include "PointList.h"
-#include "ShapeDrawable.h"
 #include "PointSphere.h"
 #include "Vec3.h"
 #include "GDIPlusManager.h"
@@ -22,7 +16,8 @@ Application::Application()
 	:
 	window(800, 800, "Testing testing 123"),
 	timer(0.005f),
-	camera(20.0f, 0.0f, 0.0f, {0.0f, 0.0f, 0.0f})
+	camera(20.0f, 0.0f, 0.0f, {0.0f, 0.0f, 0.0f}),
+	light(window.GetGraphics())
 {
 	std::mt19937 rand(std::random_device{}());
 	std::uniform_real_distribution a(0.0f, 3.1415f * 2.0f);
@@ -40,7 +35,7 @@ Application::Application()
 		//temp->velocity = { c(rand), c(rand), c(rand) * 2 };
 		//temp->rotation = { b(rand), b(rand), b(rand) };
 		temp->angle = { PI / 40.0f, PI / 40.0f, 0.0f };
-		temp->scale    = Vec3f{ 1.0f, 1.0f, 1.0f } * 10.0f;
+		temp->scale    = Vec3f{ 1.0f, 1.0f, 1.0f } *= 10.0f;
 	}
 	window.GetGraphics().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 40.0f));
 }
@@ -80,11 +75,13 @@ void Application::Render()
 	Graphics& graphics = window.GetGraphics();
 	graphics.Clear(0.07f, 0.0f, 0.12f);
 	graphics.SetCamera(camera.GetMatrix());
+	light.Bind(graphics);
 
 	for (auto& shape : shapes)
 	{
 		shape->Draw(graphics);
 	}
+	light.Draw(graphics);
 
 	if (isPause)
 	{
@@ -102,6 +99,7 @@ void Application::Render()
 			ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 			ImGui::SliderFloat("Speed", &speed, 0.25f, 10.0f);
 			camera.GenerateImGui();
+			light.GenerateImGui();
 			if (ImGui::Button("Quit"))
 			{
 				PostQuitMessage(0);

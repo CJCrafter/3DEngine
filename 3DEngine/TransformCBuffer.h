@@ -6,6 +6,12 @@
 template <class T>
 class TransformCBuffer : public Bindable
 {
+private:
+	struct Transforms
+	{
+		DirectX::XMMATRIX modelView;
+		DirectX::XMMATRIX model;
+	};
 public:
 	TransformCBuffer(Graphics& graphics, const DrawableBase<T>& parent)
 		:
@@ -13,26 +19,28 @@ public:
 	{
 		if (!buffer)
 		{
-			buffer = std::make_unique<VertexConstantBuffer<DirectX::XMMATRIX>>(graphics);
+			buffer = std::make_unique<VertexConstantBuffer<Transforms>>(graphics);
 		}
 	}
 	void Bind(Graphics& graphics) noexcept override
 	{
-		buffer->Update(graphics,
+		const auto model = parent.GetTransform();
+		const Transforms transforms = 
+		{
+			DirectX::XMMatrixTranspose(model),
 			DirectX::XMMatrixTranspose(
-				parent.GetTransform() *
-				graphics.GetCamera() * 
-				graphics.GetProjection()
+				model * graphics.GetCamera() * graphics.GetProjection()
 			)
-		);
+		};
 
+		buffer->Update(graphics, transforms);
 		buffer->Bind(graphics);
 	}
 
 private:
-	static std::unique_ptr<VertexConstantBuffer<DirectX::XMMATRIX>> buffer;
+	static std::unique_ptr<VertexConstantBuffer<Transforms>> buffer;
 	const DrawableBase<T>& parent;
 };
 
 template <class T>
-std::unique_ptr<VertexConstantBuffer<DirectX::XMMATRIX>> TransformCBuffer<T>::buffer;
+std::unique_ptr<VertexConstantBuffer<typename TransformCBuffer<T>::Transforms>> TransformCBuffer<T>::buffer;

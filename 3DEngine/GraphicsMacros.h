@@ -7,6 +7,7 @@
 #ifndef NDEBUG
 #define GFX_EXCEPT(hr) HRException(__LINE__, __FILE__, (hr), infoManager.GetMessages())
 #define GFX_THROW_INFO(hrcall) infoManager.Set(); if( FAILED( hr = (hrcall) ) ) throw GFX_EXCEPT(hr)
+#define GFX_THROW_INFO_CUSTOM(hrcall) infoManager.Set(); if ( FAILED( hr = (hrcall) ) ) throw HRException(__LINE__, __FILE__, (hr), {(info)})
 #define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException( __LINE__,__FILE__,(hr),infoManager.GetMessages() )
 #define GFX_THROW_INFO_ONLY(call) infoManager.Set(); (call); {auto v = infoManager.GetMessages(); if(!v.empty()) {throw InfoException( __LINE__,__FILE__,v);}}
 #else

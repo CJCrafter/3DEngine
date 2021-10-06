@@ -123,9 +123,6 @@
     <ClCompile Include="VertexBuffer.cpp">
       <Filter>Source Files\Graphics\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="Block.cpp">
-      <Filter>Source Files\Graphics\Drawable</Filter>
-    </ClCompile>
     <ClCompile Include="Bindable.cpp">
       <Filter>Source Files\Graphics\Bindable</Filter>
     </ClCompile>
@@ -184,6 +181,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -267,9 +267,6 @@
       <Filter>Header Files\Graphics\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="DrawableBase.h">
-      <Filter>Header Files\Graphics\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="Block.h">
       <Filter>Header Files\Graphics\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="BindableMacro.h">
@@ -371,14 +368,14 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="FacedCube.h">
+      <Filter>Header Files\Graphics\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="PixelShader.hlsl">
-      <Filter>Header Files\Graphics\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="VertexShader.hlsl">
-      <Filter>Header Files\Graphics\Shaders</Filter>
-    </FxCompile>
     <FxCompile Include="ColorlessVertexShader.hlsl">
       <Filter>Header Files\Graphics\Shaders</Filter>
     </FxCompile>
@@ -389,6 +386,12 @@
       <Filter>Header Files\Graphics\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="TexturePixelShader.hlsl">
+      <Filter>Header Files\Graphics\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="LightPixelShader.hlsl">
+      <Filter>Header Files\Graphics\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="LightVertexShader.hlsl">
       <Filter>Header Files\Graphics\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

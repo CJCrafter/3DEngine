@@ -12,10 +12,10 @@ public:
 	{
 		if (!isStaticInitialized)
 		{
-			auto vertexShader = std::make_unique<VertexShader>(graphics, L"ColoredVertexShader.cso");
+			auto vertexShader = std::make_unique<VertexShader>(graphics, L"ColorlessVertexShader.cso");
 			auto byteCode = vertexShader->GetCode();
 			AddStaticBind(std::move(vertexShader));
-			AddStaticBind(std::make_unique<PixelShader>(graphics, L"PixelShader.cso"));
+			AddStaticBind(std::make_unique<PixelShader>(graphics, L"ColorlessPixelShader.cso"));
 
 			const std::vector<D3D11_INPUT_ELEMENT_DESC> inputDesc =
 			{
