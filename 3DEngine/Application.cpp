@@ -16,7 +16,7 @@ Application::Application()
 	:
 	window(800, 800, "Testing testing 123"),
 	timer(0.005f),
-	camera(20.0f, 0.0f, 0.0f, {0.0f, 0.0f, 0.0f}),
+	camera(8.0f, -45.0f * 3.1415f / 180.0f, 45.0f * 3.1415f / 180.0f, {0.0f, 0.0f, 0.0f}),
 	light(window.GetGraphics())
 {
 	std::mt19937 rand(std::random_device{}());
@@ -89,6 +89,11 @@ void Application::Render()
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 
+		if (false)
+		{
+			ImGui::ShowDemoWindow();
+		}
+
 		static bool show = true;
 		if (ImGui::Begin("Debug", &show))
 		{
@@ -98,8 +103,8 @@ void Application::Render()
 			}
 			ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 			ImGui::SliderFloat("Speed", &speed, 0.25f, 10.0f);
-			camera.GenerateImGui();
-			light.GenerateImGui();
+			if (ImGui::CollapsingHeader("Camera")) { camera.GenerateImGui(); };
+			if (ImGui::CollapsingHeader("Light")) { light.GenerateImGui(); };
 			if (ImGui::Button("Quit"))
 			{
 				PostQuitMessage(0);

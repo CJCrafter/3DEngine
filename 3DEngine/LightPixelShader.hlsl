@@ -1,18 +1,18 @@
 cbuffer LightCBuf
 {
 	float3 lightPos;
+
+	// Light Color
+	float3 materialColor;
+	float3 ambientColor;
+	float3 diffuseColor;
+	float diffuseIntensity;
+
+	// Constants for determining how attenuation occurs
+	float attConst; // Constant, m
+	float attLin; // Linear, mx
+	float attQuad; // Quadratic, mx^2
 }
-
-// Light Color
-static const float3 materialColor = { 0.7f, 0.7f, 0.9f };
-static const float3 ambientColor = { 0.05f, 0.05f, 0.05f };
-static const float3 diffuseColor = { 1.0f, 1.0f, 1.0f };
-static const float3 diffuseIntensity = 1.0f;
-
-// Constants for determining how attenuation occurs
-static const float3 attConst = 1.0f;   // Constant, m
-static const float3 attLin = 0.045f;   // Linear, mx
-static const float3 attQuad = 0.0075f; // Quadratic, mx^2
 
 float4 main(float3 worldPos : POSITION, float3 normal : NORMAL) : SV_Target
 {
@@ -27,5 +27,5 @@ float4 main(float3 worldPos : POSITION, float3 normal : NORMAL) : SV_Target
 	const float3 diffuse = diffuseColor * diffuseIntensity * attenuation * max(0.0f, dot(direction, normal));
 
 	// Saturate wraps all values to be [0, 1]
-	return float4(saturate(diffuse + ambientColor), 1.0f);
+	return float4(saturate((diffuse + ambientColor) * materialColor), 1.0f);
 }
