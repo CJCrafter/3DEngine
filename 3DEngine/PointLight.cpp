@@ -7,6 +7,7 @@ PointLight::PointLight(Graphics& graphics, float radius)
 	mesh(graphics, IcoSphere<VertexBase>(1)),
 	buffer(graphics)
 {
+	mesh.scale = {radius, radius, radius};
 }
 
 void PointLight::GenerateImGui() noexcept
@@ -35,4 +36,5 @@ void PointLight::Draw(Graphics& graphics) const
 void PointLight::Bind(Graphics& graphics) const noexcept
 {
 	buffer.Update(graphics, PointLightConstantBuffer{ pos });
+	buffer.Bind(graphics);
 }

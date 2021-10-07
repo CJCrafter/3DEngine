@@ -1,6 +1,7 @@
 cbuffer Cbuf
 {
-	matrix transform;
+	matrix model;
+	matrix modelView;
 }
 
 struct Out
@@ -12,7 +13,7 @@ struct Out
 Out main(float3 data : POSITION)
 {
 	Out temp;
-	temp.pos = mul(float4(data, 1.0f), transform);
+	temp.pos = mul(float4(data, 1.0f), modelView);
 	temp.color = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	return temp;
 }

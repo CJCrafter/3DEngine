@@ -86,7 +86,7 @@ MirahCube::MirahCube(Graphics& graphics)
 		{
 			DirectX::XMVECTOR pos;
 		};
-		AddStaticBind(std::make_unique<PixelConstantBuffer<PSLightConstants>>(graphics));
+		//AddStaticBind(std::make_unique<PixelConstantBuffer<PSLightConstants>>(graphics));
 
 		const std::vector<D3D11_INPUT_ELEMENT_DESC> inputDesc = 
 		{

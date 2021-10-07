@@ -35,7 +35,7 @@ Application::Application()
 		//temp->velocity = { c(rand), c(rand), c(rand) * 2 };
 		//temp->rotation = { b(rand), b(rand), b(rand) };
 		temp->angle = { PI / 40.0f, PI / 40.0f, 0.0f };
-		temp->scale    = Vec3f{ 1.0f, 1.0f, 1.0f } *= 10.0f;
+		temp->scale    = Vec3f{ 1.0f, 1.0f, 1.0f };
 	}
 	window.GetGraphics().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 40.0f));
 }
@@ -73,12 +73,12 @@ int Application::Start()
 void Application::Render()
 {
 	Graphics& graphics = window.GetGraphics();
-	graphics.Clear(0.07f, 0.0f, 0.12f);
+	graphics.Clear(0.08f, 0.01f, 0.15f);
 	graphics.SetCamera(camera.GetMatrix());
-	light.Bind(graphics);
 
 	for (auto& shape : shapes)
 	{
+		light.Bind(graphics);
 		shape->Draw(graphics);
 	}
 	light.Draw(graphics);
