@@ -1,17 +1,21 @@
 cbuffer LightCBuf
 {
-	float3 lightPos;
+    float3 lightPos;
 
 	// Light Color
-	float3 materialColor;
-	float3 ambientColor;
-	float3 diffuseColor;
-	float diffuseIntensity;
+    float3 ambientColor;
+    float3 diffuseColor;
+    float diffuseIntensity;
 
 	// Constants for determining how attenuation occurs
-	float attConst; // Constant, m
-	float attLin; // Linear, mx
-	float attQuad; // Quadratic, mx^2
+    float attConst; // Constant, m
+    float attLin; // Linear, mx
+    float attQuad; // Quadratic, mx^2
+}
+
+cbuffer ObjectCBuf
+{
+    float3 materialColor;
 }
 
 float4 main(float3 worldPos : POSITION, float3 normal : NORMAL) : SV_Target

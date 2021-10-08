@@ -4,6 +4,7 @@
 
 PointLight::PointLight(Graphics& graphics, float radius)
 	:
+	data{},
 	mesh(graphics, IcoSphere<VertexBase>(1)),
 	buffer(graphics)
 {
@@ -19,7 +20,6 @@ void PointLight::GenerateImGui() noexcept
 	ImGui::SliderFloat("Z", &data.pos.z, -20.0f, +20.0f, "%.2f");
 
 	ImGui::Text("Color");
-	ImGui::ColorEdit3("Material", &data.materialColor.x);
 	ImGui::ColorEdit3("Ambient", &data.ambientColor.x);
 	ImGui::ColorEdit3("Color", &data.diffuseColor.x);
 	ImGui::SliderFloat("Intensity", &data.diffuseIntensity, 0.01f, 2.0f);
@@ -38,7 +38,6 @@ void PointLight::GenerateImGui() noexcept
 void PointLight::Reset() noexcept
 {
 	data.pos = { 0.0f, 0.0f, 0.0f };
-	data.materialColor = { 0.7f, 0.7f, 0.9f };
 	data.ambientColor = { 0.05f, 0.05f, 0.05f };
 	data.diffuseColor = { 1.0f, 1.0f, 1.0f };
 	data.diffuseIntensity = 1.0f;

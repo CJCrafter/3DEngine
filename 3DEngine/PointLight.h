@@ -17,7 +17,6 @@ private:
 	struct PointLightConstantBuffer
 	{
 		alignas(16) DirectX::XMFLOAT3 pos;
-		alignas(16) DirectX::XMFLOAT3 materialColor;
 		alignas(16) DirectX::XMFLOAT3 ambientColor;
 		alignas(16) DirectX::XMFLOAT3 diffuseColor;
 		float diffuseIntensity;

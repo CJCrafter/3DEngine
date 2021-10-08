@@ -20,22 +20,21 @@ Application::Application()
 	light(window.GetGraphics())
 {
 	std::mt19937 rand(std::random_device{}());
-	std::uniform_real_distribution a(0.0f, 3.1415f * 2.0f);
-	std::uniform_real_distribution b(0.0f, 3.1415f * 0.25f);
-	std::uniform_real_distribution c(-3.1415f * 0.3f, 3.1415f * 0.3f);
-	std::uniform_real_distribution d(0.2f, 0.4f);
-	std::uniform_real_distribution e(0.25f, 2.0f);
-	std::uniform_real_distribution f(0.0f, 1.0f);
+	std::uniform_real_distribution colorPicker(0.0f, 1.0f);
+	std::uniform_real_distribution positionPicker(7.0f, 14.0f);
+	std::uniform_real_distribution rotationPicker(0.0f, 3.1415f / 4.0f);
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 100; i++)
 	{
-		shapes.push_back(std::make_unique<MirahCube>(window.GetGraphics()));
+		float color[3] = { colorPicker(rand), colorPicker(rand), colorPicker(rand) };
+		shapes.push_back(std::make_unique<MirahCube>(window.GetGraphics(), color));
 		auto& temp = shapes.back();
-		//temp->position = { a(rand), a(rand), a(rand) };
+
+		temp->position = { positionPicker(rand), 0.0f, 0.0f };
 		//temp->velocity = { c(rand), c(rand), c(rand) * 2 };
-		//temp->rotation = { b(rand), b(rand), b(rand) };
-		temp->angle = { PI / 40.0f, PI / 40.0f, 0.0f };
-		temp->scale    = Vec3f{ 1.0f, 1.0f, 1.0f };
+		temp->rotation = { rotationPicker(rand), rotationPicker(rand), rotationPicker(rand) };
+		//temp->angle = { PI / 40.0f, PI / 40.0f, 0.0f };
+		temp->scale    = Vec3f{ 1.0f, 1.0f, 1.0f } * (1 + colorPicker(rand));
 	}
 	window.GetGraphics().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 40.0f));
 }
@@ -126,14 +125,14 @@ void Application::Update(const float delta)
 		Vec3f& rotation = shape->rotation;
 		constexpr float rate = PI / 4;
 
-		if (window.key.KeyIsPressed('W')) rotation.x = rate;
-		else if (window.key.KeyIsPressed('S')) rotation.x = -rate;
-		if (window.key.KeyIsPressed('A')) rotation.z = rate;
-		else if (window.key.KeyIsPressed('D')) rotation.z = -rate;
-		if (window.key.KeyIsPressed('Q')) rotation.y = rate;
-		else if (window.key.KeyIsPressed('E')) rotation.y = -rate;
+		//if (window.key.KeyIsPressed('W')) rotation.x = rate;
+		//else if (window.key.KeyIsPressed('S')) rotation.x = -rate;
+		//if (window.key.KeyIsPressed('A')) rotation.z = rate;
+		//else if (window.key.KeyIsPressed('D')) rotation.z = -rate;
+		//if (window.key.KeyIsPressed('Q')) rotation.y = rate;
+		//else if (window.key.KeyIsPressed('E')) rotation.y = -rate;
 
 		shape->Tick(delta);
-		rotation.Clear();
+		//rotation.Clear();
 	}
 }
