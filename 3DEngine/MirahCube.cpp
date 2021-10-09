@@ -100,7 +100,11 @@ MirahCube::MirahCube(Graphics& graphics, float color[3])
 	struct PSMaterialCBuf
 	{
 		alignas(16) DirectX::XMFLOAT3 color;
+		float specularIntensity = 0.6f;
+		float specularPower = 30.0f;
+		float padding[2];
 	} colorBuf{};
+
 	colorBuf.color = { color[0], color[1], color[2] };
 	AddBind(std::make_unique<PixelConstantBuffer<PSMaterialCBuf>>(graphics, colorBuf, 1u)); // SLOT 1
 

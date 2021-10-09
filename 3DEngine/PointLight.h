@@ -12,7 +12,7 @@ public:
 	void GenerateImGui() noexcept;
 	void Reset() noexcept;
 	void Draw(Graphics& graphics) const;
-	void Bind(Graphics& graphics) const noexcept;
+	void Bind(Graphics& graphics, DirectX::FXMMATRIX view) const noexcept;
 private:
 	struct PointLightConstantBuffer
 	{

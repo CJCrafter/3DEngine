@@ -52,8 +52,11 @@ void PointLight::Draw(Graphics& graphics) const
 	mesh.Draw(graphics);
 }
 
-void PointLight::Bind(Graphics& graphics) const noexcept
+void PointLight::Bind(Graphics& graphics, DirectX::FXMMATRIX view) const noexcept
 {
-	buffer.Update(graphics, PointLightConstantBuffer{ data });
+	auto copy = data;
+	const auto pos = DirectX::XMLoadFloat3(&data.pos);
+	DirectX::XMStoreFloat3(&copy.pos, DirectX::XMVector3Transform(pos, view));
+	buffer.Update(graphics, copy);
 	buffer.Bind(graphics);
 }

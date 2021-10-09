@@ -14,7 +14,7 @@ GDIPlusManager gdi;
 
 Application::Application()
 	:
-	window(800, 800, "Testing testing 123"),
+	window(1000, 1000, "Testing testing 123"),
 	timer(0.005f),
 	camera(8.0f, -45.0f * 3.1415f / 180.0f, 45.0f * 3.1415f / 180.0f, {0.0f, 0.0f, 0.0f}),
 	light(window.GetGraphics())
@@ -60,10 +60,10 @@ int Application::Start()
 			}
 		}
 
-		if (!isPause)
-		{
+		//if (!isPause)
+		//{
 			Update(delta * speed);
-		}
+		//}
 
 		Render();
 	}
@@ -77,7 +77,7 @@ void Application::Render()
 
 	for (auto& shape : shapes)
 	{
-		light.Bind(graphics);
+		light.Bind(graphics, camera.GetMatrix());
 		shape->Draw(graphics);
 	}
 	light.Draw(graphics);
