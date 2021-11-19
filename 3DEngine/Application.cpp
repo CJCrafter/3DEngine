@@ -17,11 +17,7 @@ GDIPlusManager gdi;
 
 Application::Application()
 	:
-<<<<<<< HEAD
-	window(1000, 1000, "Testing testing 123"),
-=======
-	window(1000, 1000, "3D CUBES"),
->>>>>>> 29bc8a5bfa51461340a7e6d7fc054c25bac8eae0
+	window(1000, 1000, "ASS-IMP"),
 	timer(0.005f),
 	camera(8.0f, -3.1415f / 4.0f, 3.1415f / 4.0f, {0.0f, 0.0f, 0.0f}),
 	light(window.GetGraphics())
@@ -33,38 +29,20 @@ Application::Application()
 		);
 
 	std::mt19937 rand(std::random_device{}());
-<<<<<<< HEAD
 	std::uniform_real_distribution colorPicker(0.0f, 1.0f);
 	std::uniform_real_distribution positionPicker(7.0f, 14.0f);
 	std::uniform_real_distribution rotationPicker(0.0f, 3.1415f / 4.0f);
-=======
-	std::uniform_real_distribution a(0.0f, 3.1415f * 2.0f);
-	std::uniform_real_distribution b(0.0f, 3.1415f * 0.25f);
-	std::uniform_real_distribution c(-3.1415f * 0.3f, 3.1415f * 0.3f);
-	std::uniform_real_distribution d(0.2f, 0.4f);
-	std::uniform_real_distribution e(0.25f, 2.0f);
-	std::uniform_real_distribution f(0.0f, 1.0f);
->>>>>>> 29bc8a5bfa51461340a7e6d7fc054c25bac8eae0
 
 	for (int i = 0; i < 100; i++)
 	{
 		float color[3] = { colorPicker(rand), colorPicker(rand), colorPicker(rand) };
 		shapes.push_back(std::make_unique<MirahCube>(window.GetGraphics(), color));
 		auto& temp = shapes.back();
-<<<<<<< HEAD
-
 		temp->position = { positionPicker(rand), 0.0f, 0.0f };
 		//temp->velocity = { c(rand), c(rand), c(rand) * 2 };
 		temp->rotation = { rotationPicker(rand), rotationPicker(rand), rotationPicker(rand) };
 		//temp->angle = { PI / 40.0f, PI / 40.0f, 0.0f };
-		temp->scale    = Vec3f{ 1.0f, 1.0f, 1.0f } * (1 + colorPicker(rand));
-=======
-		temp->position = { a(rand), a(rand), a(rand) };
-		temp->velocity = { c(rand), c(rand), c(rand) };
-		temp->rotation = { b(rand), b(rand), b(rand) };
-		temp->angle = { PI / 40.0f, PI / 40.0f, 0.0f };
-		temp->scale    = Vec3f{ 1.0f, 1.0f, 1.0f };
->>>>>>> 29bc8a5bfa51461340a7e6d7fc054c25bac8eae0
+		temp->scale = Vec3f{ 1.0f, 1.0f, 1.0f } *(1 + colorPicker(rand));
 	}
 	window.GetGraphics().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 80.0f));
 }
@@ -155,14 +133,6 @@ void Application::Update(const float delta)
 		Vec3f& rotation = shape->rotation;
 		constexpr float rate = PI / 4;
 
-<<<<<<< HEAD
-		//if (window.key.KeyIsPressed('W')) rotation.x = rate;
-		//else if (window.key.KeyIsPressed('S')) rotation.x = -rate;
-		//if (window.key.KeyIsPressed('A')) rotation.z = rate;
-		//else if (window.key.KeyIsPressed('D')) rotation.z = -rate;
-		//if (window.key.KeyIsPressed('Q')) rotation.y = rate;
-		//else if (window.key.KeyIsPressed('E')) rotation.y = -rate;
-=======
 		/*
 		if (window.key.KeyIsPressed('W')) rotation.x = rate;
 		else if (window.key.KeyIsPressed('S')) rotation.x = -rate;
@@ -171,7 +141,6 @@ void Application::Update(const float delta)
 		if (window.key.KeyIsPressed('Q')) rotation.y = rate;
 		else if (window.key.KeyIsPressed('E')) rotation.y = -rate;
 		*/
->>>>>>> 29bc8a5bfa51461340a7e6d7fc054c25bac8eae0
 
 		shape->Tick(delta);
 		//rotation.Clear();
