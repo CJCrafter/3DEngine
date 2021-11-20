@@ -12,10 +12,14 @@
 Graphics::Graphics(HWND window)
 {
 	HRESULT hr; 
+	RECT clientRect;
+	GetClientRect(window, &clientRect);
+	unsigned int width = clientRect.right;
+	unsigned int height = clientRect.bottom;
 
 	DXGI_SWAP_CHAIN_DESC sd;
-	sd.BufferDesc.Width = 800;                                                   // 0 allows Direct3D to look at the window and use that size
-	sd.BufferDesc.Height = 800;                                                  // ^
+	sd.BufferDesc.Width = width;                                               // 0 allows Direct3D to look at the window and use that size
+	sd.BufferDesc.Height = height;                                             // ^
 	sd.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;                         // Layout of the channels of the pixels
 	sd.BufferDesc.RefreshRate.Numerator = 0;                                   // 0 picks the default refresh rate
 	sd.BufferDesc.RefreshRate.Denominator = 0;                                 //
@@ -65,8 +69,8 @@ Graphics::Graphics(HWND window)
 
 	ComPtr<ID3D11Texture2D> depthStencil;
 	D3D11_TEXTURE2D_DESC textureDesc = {};
-	textureDesc.Width = 800u;
-	textureDesc.Height = 800u;
+	textureDesc.Width = width;
+	textureDesc.Height = height;
 	textureDesc.MipLevels = 1u;
 	textureDesc.ArraySize = 1u;
 	textureDesc.Format = DXGI_FORMAT_D32_FLOAT;
@@ -87,8 +91,8 @@ Graphics::Graphics(HWND window)
 	context->OMSetRenderTargets(1u, target.GetAddressOf(), depth.Get());
 
 	D3D11_VIEWPORT view;
-	view.Width = 800.0f;
-	view.Height = 800.0f;
+	view.Width = width;
+	view.Height = height;
 	view.MinDepth = 0.0f;
 	view.MaxDepth = 1.0f;
 	view.TopLeftX = 0.0f;

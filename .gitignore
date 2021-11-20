@@ -76,6 +76,7 @@ StyleCopReport.xml
 *.ilk
 *.meta
 *.obj
+!3DEngine/Models/*.obj
 *.iobj
 *.pch
 *.pdb
@@ -363,4 +364,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # ImGui
-/3DEngine/imgui.ini
+3DEngine/imgui.ini

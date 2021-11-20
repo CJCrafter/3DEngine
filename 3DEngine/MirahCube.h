@@ -5,5 +5,5 @@
 class MirahCube : public DrawableBase<MirahCube>
 {
 public:
-	MirahCube(Graphics& graphics);
+	MirahCube(Graphics& graphics, float color[3]);
 };

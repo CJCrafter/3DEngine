@@ -3,11 +3,12 @@
 #include <d3dcompiler.h>
 
 
-VertexShader::VertexShader(Graphics & graphics, const std::wstring & path)
+VertexShader::VertexShader(Graphics & graphics, const std::wstring& path)
 {
 	GET_INFO_MANAGER(graphics);
 
-	GFX_THROW_INFO(D3DReadFileToBlob(path.c_str(), &codeBlob));
+	std::string info(path.begin(), path.end());
+	GFX_THROW_INFO_CUSTOM(D3DReadFileToBlob(path.c_str(), &codeBlob));
 	GFX_THROW_INFO(GetDevice(graphics)->CreateVertexShader(
 		codeBlob->GetBufferPointer(),
 		codeBlob->GetBufferSize(),
