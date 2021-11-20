@@ -406,4 +406,9 @@
       <Filter>Header Files\Utilities\Exception</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\..\..\..\..\Downloads\car.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
+  </ItemGroup>
 </Project>
