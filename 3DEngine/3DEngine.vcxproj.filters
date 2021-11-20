@@ -186,6 +186,9 @@
     <ClCompile Include="PointLight.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="ModelDrawable.cpp">
+      <Filter>Source Files\Graphics\Drawable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -374,6 +377,9 @@
     <ClInclude Include="PointLight.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="ModelDrawable.h">
+      <Filter>Header Files\Graphics\Drawable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ColorlessVertexShader.hlsl">
@@ -407,7 +413,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Object Include="..\..\..\..\..\Downloads\car.obj">
+    <Object Include="models\car.obj">
       <Filter>Resource Files</Filter>
     </Object>
   </ItemGroup>
