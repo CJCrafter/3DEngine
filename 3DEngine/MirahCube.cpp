@@ -6,7 +6,7 @@
 #include "VertexBase.h"
 #include "Surface.h"
 
-MirahCube::MirahCube(Graphics& graphics)
+MirahCube::MirahCube(Graphics& graphics, float color[3])
 {
 	if (!isStaticInitialized)
 	{
@@ -71,9 +71,9 @@ MirahCube::MirahCube(Graphics& graphics)
 		auto model = FacedCube<Vertex>().Geometry();
 		model.SetNormals();
 
-		AddStaticBind(std::make_unique<Texture>(graphics, Surface::FromFile("grass.png")));
+		//AddStaticBind(std::make_unique<Texture>(graphics, Surface::FromFile("grass.png")));
 		AddStaticBind(std::make_unique<VertexBuffer>(graphics, model.vertices));
-		AddStaticBind(std::make_unique<Sampler>(graphics));
+		//AddStaticBind(std::make_unique<Sampler>(graphics));
 			
 		auto vertexShader = std::make_unique<VertexShader>(graphics, L"LightVertexShader.cso");
 		auto byteCode = vertexShader->GetCode();
@@ -81,12 +81,6 @@ MirahCube::MirahCube(Graphics& graphics)
 		AddStaticBind(std::make_unique<PixelShader>(graphics, L"LightPixelShader.cso"));
 
 		AddStaticIndexBuffer(std::make_unique<IndexBuffer>(graphics, model.indices));
-
-		struct PSLightConstants
-		{
-			DirectX::XMVECTOR pos;
-		};
-		//AddStaticBind(std::make_unique<PixelConstantBuffer<PSLightConstants>>(graphics));
 
 		const std::vector<D3D11_INPUT_ELEMENT_DESC> inputDesc = 
 		{
@@ -102,6 +96,17 @@ MirahCube::MirahCube(Graphics& graphics)
 	{
 		DrawableBase<MirahCube>::Init();
 	}
+
+	struct PSMaterialCBuf
+	{
+		alignas(16) DirectX::XMFLOAT3 color;
+		float specularIntensity = 1.0f;
+		float specularPower = 30.0f;
+		float padding[2];
+	} colorBuf{};
+
+	colorBuf.color = { color[0], color[1], color[2] };
+	AddBind(std::make_unique<PixelConstantBuffer<PSMaterialCBuf>>(graphics, colorBuf, 1u)); // SLOT 1
 
 	AddBind(std::make_unique<TransformCBuffer<MirahCube>>(graphics, *this));
 }

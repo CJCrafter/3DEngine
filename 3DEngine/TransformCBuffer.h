@@ -13,23 +13,23 @@ private:
 		DirectX::XMMATRIX model;
 	};
 public:
-	TransformCBuffer(Graphics& graphics, const DrawableBase<T>& parent)
+	TransformCBuffer(Graphics& graphics, const DrawableBase<T>& parent, UINT slot = 0)
 		:
 		parent(parent)
 	{
 		if (!buffer)
 		{
-			buffer = std::make_unique<VertexConstantBuffer<Transforms>>(graphics);
+			buffer = std::make_unique<VertexConstantBuffer<Transforms>>(graphics, slot);
 		}
 	}
 	void Bind(Graphics& graphics) noexcept override
 	{
-		const auto model = parent.GetTransform();
+		const auto modelView = parent.GetTransform() * graphics.GetCamera();
 		const Transforms transforms = 
 		{
-			DirectX::XMMatrixTranspose(model),
+			DirectX::XMMatrixTranspose(modelView),
 			DirectX::XMMatrixTranspose(
-				model * graphics.GetCamera() * graphics.GetProjection()
+				modelView * graphics.GetProjection()
 			)
 		};
 

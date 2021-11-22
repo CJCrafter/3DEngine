@@ -18,7 +18,9 @@ public:
 		memcpy(mappedData.pData, &constants, sizeof(constants));
 		GetContext(graphics)->Unmap(constantBuffer.Get(), 0u);
 	}
-	ConstantBuffer(Graphics& graphics, const C& constants)
+	ConstantBuffer(Graphics& graphics, const C& constants, UINT slot = 0)
+		:
+		slot(slot)
 	{
 		GET_INFO_MANAGER(graphics);
 
@@ -34,7 +36,9 @@ public:
 		constantData.pSysMem = &constants;
 		GFX_THROW_INFO(GetDevice(graphics)->CreateBuffer(&constantDesc, &constantData, &constantBuffer));
 	}
-	ConstantBuffer(Graphics& graphics)
+	explicit ConstantBuffer(Graphics& graphics, UINT slot = 0)
+		:
+		slot(slot)
 	{
 		GET_INFO_MANAGER(graphics);
 
@@ -49,6 +53,7 @@ public:
 	}
 protected:
 	ComPtr<ID3D11Buffer> constantBuffer;
+	UINT slot;
 };
 
 template<typename C>
@@ -56,9 +61,10 @@ class VertexConstantBuffer : public ConstantBuffer<C>
 {
 public:
 	using ConstantBuffer<C>::ConstantBuffer;
+	using ConstantBuffer<C>::slot;
 	void Bind(Graphics& graphics) noexcept override
 	{
-		this->GetContext(graphics)->VSSetConstantBuffers(0u, 1u, this->constantBuffer.GetAddressOf());
+		this->GetContext(graphics)->VSSetConstantBuffers(slot, 1u, this->constantBuffer.GetAddressOf());
 	}
 };
 
@@ -67,8 +73,9 @@ class PixelConstantBuffer : public ConstantBuffer<C>
 {
 public:
 	using ConstantBuffer<C>::ConstantBuffer;
+	using ConstantBuffer<C>::slot;
 	void Bind(Graphics& graphics) noexcept override
 	{
-		this->GetContext(graphics)->PSSetConstantBuffers(0u, 1u, this->constantBuffer.GetAddressOf());
+		this->GetContext(graphics)->PSSetConstantBuffers(slot, 1u, this->constantBuffer.GetAddressOf());
 	}
 };

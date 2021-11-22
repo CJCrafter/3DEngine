@@ -1,12 +1,12 @@
 cbuffer CBuf
 {
-	matrix model;
 	matrix modelView;
+	matrix modelViewProj;
 };
 
 struct Out
 {
-	float3 worldPos : POSITION;
+	float3 relativePos : POSITION;
 	float3 normal : NORMAL;
 	float4 pos : SV_POSITION;
 };
@@ -14,8 +14,8 @@ struct Out
 Out main(float3 pos : POSITION, float3 normal : NORMAL)
 {
 	Out temp;
-	temp.worldPos = (float3) mul(float4(pos, 1.0f), model);
-	temp.normal = mul(normal, (float3x3) model);
-	temp.pos = mul(float4(pos, 1.0f), modelView);
+	temp.relativePos = (float3) mul(float4(pos, 1.0f), modelView);
+	temp.normal = mul(normal, (float3x3) modelView);
+	temp.pos = mul(float4(pos, 1.0f), modelViewProj);
 	return temp;
 }

@@ -12,12 +12,11 @@ public:
 	void GenerateImGui() noexcept;
 	void Reset() noexcept;
 	void Draw(Graphics& graphics) const;
-	void Bind(Graphics& graphics) const noexcept;
+	void Bind(Graphics& graphics, DirectX::FXMMATRIX view) const noexcept;
 private:
 	struct PointLightConstantBuffer
 	{
 		alignas(16) DirectX::XMFLOAT3 pos;
-		alignas(16) DirectX::XMFLOAT3 materialColor;
 		alignas(16) DirectX::XMFLOAT3 ambientColor;
 		alignas(16) DirectX::XMFLOAT3 diffuseColor;
 		float diffuseIntensity;

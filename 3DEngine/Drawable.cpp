@@ -38,6 +38,7 @@ void Drawable::Tick(const float delta) noexcept
 DirectX::XMMATRIX Drawable::GetTransform() const noexcept
 {
 	return DirectX::XMMatrixScaling(scale.x, scale.y, scale.z) *
-		DirectX::XMMatrixRotationRollPitchYaw(angle.x, angle.y, angle.z) *
-		DirectX::XMMatrixTranslation(position.x, position.y, position.z);
+		DirectX::XMMatrixRotationRollPitchYaw(angle.x, angle.y, angle.z) * 
+		DirectX::XMMatrixTranslation(position.x, position.y, position.z) * 
+		DirectX::XMMatrixRotationRollPitchYaw(angle.x, angle.y, angle.z);
 }

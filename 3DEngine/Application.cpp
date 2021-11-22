@@ -5,6 +5,7 @@
 #include "IcoSphere.h"
 #include "MirahCube.h"
 #include "PointSphere.h"
+#include "ModelDrawable.h"
 #include "Vec3.h"
 #include "GDIPlusManager.h"
 #include "imgui_impl_dx11.h"
@@ -17,7 +18,7 @@ GDIPlusManager gdi;
 
 Application::Application()
 	:
-	window(1000, 1000, "3D CUBES"),
+	window(1000, 1000, "ASS-IMP"),
 	timer(0.005f),
 	camera(8.0f, -3.1415f / 4.0f, 3.1415f / 4.0f, {0.0f, 0.0f, 0.0f}),
 	light(window.GetGraphics())
@@ -29,22 +30,20 @@ Application::Application()
 		);
 
 	std::mt19937 rand(std::random_device{}());
-	std::uniform_real_distribution a(0.0f, 3.1415f * 2.0f);
-	std::uniform_real_distribution b(0.0f, 3.1415f * 0.25f);
-	std::uniform_real_distribution c(-3.1415f * 0.3f, 3.1415f * 0.3f);
-	std::uniform_real_distribution d(0.2f, 0.4f);
-	std::uniform_real_distribution e(0.25f, 2.0f);
-	std::uniform_real_distribution f(0.0f, 1.0f);
+	std::uniform_real_distribution colorPicker(0.0f, 1.0f);
+	std::uniform_real_distribution positionPicker(7.0f, 28.0f);
+	std::uniform_real_distribution rotationPicker(0.0f, 3.1415f / 16.0f);
 
 	for (int i = 0; i < 100; i++)
 	{
-		shapes.push_back(std::make_unique<MirahCube>(window.GetGraphics()));
+		float color[3] = { colorPicker(rand), colorPicker(rand), colorPicker(rand) };
+		shapes.push_back(std::make_unique<ModelDrawable>(window.GetGraphics(), "models\\car.obj"));
 		auto& temp = shapes.back();
-		temp->position = { a(rand), a(rand), a(rand) };
-		temp->velocity = { c(rand), c(rand), c(rand) };
-		temp->rotation = { b(rand), b(rand), b(rand) };
-		temp->angle = { PI / 40.0f, PI / 40.0f, 0.0f };
-		temp->scale    = Vec3f{ 1.0f, 1.0f, 1.0f };
+		temp->position = { positionPicker(rand), 0.0f, 0.0f };
+		//temp->velocity = { c(rand), c(rand), c(rand) * 2 };
+		temp->rotation = { rotationPicker(rand), rotationPicker(rand), rotationPicker(rand) };
+		//temp->angle = { PI / 40.0f, PI / 40.0f, 0.0f };
+		temp->scale = Vec3f{ 1.0f, 1.0f, 1.0f } *(1 + colorPicker(rand));
 	}
 	window.GetGraphics().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 1.0f, 0.5f, 80.0f));
 }
@@ -70,10 +69,10 @@ int Application::Start()
 			}
 		}
 
-		if (!isPause)
-		{
+		//if (!isPause)
+		//{
 			Update(delta * speed);
-		}
+		//}
 
 		Render();
 	}
@@ -87,7 +86,7 @@ void Application::Render()
 
 	for (auto& shape : shapes)
 	{
-		light.Bind(graphics);
+		light.Bind(graphics, camera.GetMatrix());
 		shape->Draw(graphics);
 	}
 	light.Draw(graphics);
