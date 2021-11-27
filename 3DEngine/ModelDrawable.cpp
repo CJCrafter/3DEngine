@@ -7,38 +7,17 @@
 #include <assimp\postprocess.h>
 #include <assimp\scene.h>
 
+#include "Vertex.h"
+
 ModelDrawable::ModelDrawable(Graphics& graphics, const char* file) 
 {
 	if (!isStaticInitialized) 
 	{
-		struct Vertex : public VertexBase
-		{
-			DirectX::XMFLOAT3 normal;
-
-			Vertex()
-				:
-				Vertex(0.0f, 0.0f, 0.0f, { 0.0f, 0.0f, 0.0f })
-			{
-			}
-
-			Vertex(const float x, const float y, const float z, DirectX::XMFLOAT3 normal)
-				:
-				VertexBase(x, y, z),
-				normal(normal)
-			{
-			}
-
-			explicit Vertex(const Vec3f& vector)
-				:
-				VertexBase(vector),
-				normal{ 0, 0, 0 }
-			{
-			}
-
-			~Vertex()
-			{
-			}
-		};
+		VertexHolder vertices(std::move(
+			VertexLayout{}
+				.Append(VertexLayout::POS_3D)
+				.Append(VertexLayout::NORMAL)
+		));
 		
 		Assimp::Importer assimp;
 		const auto model = assimp.ReadFile(file,
@@ -48,15 +27,11 @@ ModelDrawable::ModelDrawable(Graphics& graphics, const char* file)
 		const auto mesh = model->mMeshes[0];
 
 		// Get the vertices/normals from the mesh, and load them into our list
-		std::vector<Vertex> vertices;
-		vertices.reserve(mesh->mNumVertices);
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++) 
 		{
-			vertices.push_back(
-				{ 
-					mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z,
-					*reinterpret_cast<DirectX::XMFLOAT3*>(&mesh->mNormals[i]) 
-				}
+			vertices.EmplaceBack(
+				DirectX::XMFLOAT3{ mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z },
+				*reinterpret_cast<DirectX::XMFLOAT3*>(&mesh->mNormals[i]) 
 			);
 		}
 
@@ -81,13 +56,7 @@ ModelDrawable::ModelDrawable(Graphics& graphics, const char* file)
 
 		AddStaticIndexBuffer(std::make_unique<IndexBuffer>(graphics, indices));
 
-		const std::vector<D3D11_INPUT_ELEMENT_DESC> inputDesc =
-		{
-			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			//{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		};
-		AddStaticBind(std::make_unique<InputLayout>(graphics, inputDesc, byteCode));
+		AddStaticBind(std::make_unique<InputLayout>(graphics, vertices.GetLayout().GetD3DVertexLayout(), byteCode));
 		AddStaticBind(std::make_unique<Topology>(graphics, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
 	
 		isStaticInitialized = true;
@@ -100,7 +69,7 @@ ModelDrawable::ModelDrawable(Graphics& graphics, const char* file)
 	struct PSMaterialCBuf
 	{
 		alignas(16) DirectX::XMFLOAT3 color;
-		float specularIntensity = 1.0f;
+		float specularIntensity = 2.0f;
 		float specularPower = 30.0f;
 		float padding[2];
 	} colorBuf{};

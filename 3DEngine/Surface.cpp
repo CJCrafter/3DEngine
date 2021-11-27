@@ -205,12 +205,12 @@ Surface Surface::FromFile(const std::string& name)
 		{
 			for (unsigned int x = 0; x < width; x++)
 			{
-				Gdiplus::Color c;
-				bitmap.GetPixel(x, y, &c);
-				buffer[y * width + x] = c.GetValue();
+				Gdiplus::Color color;
+				bitmap.GetPixel(x, y, &color);
+				buffer[y * width + x] = { color.GetValue() };
 			}
 		}
 	}
 
-	return Surface(width, height, std::move(buffer));
+	return { width, height, std::move(buffer) };
 }
